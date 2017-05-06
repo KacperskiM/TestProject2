@@ -1,6 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.MyGdxGame;
 
 /**
@@ -12,10 +13,20 @@ public class SplashScreen extends AbstractScreen {
     private Texture splashImg;
     
     
-    public SplashScreen(MyGdxGame game) {
+    public SplashScreen(final MyGdxGame game) {
         super(game);
         init();
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                game.setScreen(new GameplayScreen(game));
+            }
+        }, 1);
     }
+
+
+
 
     private void init() {
         //TODO implement better assets loading when game grows
