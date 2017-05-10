@@ -1,7 +1,5 @@
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.ui.IClickCallback;
@@ -16,7 +14,6 @@ public class GameplayScreen extends AbstractScreen{
     private PlayerButton playerButton;
     private ResetScoreButton resetScoreButton;
     private ScoreLabel scoreLabel;
-    private ScoreLabel resetLabel;
 
     public GameplayScreen(MyGdxGame game) {
         super(game);
