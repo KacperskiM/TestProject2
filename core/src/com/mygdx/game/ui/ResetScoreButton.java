@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class ResetScoreButton extends com.badlogic.gdx.scenes.scene2d.ui.Button {
-    public ResetScoreButton(final IClickCallback callback ) {
+    public ResetScoreButton(final IClickCallback callback) {
         super(new ButtonStyle());
         init(callback);
     }
@@ -18,7 +18,7 @@ public class ResetScoreButton extends com.badlogic.gdx.scenes.scene2d.ui.Button 
         this.setY(560);
         this.setDebug(true);
 
-        this.addListener(new ClickListener(){
+        this.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 callback.onClick();
