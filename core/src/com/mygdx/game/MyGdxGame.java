@@ -2,8 +2,6 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.screens.SplashScreen;
 
 
@@ -14,9 +12,18 @@ public class MyGdxGame extends Game {
 
 	private boolean paused;
 
+	private int points;
 
-	SpriteBatch batch;
-	Texture img;
+
+	public void addPoint(){
+		points++;
+	}
+
+
+
+	public int getPoints() {
+		return points;
+	}
 
 	@Override
 	public void create(){
