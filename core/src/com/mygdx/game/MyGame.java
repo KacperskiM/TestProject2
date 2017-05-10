@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.mygdx.game.screens.SplashScreen;
 
 
-public class MyGdxGame extends Game {
+public class MyGame extends Game {
 	public final static String gameName = "=> Nazwa gry <=";
 	public final static int WIDTH = 1280;
 	public final static int HEIGHT = 720;

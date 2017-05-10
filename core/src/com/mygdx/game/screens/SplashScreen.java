@@ -2,7 +2,7 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.MyGame;
 
 /**
  * Created by Ja on 2017-05-06.
@@ -13,7 +13,7 @@ public class SplashScreen extends AbstractScreen {
     private Texture splashImg;
     
     
-    public SplashScreen(final MyGdxGame game) {
+    public SplashScreen(final MyGame game) {
         super(game);
         init();
 

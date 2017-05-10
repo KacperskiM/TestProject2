@@ -7,20 +7,20 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.MyGame;
 
 
 public abstract class AbstractScreen implements Screen {
 
-    protected MyGdxGame game;
+    protected MyGame game;
     protected Stage stage;
     private OrthographicCamera camera;
     protected SpriteBatch spriteBatch;
 
-    public AbstractScreen(MyGdxGame game) {
+    public AbstractScreen(MyGame game) {
         this.game = game;
         createCamera();
-        stage = new Stage(new StretchViewport(MyGdxGame.WIDTH,MyGdxGame.HEIGHT,camera));
+        stage = new Stage(new StretchViewport(MyGame.WIDTH, MyGame.HEIGHT,camera));
         spriteBatch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
         init();
@@ -30,7 +30,7 @@ public abstract class AbstractScreen implements Screen {
 
     private void createCamera() {
         camera=new OrthographicCamera();
-        camera.setToOrtho(false, MyGdxGame.WIDTH,MyGdxGame.HEIGHT);
+        camera.setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         camera.update();
     }
 

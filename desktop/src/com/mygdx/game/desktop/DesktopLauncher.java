@@ -2,15 +2,15 @@ package com.mygdx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.MyGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = MyGdxGame.gameName;
-		config.width = MyGdxGame.WIDTH;
-		config.height = MyGdxGame.HEIGHT;
+		config.title = MyGame.gameName;
+		config.width = MyGame.WIDTH;
+		config.height = MyGame.HEIGHT;
 		config.resizable=false;
-		new LwjglApplication(new MyGdxGame(), config);
+		new LwjglApplication(new MyGame(), config);
 	}
 }
