@@ -22,12 +22,12 @@ public class SplashScreen extends AbstractScreen {
             public void run() {
                 game.setScreen(new GameplayScreen(game));
             }
-        }, 1);
+        }, 2);
     }
 
     @Override
     protected void init() {
-        splashImg = new Texture("badlogic.jpg");
+        splashImg = new Texture("splash.png");
     }
 
 
