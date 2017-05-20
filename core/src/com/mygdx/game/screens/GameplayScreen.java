@@ -11,14 +11,13 @@ import com.mygdx.game.entities.Cleric;
 import com.mygdx.game.entities.Paladin;
 import com.mygdx.game.entities.Ranger;
 import com.mygdx.game.ui.IClickCallback;
-import com.mygdx.game.ui.PlayerButton;
 import com.mygdx.game.ui.ResetScoreButton;
-import com.mygdx.game.ui.ScoreLabel;
 
 
 public class GameplayScreen extends AbstractScreen{
 
     private Image backgroundImage;
+    private Image button1, button2, button3, button4, button5, button6;
     private Cleric cleric;
     private Ranger ranger;
     private Paladin paladin;
@@ -26,10 +25,15 @@ public class GameplayScreen extends AbstractScreen{
     private Skeleton skeleton;
     private Zombie zombie;
     private Vampire vampire;
-    private PlayerButton playerButton;
+
     private ResetScoreButton resetScoreButton;
-    private ScoreLabel scoreLabel;
     private FlyingObject flyingObject1;
+
+    private final static int WIDTH = 100;
+    private final static int HEIGHT = 100;
+
+    private   static int STARTING_X = 210;
+    private   final static int STARTING_Y = 10;
     public GameplayScreen(MyGame game) {
         super(game);
     }
@@ -39,11 +43,54 @@ public class GameplayScreen extends AbstractScreen{
         initBackground();
         initPlayer();
         initEnemies();
-        initPlayerButton();
         initResetScoreButton();
-        initScoreLabel();
         initFlyObjects();
+        initButtons();
         }
+
+    private void initButtons() {
+        button1 = new Image(new Texture("button1.png"));
+        stage.addActor(button1);
+        button1.setOrigin(WIDTH / 2, HEIGHT / 2);
+        button1.setSize(WIDTH,HEIGHT);
+        button1.setPosition(STARTING_X,STARTING_Y);
+        STARTING_X+=150;
+
+        button2 = new Image(new Texture("button2.png"));
+        stage.addActor(button2);
+        button2.setOrigin(WIDTH / 2, HEIGHT / 2);
+        button2.setSize(WIDTH,HEIGHT);
+        button2.setPosition(STARTING_X,STARTING_Y);
+        STARTING_X+=150;
+
+        button3 = new Image(new Texture("button3.png"));
+        stage.addActor(button3);
+        button3.setOrigin(WIDTH / 2, HEIGHT / 2);
+        button3.setSize(WIDTH,HEIGHT);
+        button3.setPosition(STARTING_X,STARTING_Y);
+        STARTING_X+=150;
+
+        button4 = new Image(new Texture("button4.png"));
+        stage.addActor(button4);
+        button4.setOrigin(WIDTH / 2, HEIGHT / 2);
+        button4.setSize(WIDTH,HEIGHT);
+        button4.setPosition(STARTING_X,STARTING_Y);
+        STARTING_X+=150;
+
+        button5 = new Image(new Texture("button5.png"));
+        stage.addActor(button5);
+        button5.setOrigin(WIDTH / 2, HEIGHT / 2);
+        button5.setSize(WIDTH,HEIGHT);
+        button5.setPosition(STARTING_X,STARTING_Y);
+
+        STARTING_X+=150;
+        button6 = new Image(new Texture("button6.png"));
+        stage.addActor(button6);
+        button6.setOrigin(WIDTH / 2, HEIGHT / 2);
+        button6.setSize(WIDTH,HEIGHT);
+        button6.setPosition(STARTING_X,STARTING_Y);
+
+    }
 
     private void initEnemies() {
         skeleton = new Skeleton();
@@ -63,7 +110,7 @@ public class GameplayScreen extends AbstractScreen{
     }
 
     private void initBackground() {
-        backgroundImage = new Image(new Texture("background.png"));
+        backgroundImage = new Image(new Texture("background1.png"));
         stage.addActor(backgroundImage);
     }
 
@@ -78,24 +125,7 @@ public class GameplayScreen extends AbstractScreen{
         stage.addActor(resetScoreButton);
     }
 
-    private void initScoreLabel() {
-        scoreLabel = new ScoreLabel();
-        stage.addActor(scoreLabel);
-    }
 
-
-    private void initPlayerButton() {
-
-        playerButton=new PlayerButton(new IClickCallback() {
-            @Override
-            public void onClick() {
-                //cleric.reactOnClick();
-                game.addPoint();
-            }
-        });
-
-        stage.addActor(playerButton);
-    }
 
 
     private void initPlayer() {
@@ -122,7 +152,7 @@ public class GameplayScreen extends AbstractScreen{
     }
 
     private void update() {
-        scoreLabel.setText("Score: " + game.getPoints());
+        //
         stage.act();
     }
 }
