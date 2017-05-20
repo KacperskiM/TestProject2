@@ -1,0 +1,103 @@
+
+ripoffs.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cleric
+  rotate: false
+  xy: 1, 329
+  size: 122, 180
+  orig: 122, 180
+  offset: 0, 0
+  index: -1
+ranger
+  rotate: false
+  xy: 1, 147
+  size: 122, 180
+  orig: 122, 180
+  offset: 0, 0
+  index: -1
+skeleton
+  rotate: false
+  xy: 125, 329
+  size: 122, 180
+  orig: 122, 180
+  offset: 0, 0
+  index: -1
+vampire
+  rotate: false
+  xy: 125, 147
+  size: 122, 180
+  orig: 122, 180
+  offset: 0, 0
+  index: -1
+zombie
+  rotate: false
+  xy: 249, 329
+  size: 122, 180
+  orig: 122, 180
+  offset: 0, 0
+  index: -1
+bat
+  rotate: false
+  xy: 1, 17
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+paladin
+  rotate: false
+  xy: 249, 191
+  size: 92, 136
+  orig: 92, 136
+  offset: 0, 0
+  index: -1
+button1
+  rotate: false
+  xy: 373, 409
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button2
+  rotate: false
+  xy: 131, 45
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button3
+  rotate: false
+  xy: 373, 307
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button4
+  rotate: false
+  xy: 343, 205
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button5
+  rotate: false
+  xy: 249, 89
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button6
+  rotate: false
+  xy: 351, 103
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+buttonTemplate
+  rotate: false
+  xy: 351, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1

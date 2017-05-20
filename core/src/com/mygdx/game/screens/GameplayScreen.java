@@ -12,12 +12,17 @@ import com.mygdx.game.entities.Paladin;
 import com.mygdx.game.entities.Ranger;
 import com.mygdx.game.ui.IClickCallback;
 import com.mygdx.game.ui.ResetScoreButton;
+import com.mygdx.game.ui.skillButtons.SkillButton1;
+import com.mygdx.game.ui.skillButtons.SkillButton2;
+import com.mygdx.game.ui.skillButtons.SkillButton3;
+import com.mygdx.game.ui.skillButtons.SkillButton4;
+import com.mygdx.game.ui.skillButtons.SkillButton5;
+import com.mygdx.game.ui.skillButtons.SkillButton6;
 
 
 public class GameplayScreen extends AbstractScreen{
 
     private Image backgroundImage;
-    private Image button1, button2, button3, button4, button5, button6;
     private Cleric cleric;
     private Ranger ranger;
     private Paladin paladin;
@@ -27,6 +32,13 @@ public class GameplayScreen extends AbstractScreen{
     private Vampire vampire;
 
     private ResetScoreButton resetScoreButton;
+    private SkillButton1 skillButton1;
+    private SkillButton2 skillButton2;
+    private SkillButton3 skillButton3;
+    private SkillButton4 skillButton4;
+    private SkillButton5 skillButton5;
+    private SkillButton6 skillButton6;
+
     private FlyingObject flyingObject1;
 
     private final static int WIDTH = 100;
@@ -45,52 +57,59 @@ public class GameplayScreen extends AbstractScreen{
         initEnemies();
         initResetScoreButton();
         initFlyObjects();
-        initButtons();
+        initSkillButtons();
         }
 
-    private void initButtons() {
-        button1 = new Image(new Texture("button1.png"));
-        stage.addActor(button1);
-        button1.setOrigin(WIDTH / 2, HEIGHT / 2);
-        button1.setSize(WIDTH,HEIGHT);
-        button1.setPosition(STARTING_X,STARTING_Y);
-        STARTING_X+=150;
+    private void initSkillButtons() {
+        skillButton1 = new SkillButton1(new IClickCallback() {
+            @Override
+            public void onClick() {
 
-        button2 = new Image(new Texture("button2.png"));
-        stage.addActor(button2);
-        button2.setOrigin(WIDTH / 2, HEIGHT / 2);
-        button2.setSize(WIDTH,HEIGHT);
-        button2.setPosition(STARTING_X,STARTING_Y);
-        STARTING_X+=150;
+            }
+        });
 
-        button3 = new Image(new Texture("button3.png"));
-        stage.addActor(button3);
-        button3.setOrigin(WIDTH / 2, HEIGHT / 2);
-        button3.setSize(WIDTH,HEIGHT);
-        button3.setPosition(STARTING_X,STARTING_Y);
-        STARTING_X+=150;
+        skillButton2 = new SkillButton2(new IClickCallback() {
+            @Override
+            public void onClick() {
 
-        button4 = new Image(new Texture("button4.png"));
-        stage.addActor(button4);
-        button4.setOrigin(WIDTH / 2, HEIGHT / 2);
-        button4.setSize(WIDTH,HEIGHT);
-        button4.setPosition(STARTING_X,STARTING_Y);
-        STARTING_X+=150;
+            }
+        });
 
-        button5 = new Image(new Texture("button5.png"));
-        stage.addActor(button5);
-        button5.setOrigin(WIDTH / 2, HEIGHT / 2);
-        button5.setSize(WIDTH,HEIGHT);
-        button5.setPosition(STARTING_X,STARTING_Y);
+        skillButton3 = new SkillButton3(new IClickCallback() {
+            @Override
+            public void onClick() {
 
-        STARTING_X+=150;
-        button6 = new Image(new Texture("button6.png"));
-        stage.addActor(button6);
-        button6.setOrigin(WIDTH / 2, HEIGHT / 2);
-        button6.setSize(WIDTH,HEIGHT);
-        button6.setPosition(STARTING_X,STARTING_Y);
+            }
+        });
 
+        skillButton4 = new SkillButton4(new IClickCallback() {
+            @Override
+            public void onClick() {
+
+            }
+        });
+
+        skillButton5 = new SkillButton5(new IClickCallback() {
+            @Override
+            public void onClick() {
+
+            }
+        });
+
+        skillButton6 = new SkillButton6(new IClickCallback() {
+            @Override
+            public void onClick() {
+
+            }
+        });
+        stage.addActor(skillButton1);
+        stage.addActor(skillButton2);
+        stage.addActor(skillButton3);
+        stage.addActor(skillButton4);
+        stage.addActor(skillButton5);
+        stage.addActor(skillButton6);
     }
+
 
     private void initEnemies() {
         skeleton = new Skeleton();
@@ -124,6 +143,7 @@ public class GameplayScreen extends AbstractScreen{
         });
         stage.addActor(resetScoreButton);
     }
+
 
 
 
