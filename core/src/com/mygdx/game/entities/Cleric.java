@@ -1,10 +1,6 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 
@@ -12,17 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * Created by Ja on 2017-05-06.
  */
 
-public class Player extends Image {
+public class Cleric extends Image {
 
 
     private final static int WIDTH = 122;
     private final static int HEIGHT = 180;
 
-    private final static int STARTING_X=200;
+    private final static int STARTING_X=100;
     private final static  int STARTING_Y=300;
 
-    public Player() {
-        super(new Texture("wizard.png"));
+    public Cleric() {
+        super(new Texture("cleric.png"));
         this.setOrigin(WIDTH/2,HEIGHT/2);
         this.setSize(WIDTH,HEIGHT);
 
@@ -30,6 +26,7 @@ public class Player extends Image {
     }
 
 
+    /**
     public void reactOnClick() {
         int xMoveAmount = MathUtils.random(-130, 130);
         int yMoveAmount = 10;
@@ -54,4 +51,5 @@ public class Player extends Image {
             this.addAction(Actions.rotateBy(MathUtils.randomSign() * 360, 0.4f));
         }
     }
+     **/
 }

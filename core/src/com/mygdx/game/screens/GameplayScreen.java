@@ -3,8 +3,13 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.com.mygdx.game.enemies.Skeleton;
+import com.mygdx.game.com.mygdx.game.enemies.Vampire;
+import com.mygdx.game.com.mygdx.game.enemies.Zombie;
 import com.mygdx.game.entities.FlyingObject;
-import com.mygdx.game.entities.Player;
+import com.mygdx.game.entities.Cleric;
+import com.mygdx.game.entities.Paladin;
+import com.mygdx.game.entities.Ranger;
 import com.mygdx.game.ui.IClickCallback;
 import com.mygdx.game.ui.PlayerButton;
 import com.mygdx.game.ui.ResetScoreButton;
@@ -14,7 +19,13 @@ import com.mygdx.game.ui.ScoreLabel;
 public class GameplayScreen extends AbstractScreen{
 
     private Image backgroundImage;
-    private Player player;
+    private Cleric cleric;
+    private Ranger ranger;
+    private Paladin paladin;
+    
+    private Skeleton skeleton;
+    private Zombie zombie;
+    private Vampire vampire;
     private PlayerButton playerButton;
     private ResetScoreButton resetScoreButton;
     private ScoreLabel scoreLabel;
@@ -27,11 +38,23 @@ public class GameplayScreen extends AbstractScreen{
     protected void init() {
         initBackground();
         initPlayer();
+        initEnemies();
         initPlayerButton();
         initResetScoreButton();
         initScoreLabel();
         initFlyObjects();
         }
+
+    private void initEnemies() {
+        skeleton = new Skeleton();
+        stage.addActor(skeleton);
+
+        zombie = new Zombie();
+        stage.addActor(zombie);
+
+        vampire = new Vampire();
+        stage.addActor(vampire);
+    }
 
     private void initFlyObjects() {
         flyingObject1 = new FlyingObject(FlyingObject.BAT);
@@ -66,7 +89,7 @@ public class GameplayScreen extends AbstractScreen{
         playerButton=new PlayerButton(new IClickCallback() {
             @Override
             public void onClick() {
-                player.reactOnClick();
+                //cleric.reactOnClick();
                 game.addPoint();
             }
         });
@@ -76,8 +99,14 @@ public class GameplayScreen extends AbstractScreen{
 
 
     private void initPlayer() {
-        player = new Player();
-        stage.addActor(player);
+        cleric = new Cleric();
+        stage.addActor(cleric);
+
+        ranger = new Ranger();
+        stage.addActor(ranger);
+
+        paladin = new Paladin();
+        stage.addActor(paladin);
     }
 
     @Override
