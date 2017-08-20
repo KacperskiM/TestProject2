@@ -2,6 +2,7 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.com.mygdx.game.enemies.Skeleton;
 import com.mygdx.game.com.mygdx.game.enemies.Vampire;
@@ -11,7 +12,6 @@ import com.mygdx.game.entities.Cleric;
 import com.mygdx.game.entities.Paladin;
 import com.mygdx.game.entities.Ranger;
 import com.mygdx.game.ui.IClickCallback;
-import com.mygdx.game.ui.ResetScoreButton;
 import com.mygdx.game.ui.skillButtons.SkillButton1;
 import com.mygdx.game.ui.skillButtons.SkillButton2;
 import com.mygdx.game.ui.skillButtons.SkillButton3;
@@ -19,19 +19,22 @@ import com.mygdx.game.ui.skillButtons.SkillButton4;
 import com.mygdx.game.ui.skillButtons.SkillButton5;
 import com.mygdx.game.ui.skillButtons.SkillButton6;
 
+import java.util.ArrayList;
+
 
 public class GameplayScreen extends AbstractScreen{
+
+    protected MyGame game;
 
     private Image backgroundImage;
     private Cleric cleric;
     private Ranger ranger;
     private Paladin paladin;
-    
+
     private Skeleton skeleton;
     private Zombie zombie;
     private Vampire vampire;
 
-    private ResetScoreButton resetScoreButton;
     private SkillButton1 skillButton1;
     private SkillButton2 skillButton2;
     private SkillButton3 skillButton3;
@@ -55,27 +58,29 @@ public class GameplayScreen extends AbstractScreen{
         initBackground();
         initPlayer();
         initEnemies();
-        initResetScoreButton();
         initFlyObjects();
         initSkillButtons();
+
         }
 
+
+
     private void initSkillButtons() {
-        skillButton1 = new SkillButton1(new IClickCallback() {
+        skillButton1 = new SkillButton1(this, new IClickCallback() {
             @Override
             public void onClick() {
 
             }
         });
 
-        skillButton2 = new SkillButton2(new IClickCallback() {
+        skillButton2 = new SkillButton2(this, new IClickCallback() {
             @Override
             public void onClick() {
 
             }
         });
 
-        skillButton3 = new SkillButton3(new IClickCallback() {
+        skillButton3 = new SkillButton3(this, new IClickCallback() {
             @Override
             public void onClick() {
 
@@ -133,30 +138,18 @@ public class GameplayScreen extends AbstractScreen{
         stage.addActor(backgroundImage);
     }
 
-    private void initResetScoreButton() {
-
-        resetScoreButton = new ResetScoreButton(new IClickCallback() {
-            @Override
-            public void onClick() {
-            game.resetGameScore();
-            }
-        });
-        stage.addActor(resetScoreButton);
-    }
-
-
-
-
 
     private void initPlayer() {
+
+        paladin = new Paladin();
+        stage.addActor(paladin);
+
         cleric = new Cleric();
         stage.addActor(cleric);
 
         ranger = new Ranger();
         stage.addActor(ranger);
 
-        paladin = new Paladin();
-        stage.addActor(paladin);
     }
 
     @Override
@@ -164,15 +157,35 @@ public class GameplayScreen extends AbstractScreen{
         super.render(delta);
         update();
 
-
+        if(getTurnToken()==false){
+            setPlayersUnselected();
+        }
         spriteBatch.begin();
         stage.draw();
         spriteBatch.end();
 
+
     }
 
+    private void setPlayersUnselected() {
+        paladin.setUnSelected();
+        cleric.setUnSelected();
+        ranger.setUnSelected();
+    }
+
+    public Paladin getPaladin(){
+        return paladin;
+    }
+
+    public Cleric getCleric(){
+        return cleric;
+    }
+
+    public Ranger getRanger(){
+        return ranger;
+    }
     private void update() {
-        //
         stage.act();
+
     }
 }

@@ -20,17 +20,13 @@ public class MyGame extends Game {
 
     private Preferences prefs;
 
-
-	public void addPoint(){
-		points++;
-        updateSavedScoreInPrefs();
-	}
-
+/*
     private void updateSavedScoreInPrefs() {
         prefs.putInteger(GAME_SCORE,points);
         prefs.flush();
-    }
 
+    }
+*/
 
     public int getPoints() {
 		return points;
@@ -61,8 +57,7 @@ public class MyGame extends Game {
 	}
 
 
-    public void resetGameScore() {
-        points=0;
-        updateSavedScoreInPrefs();
-    }
+
+
+
 }

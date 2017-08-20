@@ -34,6 +34,10 @@ public class FlyingObject extends Image {
         });
     }
 
+    public void removeBat(){
+        FlyingObject.this.remove();
+    }
+
     public void fly(){
         Action a = Actions.parallel(
                 Actions.moveBy(300, 200, 5),
