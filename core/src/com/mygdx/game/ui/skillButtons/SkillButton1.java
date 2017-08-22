@@ -54,12 +54,6 @@ public class SkillButton1 extends Button {
     }
 
     public void reactOnClick(){
-
-        gpScreen.getPaladin().setSelected();
-
-        System.out.println("Paladin");
-        System.out.println(gpScreen.getTurnToken());
-        System.out.println();
         gpScreen.tossTurnToken();
     }
 }

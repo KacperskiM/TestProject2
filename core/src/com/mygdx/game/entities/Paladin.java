@@ -12,10 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * Created by Ja on 2017-05-20.
  */
 
-public class Paladin extends Image{
+public class Paladin extends PlayerCharacter{
 
     Texture unselectedTexture = new Texture("paladin.png");
     Texture selectedTexture = new Texture("paladin_selected.png");
+    Texture toBuffTexture = new Texture("paladin_toBuff.png");
+    Texture toBuffSelectedTexture = new Texture("paladin_toBuff_selected.png");
+
 
     private int health;
     private int attackDmg;
@@ -63,7 +66,7 @@ public class Paladin extends Image{
         this.getHealth();
     }
 
-    public void useSkill1(String target){
+    public void useSkil1(String target){
     }
 
 
@@ -72,7 +75,13 @@ public class Paladin extends Image{
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
     }
 
-    public void setUnSelected(){
+    public void setUnselected(){
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
+    }
+    public void setToBuff(){
+        this.setDrawable(new SpriteDrawable(new Sprite(toBuffTexture)));
+    }
+    public void setToBuffSelected(){
+        this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
     }
 }

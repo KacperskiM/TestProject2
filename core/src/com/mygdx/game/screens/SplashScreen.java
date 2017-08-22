@@ -39,4 +39,6 @@ public class SplashScreen extends AbstractScreen {
         spriteBatch.draw(splashImg,0,0);
         spriteBatch.end();
     }
+
+    public void tossTurnToken(){}
 }

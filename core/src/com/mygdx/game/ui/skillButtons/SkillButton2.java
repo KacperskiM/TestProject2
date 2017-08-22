@@ -56,11 +56,5 @@ public class SkillButton2 extends Button {
 
     public void reactOnClick(){
         gpScreen.tossTurnToken();
-
-        gpScreen.getCleric().setSelected();
-
-        System.out.println("Cleric");
-        System.out.println(gpScreen.getTurnToken());
-        System.out.println();
     }
 }

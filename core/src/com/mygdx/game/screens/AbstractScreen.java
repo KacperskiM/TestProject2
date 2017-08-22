@@ -14,13 +14,13 @@ public abstract class AbstractScreen implements Screen {
 
     protected MyGame game;
     protected Stage stage;
-    private Boolean turnToken;
+    protected Boolean turnToken;
     private OrthographicCamera camera;
     protected SpriteBatch spriteBatch;
 
     public AbstractScreen(MyGame game) {
         this.game = game;
-        this.turnToken=true;
+        turnToken = false;
         createCamera();
         stage = new Stage(new StretchViewport(MyGame.WIDTH, MyGame.HEIGHT,camera));
         spriteBatch = new SpriteBatch();
@@ -78,9 +78,7 @@ public abstract class AbstractScreen implements Screen {
 
     }
 
-    public void tossTurnToken(){
-        turnToken=!turnToken;
-    }
+    public abstract void tossTurnToken();
 
     public Boolean getTurnToken(){
         return turnToken;

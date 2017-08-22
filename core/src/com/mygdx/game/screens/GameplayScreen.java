@@ -1,15 +1,18 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.com.mygdx.game.enemies.Enemy;
 import com.mygdx.game.com.mygdx.game.enemies.Skeleton;
 import com.mygdx.game.com.mygdx.game.enemies.Vampire;
 import com.mygdx.game.com.mygdx.game.enemies.Zombie;
-import com.mygdx.game.entities.FlyingObject;
 import com.mygdx.game.entities.Cleric;
+import com.mygdx.game.entities.FlyingObject;
 import com.mygdx.game.entities.Paladin;
+import com.mygdx.game.entities.PlayerCharacter;
 import com.mygdx.game.entities.Ranger;
 import com.mygdx.game.ui.IClickCallback;
 import com.mygdx.game.ui.skillButtons.SkillButton1;
@@ -22,9 +25,12 @@ import com.mygdx.game.ui.skillButtons.SkillButton6;
 import java.util.ArrayList;
 
 
-public class GameplayScreen extends AbstractScreen{
+public class GameplayScreen extends AbstractScreen {
 
     protected MyGame game;
+
+    private ArrayList<PlayerCharacter> playerCharacterList;
+    private ArrayList<Enemy> enemyCharacterList;
 
     private Image backgroundImage;
     private Cleric cleric;
@@ -44,25 +50,30 @@ public class GameplayScreen extends AbstractScreen{
 
     private FlyingObject flyingObject1;
 
-    private final static int WIDTH = 100;
-    private final static int HEIGHT = 100;
 
-    private   static int STARTING_X = 210;
-    private   final static int STARTING_Y = 10;
     public GameplayScreen(MyGame game) {
         super(game);
     }
 
     @Override
     protected void init() {
+        playerCharacterList = new ArrayList<>();
+        enemyCharacterList = new ArrayList<>();
+
         initBackground();
         initPlayer();
         initEnemies();
         initFlyObjects();
         initSkillButtons();
 
-        }
+        initTurnToken();
 
+    }
+
+    private void initTurnToken() {
+        tossTurnToken();
+
+    }
 
 
     private void initSkillButtons() {
@@ -113,18 +124,8 @@ public class GameplayScreen extends AbstractScreen{
         stage.addActor(skillButton4);
         stage.addActor(skillButton5);
         stage.addActor(skillButton6);
-    }
 
 
-    private void initEnemies() {
-        skeleton = new Skeleton();
-        stage.addActor(skeleton);
-
-        zombie = new Zombie();
-        stage.addActor(zombie);
-
-        vampire = new Vampire();
-        stage.addActor(vampire);
     }
 
     private void initFlyObjects() {
@@ -138,17 +139,141 @@ public class GameplayScreen extends AbstractScreen{
         stage.addActor(backgroundImage);
     }
 
+    private void initEnemies() {
+        skeleton = new Skeleton();
+        stage.addActor(skeleton);
+        enemyCharacterList.add(skeleton);
+        skeleton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(getTurnToken()==false)
+                    return;
+
+                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                skeleton.setSelected();
+            }
+        });
+
+        zombie = new Zombie();
+        stage.addActor(zombie);
+        enemyCharacterList.add(zombie);
+        zombie.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(getTurnToken()==false)
+                    return;
+
+                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                zombie.setSelected();
+            }
+        });
+
+        vampire = new Vampire();
+        stage.addActor(vampire);
+        enemyCharacterList.add(vampire);
+        vampire.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(getTurnToken()==false)
+                    return;
+
+                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                vampire.setSelected();
+            }
+        });
+    }
 
     private void initPlayer() {
 
         paladin = new Paladin();
         stage.addActor(paladin);
+        playerCharacterList.add(paladin);
+        paladin.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(getTurnToken()==false)
+                    return;
+
+                for (int i = 0; i < playerCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                if (playerCharacterList.get(0) instanceof Paladin)
+                    paladin.setToBuffSelected();
+                else
+                    paladin.setToBuff();
+            }
+        });
 
         cleric = new Cleric();
         stage.addActor(cleric);
+        playerCharacterList.add(cleric);
+        cleric.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(getTurnToken()==false)
+                    return;
+
+                for (int i = 0; i < playerCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                if (playerCharacterList.get(0) instanceof Cleric)
+                    cleric.setToBuffSelected();
+                else
+                    cleric.setToBuff();
+            }
+        });
+
 
         ranger = new Ranger();
         stage.addActor(ranger);
+        playerCharacterList.add(ranger);
+        ranger.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(getTurnToken()==false)
+                    return;
+
+                for (int i = 0; i < playerCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                if (playerCharacterList.get(0) instanceof Ranger)
+                    ranger.setToBuffSelected();
+                else
+                    ranger.setToBuff();        }
+        });
+
 
     }
 
@@ -157,35 +282,43 @@ public class GameplayScreen extends AbstractScreen{
         super.render(delta);
         update();
 
-        if(getTurnToken()==false){
+        if (getTurnToken() == false) {
             setPlayersUnselected();
         }
+
+        refreshStage();
+
+    }
+
+
+    public void refreshStage() {
         spriteBatch.begin();
         stage.draw();
         spriteBatch.end();
-
-
     }
 
     private void setPlayersUnselected() {
-        paladin.setUnSelected();
-        cleric.setUnSelected();
-        ranger.setUnSelected();
+        for (int i = 0; i < playerCharacterList.size(); i++)
+            playerCharacterList.get(i).setUnselected();
     }
 
-    public Paladin getPaladin(){
-        return paladin;
-    }
 
-    public Cleric getCleric(){
-        return cleric;
-    }
-
-    public Ranger getRanger(){
-        return ranger;
-    }
     private void update() {
         stage.act();
 
+    }
+
+    public void tossTurnToken() {
+
+        for (int i = 0; i < enemyCharacterList.size(); i++) {
+            enemyCharacterList.get(i).setUnselected();
+            playerCharacterList.get(i).setUnselected();
+
+            if (getTurnToken() == false)
+                playerCharacterList.get(0).setSelected();
+            else
+                enemyCharacterList.get(0).setSelected();
+        }
+        turnToken = !turnToken;
     }
 }

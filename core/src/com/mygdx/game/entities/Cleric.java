@@ -10,10 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
  * Created by Ja on 2017-05-06.
  */
 
-public class Cleric extends Image {
+public class Cleric extends PlayerCharacter {
 
     Texture unselectedTexture = new Texture("cleric.png");
     Texture selectedTexture = new Texture("cleric_selected.png");
+    Texture toBuffTexture = new Texture("cleric_toBuff.png");
+    Texture toBuffSelectedTexture = new Texture("cleric_toBuff_selected.png");
+
 
     private final static int WIDTH = 122;
     private final static int HEIGHT = 180;
@@ -32,9 +35,17 @@ public class Cleric extends Image {
 
     public void setSelected(){
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
+
     }
 
-    public void setUnSelected(){
+    public void setUnselected(){
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
+    }
+
+    public void setToBuff(){
+        this.setDrawable(new SpriteDrawable(new Sprite(toBuffTexture)));
+    }
+    public void setToBuffSelected(){
+        this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
     }
 }
