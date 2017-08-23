@@ -14,7 +14,7 @@ import com.mygdx.game.ui.IClickCallback;
  */
 
 public class SkillButton1 extends Button {
-    protected GameplayScreen gpScreen;
+    private GameplayScreen gpScreen;
 
     public SkillButton1(GameplayScreen gameplayScreen, final IClickCallback callback) {
         super(prepareSkillButton1Style());
@@ -53,7 +53,8 @@ public class SkillButton1 extends Button {
         });
     }
 
-    public void reactOnClick(){
+    private void reactOnClick(){
+        gpScreen.getSelectedSource().useFirstSkill(gpScreen.getSelectedTarget());
         gpScreen.tossTurnToken();
     }
 }

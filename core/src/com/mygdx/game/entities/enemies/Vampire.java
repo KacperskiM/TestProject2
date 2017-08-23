@@ -100,7 +100,7 @@ public class Vampire extends Entity {
     }
 
     @Override
-    public int getAttackDamage(int attackDamage) {
+    public int getAttackDamage() {
         return this.attackDamage;
     }
 
@@ -112,5 +112,10 @@ public class Vampire extends Entity {
     @Override
     public int getDodgeChance() {
         return this.dodgeChance;
+    }
+
+    @Override
+    public void useFirstSkill(Entity target) {
+
     }
 }

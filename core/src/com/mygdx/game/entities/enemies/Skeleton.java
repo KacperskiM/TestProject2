@@ -18,28 +18,32 @@ public class Skeleton extends Entity {
     private final static int WIDTH = 122;
     private final static int HEIGHT = 180;
 
-    private final static int STARTING_X=650;
-    private final static  int STARTING_Y=300;
+    private final static int STARTING_X = 650;
+    private final static int STARTING_Y = 300;
 
     public Skeleton() {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
-        this.setOrigin(WIDTH/2,HEIGHT/2);
-        this.setSize(WIDTH,HEIGHT);
+        this.setOrigin(WIDTH / 2, HEIGHT / 2);
+        this.setSize(WIDTH, HEIGHT);
 
-        this.setPosition(STARTING_X,STARTING_Y);
+        this.setHealthPool(100);
+
+        this.setPosition(STARTING_X, STARTING_Y);
     }
 
-    //public useTest(
 
-    public void setSelected(){
+    public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
+        this.isSelected = 1;
     }
 
-    public void setUnselected(){
+    public void setUnselected() {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
+        this.isSelected = 0;
     }
 
-    public void setToBuff(){}
+    public void setToBuff() {
+    }
 
     @Override
     public void setToBuffSelected() {
@@ -50,6 +54,7 @@ public class Skeleton extends Entity {
     @Override
     protected void setHealthPool(int healthPool) {
         this.healthPool = healthPool;
+        this.currentHealth = healthPool;
     }
 
     @Override
@@ -58,7 +63,7 @@ public class Skeleton extends Entity {
     }
 
     @Override
-    public int getCurrentHealth(){
+    public int getCurrentHealth() {
         return this.currentHealth;
     }
 
@@ -75,7 +80,7 @@ public class Skeleton extends Entity {
     }
 
     @Override
-    public void useMana(int manaCost){
+    public void useMana(int manaCost) {
         this.currentMana -= manaCost;
     }
 
@@ -83,6 +88,9 @@ public class Skeleton extends Entity {
     @Override
     public void receiveDamage(int damageTaken) {
         this.currentHealth -= damageTaken;
+        System.out.println("Skeleton's current health is: " + this.getCurrentHealth());
+
+
         // TO DO isAlive();
     }
 
@@ -100,17 +108,22 @@ public class Skeleton extends Entity {
     }
 
     @Override
-    public int getAttackDamage(int attackDamage) {
+    public int getAttackDamage() {
         return this.attackDamage;
     }
 
     @Override
     protected void setDodgeChance(int dodgeChance) {
-        this.dodgeChance=dodgeChance;
+        this.dodgeChance = dodgeChance;
     }
 
     @Override
     public int getDodgeChance() {
         return this.dodgeChance;
+    }
+
+    @Override
+    public void useFirstSkill(Entity target) {
+
     }
 }

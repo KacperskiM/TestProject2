@@ -98,8 +98,9 @@ public class Zombie extends Entity {
         this.attackDamage = attackDamage;
     }
 
+
     @Override
-    public int getAttackDamage(int attackDamage) {
+    public int getAttackDamage() {
         return this.attackDamage;
     }
 
@@ -111,5 +112,10 @@ public class Zombie extends Entity {
     @Override
     public int getDodgeChance() {
         return this.dodgeChance;
+    }
+
+    @Override
+    public void useFirstSkill(Entity target) {
+
     }
 }

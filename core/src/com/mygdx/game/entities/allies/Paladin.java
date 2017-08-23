@@ -29,24 +29,30 @@ public class Paladin extends Entity {
         this.setSize(WIDTH, HEIGHT);
         this.setPosition(STARTING_X, STARTING_Y);
 
+        this.setAttackDamage(20);
+
 
     }
 
 
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
+        this.isSelected = 1;
     }
 
     public void setUnselected() {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
+        this.isSelected = 0;
     }
 
     public void setToBuff() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffTexture)));
+        this.isSelected = 2;
     }
 
     public void setToBuffSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
+        this.isSelected = 3;
     }
 
 
@@ -103,7 +109,7 @@ public class Paladin extends Entity {
     }
 
     @Override
-    public int getAttackDamage(int attackDamage) {
+    public int getAttackDamage() {
         return this.attackDamage;
     }
 
@@ -115,6 +121,16 @@ public class Paladin extends Entity {
     @Override
     public int getDodgeChance() {
         return this.dodgeChance;
+    }
+
+
+
+
+    @Override
+    public void useFirstSkill(Entity target) {  //Auto attack
+        System.out.println("Target's current health is: " + target.getCurrentHealth());
+        System.out.println("Paladin uses auto attack");
+        target.receiveDamage(this.getAttackDamage());
     }
 
 

@@ -12,10 +12,10 @@ import com.mygdx.game.entities.Entity;
 
 public class Cleric extends Entity {
 
-    Texture unselectedTexture = new Texture("cleric.png");
-    Texture selectedTexture = new Texture("cleric_selected.png");
-    Texture toBuffTexture = new Texture("cleric_toBuff.png");
-    Texture toBuffSelectedTexture = new Texture("cleric_toBuff_selected.png");
+    private Texture unselectedTexture = new Texture("cleric.png");
+    private Texture selectedTexture = new Texture("cleric_selected.png");
+    private Texture toBuffTexture = new Texture("cleric_toBuff.png");
+    private Texture toBuffSelectedTexture = new Texture("cleric_toBuff_selected.png");
 
 
     private final static int WIDTH = 122;
@@ -102,7 +102,7 @@ public class Cleric extends Entity {
     }
 
     @Override
-    public int getAttackDamage(int attackDamage) {
+    public int getAttackDamage() {
         return this.attackDamage;
     }
 
@@ -114,5 +114,10 @@ public class Cleric extends Entity {
     @Override
     public int getDodgeChance() {
         return this.dodgeChance;
+    }
+
+    @Override
+    public void useFirstSkill(Entity target) {
+
     }
 }
