@@ -309,12 +309,18 @@ public class GameplayScreen extends AbstractScreen {
                 enemyCharacterList.get(0).setSelected();
         }
         turnToken = !turnToken;
+        System.out.println("END OF TURN");
+        System.out.println("======================================");
     }
 
     public Entity getSelectedSource(){
         for(int i=0; i<playerCharacterList.size();i++)
             if(playerCharacterList.get(i).getIsSelected() == 1)
                 return playerCharacterList.get(i);
+
+        for(int i=0; i<enemyCharacterList.size();i++)
+            if(enemyCharacterList.get(i).getIsSelected() == 1)
+                return enemyCharacterList.get(i);
 
         return null;
     }

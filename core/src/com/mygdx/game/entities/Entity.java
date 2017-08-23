@@ -38,6 +38,7 @@ public abstract class Entity extends Image {
 
     protected void setHealthPool(int healthPool) {
         this.healthPool = healthPool;
+        this.currentHealth=healthPool;
     }
 
     public int getHealthPool() {
@@ -52,6 +53,7 @@ public abstract class Entity extends Image {
 
     protected void setManaPool(int manaPool) {
         this.manaPool = manaPool;
+        this.currentMana=manaPool;
 
     }
 
@@ -93,4 +95,15 @@ public abstract class Entity extends Image {
     }
 
     public abstract void useFirstSkill(Entity target);
+
+    // returns the class (without the package if any)
+    public String getClassName(Class c) {
+        String FQClassName = c.getName();
+        int firstChar;
+        firstChar = FQClassName.lastIndexOf ('.') + 1;
+        if ( firstChar > 0 ) {
+            FQClassName = FQClassName.substring ( firstChar );
+        }
+        return FQClassName;
+    }
 }

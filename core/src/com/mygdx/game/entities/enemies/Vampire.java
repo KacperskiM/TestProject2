@@ -15,6 +15,11 @@ public class Vampire extends Entity {
     private Texture unselectedTexture = new Texture("vampire.png");
     private Texture selectedTexture = new Texture("vampire_selected.png");
 
+    private static int HEALTHPOOL = 120;
+    private static int MANA_POOL = 60;
+    private static int ATTACK_DAMAGE = 15;
+    private static int DODGE_CHANCE = 15;
+
     private final static int WIDTH = 122;
     private final static int HEIGHT = 180;
 
@@ -25,16 +30,22 @@ public class Vampire extends Entity {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
         this.setOrigin(WIDTH/2,HEIGHT/2);
         this.setSize(WIDTH,HEIGHT);
-
         this.setPosition(STARTING_X,STARTING_Y);
+
+        this.setHealthPool(HEALTHPOOL);
+        this.setManaPool(MANA_POOL);
+        this.setAttackDamage(ATTACK_DAMAGE);
+        this.setDodgeChance(DODGE_CHANCE);
     }
 
-    public void setSelected(){
+    public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
+        this.isSelected = 1;
     }
 
-    public void setUnselected(){
+    public void setUnselected() {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
+        this.isSelected = 0;
     }
 
     @Override
@@ -48,74 +59,11 @@ public class Vampire extends Entity {
     }
 
     @Override
-    protected void setHealthPool(int healthPool) {
-        this.healthPool = healthPool;
-    }
-
-    @Override
-    public int getHealthPool() {
-        return this.healthPool;
-    }
-
-    @Override
-    public int getCurrentHealth(){
-        return this.currentHealth;
-    }
-
-
-    @Override
-    protected void setManaPool(int manaPool) {
-        this.manaPool = manaPool;
-
-    }
-
-    @Override
-    public int getManaPool() {
-        return this.manaPool;
-    }
-
-    @Override
-    public void useMana(int manaCost){
-        this.currentMana -= manaCost;
-    }
-
-
-    @Override
-    public void receiveDamage(int damageTaken) {
-        this.currentHealth -= damageTaken;
-        // isAlive();
-    }
-
-    @Override
-    public void getHealed(int healthRestored) {
-        this.currentHealth += healthRestored;
-        if (currentHealth > healthPool)
-            currentHealth = healthPool;
-
-    }
-
-    @Override
-    protected void setAttackDamage(int attackDamage) {
-        this.attackDamage = attackDamage;
-    }
-
-    @Override
-    public int getAttackDamage() {
-        return this.attackDamage;
-    }
-
-    @Override
-    protected void setDodgeChance(int dodgeChance) {
-        this.dodgeChance=dodgeChance;
-    }
-
-    @Override
-    public int getDodgeChance() {
-        return this.dodgeChance;
-    }
-
-    @Override
-    public void useFirstSkill(Entity target) {
-
+    public void useFirstSkill(Entity target) {  //Auto attack
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + " auto attacks " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
+        target.receiveDamage(this.getAttackDamage());
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 }
+

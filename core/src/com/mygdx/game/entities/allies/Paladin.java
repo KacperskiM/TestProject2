@@ -16,6 +16,10 @@ public class Paladin extends Entity {
     private Texture toBuffTexture = new Texture("paladin_toBuff.png");
     private Texture toBuffSelectedTexture = new Texture("paladin_toBuff_selected.png");
 
+    private static int HEALTHPOOL = 150;
+    private static int MANA_POOL = 80;
+    private static int ATTACK_DAMAGE = 20;
+    private static int DODGE_CHANCE = 5;
 
     private final static int WIDTH = 92;
     private final static int HEIGHT = 150;
@@ -29,7 +33,10 @@ public class Paladin extends Entity {
         this.setSize(WIDTH, HEIGHT);
         this.setPosition(STARTING_X, STARTING_Y);
 
-        this.setAttackDamage(20);
+        this.setHealthPool(HEALTHPOOL);
+        this.setManaPool(MANA_POOL);
+        this.setAttackDamage(ATTACK_DAMAGE);
+        this.setDodgeChance(DODGE_CHANCE);
 
 
     }
@@ -57,10 +64,11 @@ public class Paladin extends Entity {
 
     @Override
     public void useFirstSkill(Entity target) {  //Auto attack
-        System.out.println("Target's current health is: " + target.getCurrentHealth());
-        System.out.println("Paladin uses auto attack");
+
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + " auto attacks " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         target.receiveDamage(this.getAttackDamage());
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
-
-
 }
+
