@@ -31,27 +31,66 @@ public abstract class Entity extends Image {
     public abstract void setToBuff();
     public abstract void setToBuffSelected();
 
-    protected abstract void setHealthPool(int healthPool);
-    public abstract int getHealthPool();
-    public abstract int getCurrentHealth();
-
-    protected abstract void setManaPool(int manaPool);
-    public abstract int getManaPool();
-    public abstract void useMana(int manaCost);
-
-    public abstract void receiveDamage(int damageTaken);
-    public abstract void getHealed(int healthRestored);
-
-    protected abstract void setAttackDamage(int attackDamage);
-    public abstract int getAttackDamage();
-
-    protected abstract void setDodgeChance(int dodgeChance);
-    public abstract int getDodgeChance();
 
     public  int getIsSelected(){
         return isSelected;
     }
 
-    public abstract void useFirstSkill(Entity target);
+    protected void setHealthPool(int healthPool) {
+        this.healthPool = healthPool;
+    }
 
+    public int getHealthPool() {
+        return this.healthPool;
+    }
+
+
+    public int getCurrentHealth(){
+        return this.currentHealth;
+    }
+
+
+    protected void setManaPool(int manaPool) {
+        this.manaPool = manaPool;
+
+    }
+
+    public int getManaPool() {
+        return this.manaPool;
+    }
+
+    public void useMana(int manaCost){
+        this.currentMana -= manaCost;
+    }
+
+
+    public void receiveDamage(int damageTaken) {
+        this.currentHealth -= damageTaken;
+        // isAlive();
+    }
+
+    public void getHealed(int healthRestored) {
+        this.currentHealth += healthRestored;
+        if (currentHealth > healthPool)
+            currentHealth = healthPool;
+
+    }
+
+    protected void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public int getAttackDamage() {
+        return this.attackDamage;
+    }
+
+    protected void setDodgeChance(int dodgeChance) {
+        this.dodgeChance=dodgeChance;
+    }
+
+    public int getDodgeChance() {
+        return this.dodgeChance;
+    }
+
+    public abstract void useFirstSkill(Entity target);
 }
