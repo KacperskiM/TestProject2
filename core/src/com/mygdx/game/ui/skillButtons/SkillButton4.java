@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.screens.GameplayScreen;
 import com.mygdx.game.ui.IClickCallback;
 
 /**
@@ -13,9 +14,13 @@ import com.mygdx.game.ui.IClickCallback;
  */
 
 public class SkillButton4 extends Button {
-    public SkillButton4(final IClickCallback callback) {
+    protected GameplayScreen gpScreen;
+
+    public SkillButton4(GameplayScreen gameplayScreen, final IClickCallback callback) {
         super(prepareSkillButton1Style());
         init(callback);
+        this.gpScreen = gameplayScreen;
+
     }
 
     private static ButtonStyle prepareSkillButton1Style() {
@@ -40,8 +45,16 @@ public class SkillButton4 extends Button {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 callback.onClick();
+
+                reactOnClick();
+
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
+    }
+
+    private void reactOnClick(){
+        gpScreen.getSelectedSource().useFourthSkill(gpScreen.getSelectedTarget());
+        gpScreen.tossTurnToken();
     }
 }

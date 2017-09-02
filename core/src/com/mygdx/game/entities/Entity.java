@@ -1,6 +1,9 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.mygdx.game.screens.GameplayScreen;
 
 /**
  * Created by Ja on 2017-08-23.
@@ -8,14 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public abstract class Entity extends Image {
 
-    protected int healthPool;
-    protected int currentHealth;
+    protected GameplayScreen gpScreen;
 
-    protected int manaPool;
-    protected int currentMana;
+    private int healthPool;
+    private int currentHealth;
 
-    protected int attackDamage;
-    protected int dodgeChance;
+    private int manaPool;
+    private int currentMana;
+
+    private int attackDamage;
+    private int dodgeChance;
+    private int magicPower;
+
+    private Boolean bleeding;
+    private Boolean poisoned;
 
     /*
     0 - not selected
@@ -78,7 +87,7 @@ public abstract class Entity extends Image {
 
     }
 
-    protected void setAttackDamage(int attackDamage) {
+    public void setAttackDamage(int attackDamage) {
         this.attackDamage = attackDamage;
     }
 
@@ -94,7 +103,50 @@ public abstract class Entity extends Image {
         return this.dodgeChance;
     }
 
+    public int getMagicPower() {
+        return magicPower;
+    }
+
+    public void setMagicPower(int magicPower) {
+        this.magicPower = magicPower;
+    }
+
+
+    public Boolean getBleeding() {
+        return bleeding;
+    }
+
+    public void setBleeding(Boolean bleeding) {
+        this.bleeding = bleeding;
+    }
+
+    public Boolean getPoisoned() {
+        return poisoned;
+    }
+
+    public void setPoisoned(Boolean poisoned) {
+        this.poisoned = poisoned;
+    }
+
+    public void dealBleedingDamage(){
+        this.receiveDamage(10);
+    }
+
+    public void dealPoisonDamage(){
+        this.receiveDamage(10);
+    }
+
     public abstract void useFirstSkill(Entity target);
+    public abstract void useSecondSkill(Entity target);
+    public abstract void useThirdSkill(Entity target);
+    public abstract void useFourthSkill(Entity target);
+    public abstract void useFifthSkill(Entity target);
+    public void useSixthSkill(){
+
+        //Todo: pass turn effect
+
+        gpScreen.tossTurnToken();
+    }
 
     // returns the class (without the package if any)
     public String getClassName(Class c) {
@@ -106,4 +158,10 @@ public abstract class Entity extends Image {
         }
         return FQClassName;
     }
+
+    public void move(int location_X) {
+        Action a = Actions.moveTo(location_X, 300, 0.75f);
+        this.addAction(a);
+    }
+
 }

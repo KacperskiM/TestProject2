@@ -6,11 +6,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.entities.Entity;
-import com.mygdx.game.entities.allies.*;
-import com.mygdx.game.entities.enemies.*;
+import com.mygdx.game.entities.allies.Cleric;
+import com.mygdx.game.entities.allies.FlyingObject;
+import com.mygdx.game.entities.allies.Paladin;
+import com.mygdx.game.entities.allies.Ranger;
+import com.mygdx.game.entities.enemies.Skeleton;
+import com.mygdx.game.entities.enemies.Vampire;
+import com.mygdx.game.entities.enemies.Zombie;
 import com.mygdx.game.ui.IClickCallback;
-import com.mygdx.game.ui.skillButtons.*;
+import com.mygdx.game.ui.skillButtons.SkillButton1;
+import com.mygdx.game.ui.skillButtons.SkillButton2;
+import com.mygdx.game.ui.skillButtons.SkillButton3;
+import com.mygdx.game.ui.skillButtons.SkillButton4;
+import com.mygdx.game.ui.skillButtons.SkillButton5;
+import com.mygdx.game.ui.skillButtons.SkillButton6;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class GameplayScreen extends AbstractScreen {
@@ -29,6 +41,7 @@ public class GameplayScreen extends AbstractScreen {
     private Skeleton skeleton;
     private Zombie zombie;
     private Vampire vampire;
+
 
     private SkillButton1 skillButton1;
     private SkillButton2 skillButton2;
@@ -87,21 +100,21 @@ public class GameplayScreen extends AbstractScreen {
             }
         });
 
-        skillButton4 = new SkillButton4(new IClickCallback() {
+        skillButton4 = new SkillButton4(this, new IClickCallback() {
             @Override
             public void onClick() {
 
             }
         });
 
-        skillButton5 = new SkillButton5(new IClickCallback() {
+        skillButton5 = new SkillButton5(this, new IClickCallback() {
             @Override
             public void onClick() {
 
             }
         });
 
-        skillButton6 = new SkillButton6(new IClickCallback() {
+        skillButton6 = new SkillButton6(this, new IClickCallback() {
             @Override
             public void onClick() {
 
@@ -117,6 +130,10 @@ public class GameplayScreen extends AbstractScreen {
 
     }
 
+    public ArrayList<Entity> getEnemyCharacterList() {
+        return enemyCharacterList;
+    }
+
     private void initFlyObjects() {
         flyingObject1 = new com.mygdx.game.entities.allies.FlyingObject(com.mygdx.game.entities.allies.FlyingObject.BAT);
         stage.addActor(flyingObject1);
@@ -129,13 +146,13 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     private void initEnemies() {
-        skeleton = new Skeleton();
+        skeleton = new Skeleton(this);
         stage.addActor(skeleton);
         enemyCharacterList.add(skeleton);
         skeleton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!getTurnToken())
+                if (!getTurnToken())
                     return;
 
                 for (int i = 0; i < enemyCharacterList.size(); i++) {
@@ -149,13 +166,13 @@ public class GameplayScreen extends AbstractScreen {
             }
         });
 
-        zombie = new Zombie();
+        zombie = new Zombie(this);
         stage.addActor(zombie);
         enemyCharacterList.add(zombie);
         zombie.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!getTurnToken())
+                if (!getTurnToken())
                     return;
 
                 for (int i = 0; i < enemyCharacterList.size(); i++) {
@@ -169,13 +186,13 @@ public class GameplayScreen extends AbstractScreen {
             }
         });
 
-        vampire = new com.mygdx.game.entities.enemies.Vampire();
+        vampire = new Vampire(this);
         stage.addActor(vampire);
         enemyCharacterList.add(vampire);
         vampire.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!getTurnToken())
+                if (!getTurnToken())
                     return;
 
                 for (int i = 0; i < enemyCharacterList.size(); i++) {
@@ -192,13 +209,13 @@ public class GameplayScreen extends AbstractScreen {
 
     private void initPlayer() {
 
-        paladin = new com.mygdx.game.entities.allies.Paladin();
+        paladin = new Paladin(this);
         stage.addActor(paladin);
         playerCharacterList.add(paladin);
         paladin.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!getTurnToken())
+                if (!getTurnToken())
                     return;
 
                 for (int i = 0; i < playerCharacterList.size(); i++) {
@@ -216,13 +233,13 @@ public class GameplayScreen extends AbstractScreen {
             }
         });
 
-        cleric = new com.mygdx.game.entities.allies.Cleric();
+        cleric = new Cleric(this);
         stage.addActor(cleric);
         playerCharacterList.add(cleric);
         cleric.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!getTurnToken())
+                if (!getTurnToken())
                     return;
 
                 for (int i = 0; i < playerCharacterList.size(); i++) {
@@ -240,13 +257,13 @@ public class GameplayScreen extends AbstractScreen {
         });
 
 
-        ranger = new com.mygdx.game.entities.allies.Ranger();
+        ranger = new Ranger(this);
         stage.addActor(ranger);
         playerCharacterList.add(ranger);
         ranger.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!getTurnToken())
+                if (!getTurnToken())
                     return;
 
                 for (int i = 0; i < playerCharacterList.size(); i++) {
@@ -257,10 +274,11 @@ public class GameplayScreen extends AbstractScreen {
                     else
                         playerCharacterList.get(i).setSelected();
                 }
-                if (playerCharacterList.get(0) instanceof com.mygdx.game.entities.allies.Ranger)
+                if (playerCharacterList.get(0) instanceof Ranger)
                     ranger.setToBuffSelected();
                 else
-                    ranger.setToBuff();        }
+                    ranger.setToBuff();
+            }
         });
 
 
@@ -273,9 +291,12 @@ public class GameplayScreen extends AbstractScreen {
 
         if (!getTurnToken()) {
             setPlayersUnselected();
+            tossTurnToken();
         }
 
+
         refreshStage();
+
 
     }
 
@@ -309,32 +330,65 @@ public class GameplayScreen extends AbstractScreen {
                 enemyCharacterList.get(0).setSelected();
         }
         turnToken = !turnToken;
+
+        swapList();
+        updateLocation();
+
         System.out.println("END OF TURN");
         System.out.println("======================================");
+
     }
 
-    public Entity getSelectedSource(){
-        for(int i=0; i<playerCharacterList.size();i++)
-            if(playerCharacterList.get(i).getIsSelected() == 1)
+    private void updateLocation() {
+        if (turnToken == false) {
+            for (int i = 0, j = 300; i < playerCharacterList.size(); i++, j -= 100)
+                playerCharacterList.get(i).move(j);
+        } else {
+            for (int i = 0, k = 850; i < enemyCharacterList.size(); i++, k -= 100) {
+                enemyCharacterList.get(i).move(k);
+            }
+        }
+    }
+
+    private void swapList() {
+        if (turnToken == false)
+            swapCharacterList(playerCharacterList);
+        else
+            swapCharacterList(enemyCharacterList);
+
+    }
+
+    private void swapCharacterList(ArrayList<Entity> characterList) {
+        Collections.swap(characterList, 0, 2);
+        Collections.swap(characterList, 0, 1);
+
+    }
+
+
+    public Entity getSelectedSource() {
+        for (int i = 0; i < playerCharacterList.size(); i++)
+            if (playerCharacterList.get(i).getIsSelected() == 1)
                 return playerCharacterList.get(i);
 
-        for(int i=0; i<enemyCharacterList.size();i++)
-            if(enemyCharacterList.get(i).getIsSelected() == 1)
+        for (int i = 0; i < enemyCharacterList.size(); i++)
+            if (enemyCharacterList.get(i).getIsSelected() == 1)
                 return enemyCharacterList.get(i);
 
         return null;
     }
 
-    public Entity getSelectedTarget(){
-        for(int i=0; i<playerCharacterList.size();i++)
-            if(playerCharacterList.get(i).getIsSelected() == 3)
+    public Entity getSelectedTarget() {
+        for (int i = 0; i < playerCharacterList.size(); i++)
+            if (playerCharacterList.get(i).getIsSelected() == 3)
                 return playerCharacterList.get(i);
 
-        for(int i=0; i<enemyCharacterList.size();i++)
-            if(enemyCharacterList.get(i).getIsSelected() == 1) {
+        for (int i = 0; i < enemyCharacterList.size(); i++)
+            if (enemyCharacterList.get(i).getIsSelected() == 1) {
                 return enemyCharacterList.get(i);
             }
 
         return null;
     }
+
+
 }
