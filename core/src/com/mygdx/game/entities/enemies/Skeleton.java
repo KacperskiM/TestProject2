@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
 
+import java.util.Collections;
+import java.util.Random;
+
 /**
  * Created by Ja on 2017-05-20.
  */
@@ -71,23 +74,49 @@ public class Skeleton extends Entity {
     }
 
     @Override
-    public void useSecondSkill(Entity target) {
+    public void useSecondSkill(Entity target) {  //Bleeding
+        int skillDamage = this.getAttackDamage();
 
+        Random rand = new Random();
+        int i = rand.nextInt(99) + 1;
+
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + " stabs " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
+        target.receiveDamage(skillDamage);
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+
+        if ( i >= 50) {
+            target.setBleeding(true);
+            System.out.println(target.getClassName(target.getClass()) + " starts bleeding!");
+            //TODO: set bleeding time
+        }
     }
 
     @Override
-    public void useThirdSkill(Entity target) {
+    public void useThirdSkill(Entity target) {  //Swing
+        int skillDamage = this.getAttackDamage();
 
+        for (int i = 0; i < gpScreen.getEnemyCharacterList().size(); i++) {
+            System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
+            System.out.println(this.getClassName(this.getClass()) + "swings " + gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + " for " + skillDamage);
+            gpScreen.getEnemyCharacterList().get(i).receiveDamage(skillDamage);
+            System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
+        }
     }
 
     @Override
-    public void useFourthSkill(Entity target) {
+    public void useFourthSkill(Entity target) { //Fear
+        System.out.println(this.getClassName(this.getClass()) + " fears " + target.getClassName(target.getClass()));
+        for(int i =0;i<gpScreen.getPlayerCharacterList().size();i++) {
+            if(target==gpScreen.getPlayerCharacterList().get(i))
+                Collections.swap(gpScreen.getPlayerCharacterList(), i, 0);
+        }
 
     }
 
     @Override
     public void useFifthSkill(Entity target) {
-
+        return;
     }
 
 

@@ -51,20 +51,24 @@ public class Cleric extends Entity {
     }
 
 
-    public void setSelected(){
+    public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
-
+        this.isSelected = 1;
     }
 
-    public void setUnselected(){
+    public void setUnselected() {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
+        this.isSelected = 0;
     }
 
-    public void setToBuff(){
+    public void setToBuff() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffTexture)));
+        this.isSelected = 2;
     }
-    public void setToBuffSelected(){
+
+    public void setToBuffSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
+        this.isSelected = 3;
     }
 
         //Todo cleric's null pointer
@@ -110,11 +114,15 @@ public class Cleric extends Entity {
     @Override
     public void useFifthSkill(Entity target) {  // Flash
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        System.out.println(this.getClassName(this.getClass()) + " uses Flash on " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
-        if(target instanceof Vampire)
-            target.receiveDamage((int)(1.5*this.getMagicPower()));
-        else if(target instanceof Skeleton  || target instanceof Zombie)
+        if(target instanceof Vampire) {
+            target.receiveDamage((int) (1.5 * this.getMagicPower()));
+            System.out.println(this.getClassName(this.getClass()) + " uses Flash on " + target.getClassName(target.getClass()) + " for " + 1.5*this.getMagicPower());
+        }
+        else if(target instanceof Skeleton  || target instanceof Zombie) {
             target.receiveDamage(this.getMagicPower());
+            System.out.println(this.getClassName(this.getClass()) + " uses Flash on " + target.getClassName(target.getClass()) + " for " + this.getMagicPower());
+
+        }
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 

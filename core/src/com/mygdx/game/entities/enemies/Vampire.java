@@ -73,23 +73,36 @@ public class Vampire extends Entity {
     }
 
     @Override
-    public void useSecondSkill(Entity target) {
+    public void useSecondSkill(Entity target) {  //Life drain
+        int skillDamage = this.getMagicPower();
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + " drains " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
+        target.receiveDamage(2*skillDamage);
+        this.getHealed((int)0.1*skillDamage);
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
 
     }
 
     @Override
-    public void useThirdSkill(Entity target) {
+    public void useThirdSkill(Entity target) {  //Regeneration
+        this.getHealed(this.getHealthPool());
+        this.setCurrentMana(0);
 
     }
 
     @Override
-    public void useFourthSkill(Entity target) {
-
+    public void useFourthSkill(Entity target) {  //Vicious Strike
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + " uses Vicious Strike on: " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
+        target.receiveDamage(this.getAttackDamage() + this.getMagicPower());
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 
     @Override
     public void useFifthSkill(Entity target) {
-
+        return;
     }
 
 

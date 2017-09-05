@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
 
+import java.util.Random;
+
 /**
  * Created by Ja on 2017-05-20.
  */
@@ -27,6 +29,8 @@ public class Zombie extends Entity {
 
     private final static int STARTING_X = 750;
     private final static int STARTING_Y = 300;
+
+    private Boolean ressurectBuff;
 
     public Zombie(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
@@ -53,6 +57,14 @@ public class Zombie extends Entity {
         this.isSelected = 0;
     }
 
+    public Boolean getRessurectBuff() {
+        return ressurectBuff;
+    }
+
+    public void setRessurectBuff(Boolean ressurectBuff) {
+        this.ressurectBuff = ressurectBuff;
+    }
+
     @Override
     public void setToBuff() {
 
@@ -72,23 +84,39 @@ public class Zombie extends Entity {
     }
 
     @Override
-    public void useSecondSkill(Entity target) {
+    public void useSecondSkill(Entity target) {  //Toxic Chop
+        int skillDamage = this.getAttackDamage();
 
+        Random rand = new Random();
+        int i = rand.nextInt(99) + 1;
+
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+        System.out.println(this.getClassName(this.getClass()) + " uses Toxic Chop on: " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
+        target.receiveDamage(skillDamage);
+        System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
+
+        if ( i >= 20) {
+            target.setPoisoned(true);
+            System.out.println(target.getClassName(target.getClass()) + " is being poisoned!");
+            //TODO: set poison time
+        }
     }
 
     @Override
-    public void useThirdSkill(Entity target) {
-
+    public void useThirdSkill(Entity target) {   //Ressurect Zombie
+        gpScreen.getEnemyCharacterList().remove(target);
+        gpScreen.initZombie();
     }
 
     @Override
-    public void useFourthSkill(Entity target) {
-
+    public void useFourthSkill(Entity target) {  //Ressurect himself
+        this.setRessurectBuff(true);
+        //TODO: future operationality
     }
 
     @Override
     public void useFifthSkill(Entity target) {
-
+        return;
     }
 
 

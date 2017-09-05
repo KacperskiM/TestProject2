@@ -49,18 +49,22 @@ public class Ranger extends Entity {
 
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
+        this.isSelected = 1;
     }
 
     public void setUnselected() {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
+        this.isSelected = 0;
     }
 
     public void setToBuff() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffTexture)));
+        this.isSelected = 2;
     }
 
     public void setToBuffSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
+        this.isSelected = 3;
     }
 
     //Todo ranger's null pointer
@@ -83,7 +87,6 @@ public class Ranger extends Entity {
             gpScreen.getEnemyCharacterList().get(i).receiveDamage(skillDamage);
             System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
         }
-
     }
 
     @Override
@@ -123,10 +126,6 @@ public class Ranger extends Entity {
             System.out.println(target.getClassName(target.getClass()) + " skips it's turn! (TODO) ");
             //Todo: enemy skips turn
         }
-
-
-
-
     }
 
     @Override

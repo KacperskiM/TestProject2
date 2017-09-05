@@ -26,6 +26,9 @@ public abstract class Entity extends Image {
     private Boolean bleeding;
     private Boolean poisoned;
 
+    private Boolean divineShield;
+
+
     /*
     0 - not selected
     1 - selected (green or red)
@@ -50,7 +53,7 @@ public abstract class Entity extends Image {
         this.currentHealth=healthPool;
     }
 
-    public int getHealthPool() {
+    protected int getHealthPool() {
         return this.healthPool;
     }
 
@@ -136,6 +139,23 @@ public abstract class Entity extends Image {
         this.receiveDamage(10);
     }
 
+    public Boolean getDivineShield() {
+        return divineShield;
+    }
+
+    public void setDivineShield(Boolean divineShield) {
+        this.divineShield = divineShield;
+    }
+
+
+    public int getCurrentMana() {
+        return currentMana;
+    }
+
+    public void setCurrentMana(int currentMana) {
+        this.currentMana = currentMana;
+    }
+
     public abstract void useFirstSkill(Entity target);
     public abstract void useSecondSkill(Entity target);
     public abstract void useThirdSkill(Entity target);
@@ -163,5 +183,6 @@ public abstract class Entity extends Image {
         Action a = Actions.moveTo(location_X, 300, 0.75f);
         this.addAction(a);
     }
+
 
 }

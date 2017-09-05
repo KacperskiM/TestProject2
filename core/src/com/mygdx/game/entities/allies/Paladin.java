@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
 
+import java.util.Collections;
+
 /**
  * Created by Ja on 2017-05-20.
  */
@@ -78,15 +80,21 @@ public class Paladin extends Entity {
     }
 
     @Override
-    public void useSecondSkill(Entity target) {
+    public void useSecondSkill(Entity target) {  //Divine shield
 
-        //Todo: paladin's second skill
+        System.out.println(this.getClassName(this.getClass()) + " uses divine shield on " + target.getClassName(target.getClass()));
+        target.setDivineShield(true);
+        //TODO: DIVINE SHIELD CHECK
     }
 
     @Override
-    public void useThirdSkill(Entity target) {
+    public void useThirdSkill(Entity target) {  //Pull
 
-        // Todo: paladin's Pull skill - rotate enemy
+        System.out.println(this.getClassName(this.getClass()) + " pulls " + target.getClassName(target.getClass()));
+        for(int i =0;i<gpScreen.getEnemyCharacterList().size();i++) {
+            if(target==gpScreen.getEnemyCharacterList().get(i))
+            Collections.swap(gpScreen.getEnemyCharacterList(), i, 1);
+        }
     }
 
     @Override
@@ -101,7 +109,7 @@ public class Paladin extends Entity {
     }
 
     @Override
-    public void useFifthSkill(Entity target) {
+    public void useFifthSkill(Entity target) {  //Smite
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " smites " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         target.receiveDamage(2 *this.getMagicPower());
