@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.ai.Ai;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.allies.Cleric;
 import com.mygdx.game.entities.allies.FlyingObject;
@@ -42,6 +43,7 @@ public class GameplayScreen extends AbstractScreen {
     private Zombie zombie;
     private Vampire vampire;
 
+    private Ai ai;
 
     private SkillButton1 skillButton1;
     private SkillButton2 skillButton2;
@@ -68,11 +70,16 @@ public class GameplayScreen extends AbstractScreen {
         initBackground();
         initPlayer();
         initEnemies();
+        initAi();
         //initFlyObjects();
         initSkillButtons();
 
         initTurnToken();
 
+    }
+
+    private void initAi() {
+        this.ai = new Ai(this);
     }
 
     private void initTurnToken() {

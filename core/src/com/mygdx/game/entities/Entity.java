@@ -28,6 +28,11 @@ public abstract class Entity extends Image {
 
     private Boolean divineShield;
 
+    private int SecondSkillManaCost;
+    private int ThirdSkillManaCost;
+    private int FourthSkillManaCost;
+    private int FifthSkillManaCost;
+
 
     /*
     0 - not selected
@@ -185,4 +190,35 @@ public abstract class Entity extends Image {
     }
 
 
+    public int getSecondSkillManaCost() {
+        return SecondSkillManaCost;
+    }
+
+    public void setSecondSkillManaCost(int secondSkillManaCost) {
+        SecondSkillManaCost = secondSkillManaCost;
+    }
+
+    public int getThirdSkillManaCost() {
+        return ThirdSkillManaCost;
+    }
+
+    public void setThirdSkillManaCost(int thirdSkillManaCost) {
+        ThirdSkillManaCost = thirdSkillManaCost;
+    }
+
+    public int getFourthSkillManaCost() {
+        return FourthSkillManaCost;
+    }
+
+    public void setFourthSkillManaCost(int fourthSkillManaCost) {
+        FourthSkillManaCost = fourthSkillManaCost;
+    }
+
+    public int getFifthSkillManaCost() {
+        return FifthSkillManaCost;
+    }
+
+    public void setFifthSkillManaCost(int fifthSkillManaCost) {
+        FifthSkillManaCost = fifthSkillManaCost;
+    }
 }

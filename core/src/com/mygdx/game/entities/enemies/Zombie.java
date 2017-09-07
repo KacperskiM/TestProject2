@@ -30,6 +30,10 @@ public class Zombie extends Entity {
     private final static int STARTING_X = 750;
     private final static int STARTING_Y = 300;
 
+    private final static int SECOND_SKILL_MANA_COST = 10;
+    private final static int THIRD_SKILL_MANA_COST = 20;
+    private final static int FOURTH_SKILL_MANA_COST = 25;
+
     private Boolean ressurectBuff;
 
     public Zombie(GameplayScreen gpScreen) {
@@ -45,6 +49,9 @@ public class Zombie extends Entity {
         this.setAttackDamage(ATTACK_DAMAGE);
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
+        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
+        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
+        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
     }
 
     public void setSelected() {
@@ -103,7 +110,7 @@ public class Zombie extends Entity {
     }
 
     @Override
-    public void useThirdSkill(Entity target) {   //Ressurect Zombie
+    public void useThirdSkill(Entity target) {   //Resurrect Zombie
         gpScreen.getEnemyCharacterList().remove(target);
         gpScreen.initZombie();
     }
