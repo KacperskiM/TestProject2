@@ -93,11 +93,13 @@ public class Vampire extends Entity {
     }
 
     @Override
-    public void useThirdSkill(Entity target) {  //Regeneration
+    public void useThirdSkill(Entity target) {}
+
+    public void useThirdSkill() {  //Regeneration
         this.getHealed(this.getHealthPool());
         this.setCurrentMana(0);
-
     }
+
 
     @Override
     public void useFourthSkill(Entity target) {  //Vicious Strike

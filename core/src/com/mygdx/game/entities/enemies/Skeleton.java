@@ -103,11 +103,11 @@ public class Skeleton extends Entity {
     public void useThirdSkill(Entity target) {  //Swing
         int skillDamage = this.getAttackDamage();
 
-        for (int i = 0; i < gpScreen.getEnemyCharacterList().size(); i++) {
-            System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
-            System.out.println(this.getClassName(this.getClass()) + "swings " + gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + " for " + skillDamage);
-            gpScreen.getEnemyCharacterList().get(i).receiveDamage(skillDamage);
-            System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
+        for (int i = 0; i < gpScreen.getPlayerCharacterList().size(); i++) {
+            System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
+            System.out.println(this.getClassName(this.getClass()) + "swings " + gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + " for " + skillDamage);
+            gpScreen.getPlayerCharacterList().get(i).receiveDamage(skillDamage);
+            System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
         }
     }
 

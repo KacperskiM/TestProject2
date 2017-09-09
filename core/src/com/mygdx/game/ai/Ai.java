@@ -20,16 +20,15 @@ public class Ai {
 
     public Ai(GameplayScreen gpScreen) {
         this.gpScreen = gpScreen;
-        this.zombieAi = new AiZombie();
-        this.skeletonAi = new AiSkeleton();
-        this.vampireAi = new AiVampire();
+        this.zombieAi = new AiZombie(gpScreen);
+        this.skeletonAi = new AiSkeleton(gpScreen);
+        this.vampireAi = new AiVampire(gpScreen);
     }
 
     public void makeAction(Entity entity) {
-        int target = selectTarget();
 
         if (entity instanceof Skeleton) {
-            skeletonAi.selectSkill((Skeleton) entity, target);
+            skeletonAi.act((Skeleton) entity);
 
         } else if (entity instanceof Vampire) {
 
@@ -38,14 +37,6 @@ public class Ai {
         }
     }
 
-    private int selectTarget() {
-        Entity target = gpScreen.getPlayerCharacterList().get(0);
-        int i = 0;
-        for (i = 0; i < gpScreen.getPlayerCharacterList().size(); i++) {
-            if (gpScreen.getPlayerCharacterList().get(i).getCurrentHealth() < target.getCurrentHealth())
-                i = gpScreen.getPlayerCharacterList().get(i).getCurrentHealth();
-        }
-        return i;
-    }
+
 
 }

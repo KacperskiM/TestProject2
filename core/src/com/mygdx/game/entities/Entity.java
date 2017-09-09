@@ -58,7 +58,7 @@ public abstract class Entity extends Image {
         this.currentHealth=healthPool;
     }
 
-    protected int getHealthPool() {
+    public int getHealthPool() {
         return this.healthPool;
     }
 

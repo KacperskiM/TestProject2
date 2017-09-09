@@ -1,6 +1,8 @@
 package com.mygdx.game.ai;
 
 import com.mygdx.game.entities.enemies.Skeleton;
+import com.mygdx.game.screens.GameplayScreen;
+import java.util.Random;
 
 /**
  * Created by Ja on 2017-09-07.
@@ -8,18 +10,41 @@ import com.mygdx.game.entities.enemies.Skeleton;
 
 public class AiSkeleton {
 
-    public void selectSkill(Skeleton entity, int target) {
+    GameplayScreen gpScreen;
 
-        /*
-        1. check if AA is enough to kill
+    public AiSkeleton(GameplayScreen gpScreen){
+        this.gpScreen=gpScreen;
+    }
 
-        2. check target's current health
-        3. check if first skill damage is enough to kill
-            4. check if available mana is enough to use skill
-        5. check other skills
-        .
-        .
-        6. use the one with most damage
-         */
+    public void act(Skeleton entity) {
+
+        // Checking if AA is enough to kill player character
+        for(int i=0;i<gpScreen.getPlayerCharacterList().size();i++){
+            if(gpScreen.getPlayerCharacterList().get(i).getCurrentHealth()<= entity.getAttackDamage()){
+                entity.useFirstSkill(gpScreen.getPlayerCharacterList().get(i));
+                return;
+            }
+        }
+        Random rand = new Random();
+        int randomTarget = rand.nextInt(3);
+
+        // Checking if entity has mana for any skill
+        if(entity.getCurrentMana()<entity.getSecondSkillManaCost() && entity.getCurrentMana()<entity.getThirdSkillManaCost() && entity.getCurrentMana()<entity.getFourthSkillManaCost()) {
+            entity.useFirstSkill((gpScreen.getPlayerCharacterList().get(randomTarget)));
+            return;
+        }
+
+        else if(entity.getCurrentMana()>=entity.getThirdSkillManaCost()){   // Use Swing
+            entity.useThirdSkill(gpScreen.getPlayerCharacterList().get(randomTarget));
+            return;
+        }
+        else if(entity.getCurrentMana()>=entity.getSecondSkillManaCost()){  // Use Bleeding
+            entity.useSecondSkill(gpScreen.getPlayerCharacterList().get(randomTarget));
+        }
+        else if(entity.getCurrentMana()>=entity.getFourthSkillManaCost()) {  //Use Fear
+            entity.useFourthSkill(gpScreen.getPlayerCharacterList().get(0));
+        }
+        else                                                                 // Use Auto attack
+            entity.useFirstSkill(gpScreen.getPlayerCharacterList().get(randomTarget));
     }
 }

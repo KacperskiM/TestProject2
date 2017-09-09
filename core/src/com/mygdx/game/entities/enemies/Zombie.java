@@ -34,7 +34,7 @@ public class Zombie extends Entity {
     private final static int THIRD_SKILL_MANA_COST = 20;
     private final static int FOURTH_SKILL_MANA_COST = 25;
 
-    private Boolean ressurectBuff;
+    private Boolean resurrectBuff;
 
     public Zombie(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
@@ -64,12 +64,12 @@ public class Zombie extends Entity {
         this.isSelected = 0;
     }
 
-    public Boolean getRessurectBuff() {
-        return ressurectBuff;
+    public Boolean getResurrectBuff() {
+        return resurrectBuff;
     }
 
-    public void setRessurectBuff(Boolean ressurectBuff) {
-        this.ressurectBuff = ressurectBuff;
+    public void setResurrectBuff(Boolean resurrectBuff) {
+        this.resurrectBuff = resurrectBuff;
     }
 
     @Override
@@ -109,16 +109,25 @@ public class Zombie extends Entity {
         }
     }
 
-    @Override
-    public void useThirdSkill(Entity target) {   //Resurrect Zombie
-        gpScreen.getEnemyCharacterList().remove(target);
+    public void useThirdSkill() {   //Resurrect Zombie
         gpScreen.initZombie();
     }
 
     @Override
-    public void useFourthSkill(Entity target) {  //Ressurect himself
-        this.setRessurectBuff(true);
-        //TODO: future operationality
+    public void useThirdSkill(Entity target) {}
+
+    @Override
+    public void useFourthSkill(Entity target) {  //Explode
+        int skillDamage = 2*this.getAttackDamage();
+
+        for (int i = 0; i < gpScreen.getPlayerCharacterList().size(); i++) {
+            System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
+            System.out.println(this.getClassName(this.getClass()) + "explodes " + gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + " for " + skillDamage);
+            gpScreen.getPlayerCharacterList().get(i).receiveDamage(skillDamage);
+            System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
+        }
+        this.receiveDamage(this.getCurrentHealth());
+
     }
 
     @Override
