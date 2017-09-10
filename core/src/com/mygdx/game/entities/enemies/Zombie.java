@@ -38,7 +38,7 @@ public class Zombie extends Entity {
 
     private Boolean resurrectBuff;
 
-    public Zombie(GameplayScreen gpScreen) {
+    public Zombie(GameplayScreen gpScreen, Boolean resurrected) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
         this.setOrigin(WIDTH / 2, HEIGHT / 2);
         this.setSize(WIDTH, HEIGHT);
@@ -46,9 +46,16 @@ public class Zombie extends Entity {
 
         this.gpScreen = gpScreen;
 
-        this.setHealthPool(HEALTHPOOL);
 
-        this.setManaPool(MANA_POOL);
+
+        if(resurrected == false) {
+            this.setManaPool(MANA_POOL);
+            this.setHealthPool(HEALTHPOOL);
+        }
+        else {
+            this.setHealthPool((int)0.5*HEALTHPOOL);
+            this.setManaPool((int)0.2*MANA_POOL);
+        }
         this.setAttackDamage(ATTACK_DAMAGE);
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
@@ -60,6 +67,7 @@ public class Zombie extends Entity {
 
 
     }
+
 
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
@@ -95,6 +103,7 @@ public class Zombie extends Entity {
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
         this.move(gpScreen.getEnemyPositionArray()[2]);
         this.setDead(true);
+        gpScreen.getDeadEnemiesList().add(this);
     }
 
     @Override
@@ -125,7 +134,8 @@ public class Zombie extends Entity {
     }
 
     public void useThirdSkill() {   //Resurrect Zombie
-        gpScreen.initZombie();
+        gpScreen.getDeadEnemiesList().get(gpScreen.getDeadEnemiesList().size()-1).remove();
+        gpScreen.initResurrectedZombie();
     }
 
     @Override

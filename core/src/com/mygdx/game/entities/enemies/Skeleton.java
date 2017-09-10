@@ -83,6 +83,7 @@ public class Skeleton extends Entity {
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
         this.move(gpScreen.getEnemyPositionArray()[2]);
         this.setDead(true);
+        gpScreen.getDeadEnemiesList().add(this);
     }
 
     @Override

@@ -34,6 +34,12 @@ public class Cleric extends Entity {
     private final static int STARTING_X = 100;
     private final static int STARTING_Y = 300;
 
+    private final static int SECOND_SKILL_MANA_COST = 10;
+    private final static int THIRD_SKILL_MANA_COST = 10;
+    private final static int FOURTH_SKILL_MANA_COST = 10;
+    private final static int FIFTH_SKILL_MANA_COST = 10;
+
+
     public Cleric(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
         this.setOrigin(WIDTH / 2, HEIGHT / 2);
@@ -47,6 +53,11 @@ public class Cleric extends Entity {
         this.setAttackDamage(ATTACK_DAMAGE);
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
+
+        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
+        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
+        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
+        this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);
 
         this.setDead(false);
 

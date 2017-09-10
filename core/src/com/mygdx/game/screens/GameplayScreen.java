@@ -33,6 +33,8 @@ public class GameplayScreen extends AbstractScreen {
     private ArrayList<Entity> playerCharacterList;
     private ArrayList<Entity> enemyCharacterList;
 
+    private ArrayList<Entity> deadEnemiesList;
+
 
     private Image backgroundImage;
     private Cleric cleric;
@@ -41,6 +43,7 @@ public class GameplayScreen extends AbstractScreen {
 
     private Skeleton skeleton;
     private Zombie zombie;
+    private Zombie resurrectedZombie;
     private Vampire vampire;
 
     private Ai ai;
@@ -63,10 +66,13 @@ public class GameplayScreen extends AbstractScreen {
         super(game);
     }
 
+
     @Override
     protected void init() {
         playerCharacterList = new ArrayList<>();
         enemyCharacterList = new ArrayList<>();
+        deadEnemiesList = new ArrayList<>();
+
 
         initBackground();
         initPlayer();
@@ -185,7 +191,7 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     public void initZombie() {
-        zombie = new Zombie(this);
+        zombie = new Zombie(this,false);
         stage.addActor(zombie);
         enemyCharacterList.add(zombie);
         zombie.addListener(new ClickListener() {
@@ -199,6 +205,25 @@ public class GameplayScreen extends AbstractScreen {
                 playerCharacterList.get(0).setSelected();
                 if (zombie.getDead() == false)
                     zombie.setSelected();
+            }
+        });
+    }
+
+    public void initResurrectedZombie(){
+        resurrectedZombie = new Zombie(this, true);
+        stage.addActor(resurrectedZombie);
+        enemyCharacterList.add(resurrectedZombie);
+        resurrectedZombie.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                for (int i = 0; i < enemyCharacterList.size(); i++)
+                    enemyCharacterList.get(i).setUnselected();
+                for (int i = 0; i < playerCharacterList.size(); i++)
+                    playerCharacterList.get(i).setUnselected();
+
+                playerCharacterList.get(0).setSelected();
+                if (resurrectedZombie.getDead() == false)
+                    resurrectedZombie.setSelected();
             }
         });
     }
@@ -338,11 +363,11 @@ public class GameplayScreen extends AbstractScreen {
         if (playerCharacterList.size() > 0)
             playerCharacterList.get(0).setSelected();
         else {
-            //TODO GAME OVER
+            System.exit(0);
         }
     }
 
-    private void updateLocation() { //TODO: corpses doesn't move
+    private void updateLocation() {
         if (turnToken == true) {
             for (int i = 0; i < playerCharacterList.size(); i++)
                 playerCharacterList.get(i).move(allyPositionArray[i]);
@@ -354,13 +379,14 @@ public class GameplayScreen extends AbstractScreen {
 
     private void swapList() {
         if (turnToken == true) {
+
             Collections.swap(playerCharacterList, 0, playerCharacterList.size() - 1);
-            if (playerCharacterList.size() > 1)
-                Collections.swap(playerCharacterList, 0, 1);
+            if (playerCharacterList.size() == 3)
+                Collections.swap(playerCharacterList, 1, 2);
         } else {
             Collections.swap(enemyCharacterList, 0, enemyCharacterList.size() - 1);
-            if (enemyCharacterList.size() > 1)
-                Collections.swap(enemyCharacterList, 0, 1);
+            if (enemyCharacterList.size() == 3 )
+                Collections.swap(enemyCharacterList, 1, 2);
         }
     }
 
@@ -402,6 +428,10 @@ public class GameplayScreen extends AbstractScreen {
 
     public static int[] getEnemyPositionArray() {
         return enemyPositionArray;
+    }
+
+    public ArrayList<Entity> getDeadEnemiesList() {
+        return deadEnemiesList;
     }
 
     @Override
