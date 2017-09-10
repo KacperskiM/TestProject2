@@ -15,6 +15,8 @@ public class Vampire extends Entity {
 
     private Texture unselectedTexture = new Texture("vampire.png");
     private Texture selectedTexture = new Texture("vampire_selected.png");
+    private Texture isDeadTexture = new Texture("corpse.png");
+
 
     private static int HEALTHPOOL = 120;
     private static int MANA_POOL = 60;
@@ -26,8 +28,8 @@ public class Vampire extends Entity {
     private final static int WIDTH = 122;
     private final static int HEIGHT = 180;
 
-    private final static int STARTING_X=850;
-    private final static  int STARTING_Y=300;
+    private final static int STARTING_X = 850;
+    private final static int STARTING_Y = 300;
 
     private final static int SECOND_SKILL_MANA_COST = 15;
     private final static int THIRD_SKILL_MANA_COST = 25;
@@ -35,9 +37,9 @@ public class Vampire extends Entity {
 
     public Vampire(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
-        this.setOrigin(WIDTH/2,HEIGHT/2);
-        this.setSize(WIDTH,HEIGHT);
-        this.setPosition(STARTING_X,STARTING_Y);
+        this.setOrigin(WIDTH / 2, HEIGHT / 2);
+        this.setSize(WIDTH, HEIGHT);
+        this.setPosition(STARTING_X, STARTING_Y);
 
         this.gpScreen = gpScreen;
 
@@ -49,6 +51,9 @@ public class Vampire extends Entity {
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
         this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
+
+        this.setDead(false);
+
     }
 
     public void setSelected() {
@@ -72,6 +77,15 @@ public class Vampire extends Entity {
     }
 
     @Override
+    protected void die() {
+        gpScreen.getEnemyCharacterList().remove(gpScreen.getEnemyCharacterList().indexOf(this));
+        this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
+        this.move(gpScreen.getEnemyPositionArray()[2]);
+        this.setDead(true);
+    }
+
+
+    @Override
     public void useFirstSkill(Entity target) {  //Auto attack
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " auto attacks " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
@@ -85,15 +99,16 @@ public class Vampire extends Entity {
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " drains " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
-        target.receiveDamage(2*skillDamage);
-        this.getHealed((int)0.1*skillDamage);
+        target.receiveDamage(2 * skillDamage);
+        this.getHealed((int) 0.1 * skillDamage);
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
 
     }
 
     @Override
-    public void useThirdSkill(Entity target) {}
+    public void useThirdSkill(Entity target) {
+    }
 
     public void useThirdSkill() {  //Regeneration
         this.getHealed(this.getHealthPool());

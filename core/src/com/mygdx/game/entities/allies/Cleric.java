@@ -20,8 +20,9 @@ public class Cleric extends Entity {
     private Texture selectedTexture = new Texture("cleric_selected.png");
     private Texture toBuffTexture = new Texture("cleric_toBuff.png");
     private Texture toBuffSelectedTexture = new Texture("cleric_toBuff_selected.png");
+    private Texture isDeadTexture = new Texture("corpse.png");
 
-    private static int HEALTHPOOL = 70;
+    private static int HEALTH_POOL = 70;
     private static int MANA_POOL = 150;
     private static int ATTACK_DAMAGE = 10;
     private static int DODGE_CHANCE = 10;
@@ -30,22 +31,24 @@ public class Cleric extends Entity {
     private final static int WIDTH = 122;
     private final static int HEIGHT = 180;
 
-    private final static int STARTING_X=100;
-    private final static  int STARTING_Y=300;
+    private final static int STARTING_X = 100;
+    private final static int STARTING_Y = 300;
 
     public Cleric(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
-        this.setOrigin(WIDTH/2,HEIGHT/2);
-        this.setSize(WIDTH,HEIGHT);
-        this.setPosition(STARTING_X,STARTING_Y);
+        this.setOrigin(WIDTH / 2, HEIGHT / 2);
+        this.setSize(WIDTH, HEIGHT);
+        this.setPosition(STARTING_X, STARTING_Y);
 
         this.gpScreen = gpScreen;
 
-        this.setHealthPool(HEALTHPOOL);
+        this.setHealthPool(HEALTH_POOL);
         this.setManaPool(MANA_POOL);
         this.setAttackDamage(ATTACK_DAMAGE);
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
+
+        this.setDead(false);
 
 
     }
@@ -71,7 +74,17 @@ public class Cleric extends Entity {
         this.isSelected = 3;
     }
 
-        //Todo cleric's null pointer
+
+    @Override
+    protected void die() {
+        gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
+        this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
+        this.move(gpScreen.getAllyPositionArray()[2]);
+        this.setDead(true);
+
+    }
+
+    //Todo cleric's null pointer
 
     @Override
     public void useFirstSkill(Entity target) {  //Auto attack
@@ -104,9 +117,9 @@ public class Cleric extends Entity {
     public void useFourthSkill(Entity target) { // Banish Undead
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses Banish Undead on " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
-        if(target instanceof Skeleton  || target instanceof Zombie)
-            target.receiveDamage((int)(1.5*this.getMagicPower()));
-        else if(target instanceof Vampire)
+        if (target instanceof Skeleton || target instanceof Zombie)
+            target.receiveDamage((int) (1.5 * this.getMagicPower()));
+        else if (target instanceof Vampire)
             target.receiveDamage(this.getMagicPower());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
@@ -114,11 +127,10 @@ public class Cleric extends Entity {
     @Override
     public void useFifthSkill(Entity target) {  // Flash
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        if(target instanceof Vampire) {
+        if (target instanceof Vampire) {
             target.receiveDamage((int) (1.5 * this.getMagicPower()));
-            System.out.println(this.getClassName(this.getClass()) + " uses Flash on " + target.getClassName(target.getClass()) + " for " + 1.5*this.getMagicPower());
-        }
-        else if(target instanceof Skeleton  || target instanceof Zombie) {
+            System.out.println(this.getClassName(this.getClass()) + " uses Flash on " + target.getClassName(target.getClass()) + " for " + 1.5 * this.getMagicPower());
+        } else if (target instanceof Skeleton || target instanceof Zombie) {
             target.receiveDamage(this.getMagicPower());
             System.out.println(this.getClassName(this.getClass()) + " uses Flash on " + target.getClassName(target.getClass()) + " for " + this.getMagicPower());
 

@@ -2,8 +2,12 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.screens.GameplayScreen;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Ja on 2017-08-23.
@@ -34,6 +38,9 @@ public abstract class Entity extends Image {
     private int FifthSkillManaCost;
 
 
+    private Boolean isDead;
+
+
     /*
     0 - not selected
     1 - selected (green or red)
@@ -48,8 +55,11 @@ public abstract class Entity extends Image {
     public abstract void setToBuff();
     public abstract void setToBuffSelected();
 
+    public void setGpScreen(GameplayScreen gpScreen) {
+        this.gpScreen = gpScreen;
+    }
 
-    public  int getIsSelected(){
+    public int getIsSelected(){
         return isSelected;
     }
 
@@ -85,8 +95,15 @@ public abstract class Entity extends Image {
 
     public void receiveDamage(int damageTaken) {
         this.currentHealth -= damageTaken;
-        // isAlive();
+        this.isAlive();
     }
+
+    private void isAlive() {
+        if(this.getCurrentHealth()<=0)
+            this.die();
+    }
+
+    protected abstract void die();
 
     public void getHealed(int healthRestored) {
         this.currentHealth += healthRestored;
@@ -189,6 +206,15 @@ public abstract class Entity extends Image {
         this.addAction(a);
     }
 
+    public void moveEnemy(int location_X){
+
+        Action a = Actions.moveTo(location_X,300,0.75f);
+        DelayAction delayAction = new DelayAction();
+        delayAction.setDuration(0.75f);
+        SequenceAction sequenceAction = new SequenceAction(delayAction,a);
+        this.addAction(sequenceAction);
+    }
+
 
     public int getSecondSkillManaCost() {
         return SecondSkillManaCost;
@@ -220,5 +246,13 @@ public abstract class Entity extends Image {
 
     public void setFifthSkillManaCost(int fifthSkillManaCost) {
         FifthSkillManaCost = fifthSkillManaCost;
+    }
+
+    public Boolean getDead() {
+        return isDead;
+    }
+
+    public void setDead(Boolean dead) {
+        isDead = dead;
     }
 }

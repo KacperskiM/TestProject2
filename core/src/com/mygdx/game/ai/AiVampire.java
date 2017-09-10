@@ -27,7 +27,7 @@ public class AiVampire {
             }
         }
         Random rand = new Random();
-        int randomTarget = rand.nextInt(3);
+        int randomTarget = rand.nextInt(gpScreen.getPlayerCharacterList().size());
 
         // Checking if entity has mana for any skill
         if(entity.getCurrentMana()<entity.getSecondSkillManaCost() && entity.getCurrentMana()<entity.getThirdSkillManaCost() && entity.getCurrentMana()<entity.getFourthSkillManaCost()) {
@@ -35,7 +35,7 @@ public class AiVampire {
             return;
         }
 
-        else if(entity.getCurrentMana()>0){   // Use Regeneration
+        else if(entity.getCurrentMana()>0 && entity.getCurrentHealth()<=0.25*entity.getHealthPool()){   // Use Regeneration
             entity.useThirdSkill();
             return;
         }

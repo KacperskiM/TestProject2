@@ -31,9 +31,10 @@ public class Ai {
             skeletonAi.act((Skeleton) entity);
 
         } else if (entity instanceof Vampire) {
+            vampireAi.act((Vampire) entity);
 
         } else if (entity instanceof Zombie) {
-
+            zombieAi.act((Zombie) entity);
         }
     }
 

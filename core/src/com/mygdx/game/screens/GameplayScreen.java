@@ -28,7 +28,7 @@ import java.util.Collections;
 
 public class GameplayScreen extends AbstractScreen {
 
-    protected MyGame game;
+    //protected MyGame game;
 
     private ArrayList<Entity> playerCharacterList;
     private ArrayList<Entity> enemyCharacterList;
@@ -55,8 +55,9 @@ public class GameplayScreen extends AbstractScreen {
     private FlyingObject flyingObject1;
 
 
-    private static int[] characterPositionArray = {300, 200, 100};
+    private static int[] allyPositionArray = {300, 200, 100};
     private static int[] enemyPositionArray = {650, 750, 850};
+
 
     GameplayScreen(MyGame game) {
         super(game);
@@ -73,20 +74,22 @@ public class GameplayScreen extends AbstractScreen {
         initAi();
         //initFlyObjects();
         initSkillButtons();
+        startGame();
 
-        initTurnToken();
+    }
+
+    private void startGame() {
+        for (int i = 0; i < enemyCharacterList.size(); i++) {
+            enemyCharacterList.get(i).setUnselected();
+            playerCharacterList.get(i).setUnselected();
+        }
+        playerCharacterList.get(0).setSelected();
 
     }
 
     private void initAi() {
         this.ai = new Ai(this);
     }
-
-    private void initTurnToken() {
-        tossTurnToken();
-
-    }
-
 
     private void initSkillButtons() {
         skillButton1 = new SkillButton1(this, new IClickCallback() {
@@ -169,17 +172,14 @@ public class GameplayScreen extends AbstractScreen {
         vampire.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (!getTurnToken())
-                    return;
-
-                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                for (int i = 0; i < enemyCharacterList.size(); i++)
                     enemyCharacterList.get(i).setUnselected();
-                    if (i != 0)
-                        playerCharacterList.get(i).setUnselected();
-                    else
-                        playerCharacterList.get(i).setSelected();
-                }
-                vampire.setSelected();
+                for (int i = 0; i < playerCharacterList.size(); i++)
+                    playerCharacterList.get(i).setUnselected();
+
+                playerCharacterList.get(0).setSelected();
+                if (vampire.getDead() == false)
+                    vampire.setSelected();
             }
         });
     }
@@ -191,17 +191,14 @@ public class GameplayScreen extends AbstractScreen {
         zombie.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (!getTurnToken())
-                    return;
-
-                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                for (int i = 0; i < enemyCharacterList.size(); i++)
                     enemyCharacterList.get(i).setUnselected();
-                    if (i != 0)
-                        playerCharacterList.get(i).setUnselected();
-                    else
-                        playerCharacterList.get(i).setSelected();
-                }
-                zombie.setSelected();
+                for (int i = 0; i < playerCharacterList.size(); i++)
+                    playerCharacterList.get(i).setUnselected();
+
+                playerCharacterList.get(0).setSelected();
+                if (zombie.getDead() == false)
+                    zombie.setSelected();
             }
         });
     }
@@ -213,17 +210,14 @@ public class GameplayScreen extends AbstractScreen {
         skeleton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (!getTurnToken())
-                    return;
-
-                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                for (int i = 0; i < enemyCharacterList.size(); i++)
                     enemyCharacterList.get(i).setUnselected();
-                    if (i != 0)
-                        playerCharacterList.get(i).setUnselected();
-                    else
-                        playerCharacterList.get(i).setSelected();
-                }
-                skeleton.setSelected();
+                for (int i = 0; i < playerCharacterList.size(); i++)
+                    playerCharacterList.get(i).setUnselected();
+
+                playerCharacterList.get(0).setSelected();
+                if (skeleton.getDead() == false)
+                    skeleton.setSelected();
             }
         });
     }
@@ -305,25 +299,9 @@ public class GameplayScreen extends AbstractScreen {
 
     }
 
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        update();
-
-        if (!getTurnToken()) {
-            setPlayersUnselected();
-            tossTurnToken();
-        }
-
-
-        refreshStage();
-
-
-    }
-
-
     private void refreshStage() {
         spriteBatch.begin();
+        stage.act();
         stage.draw();
         spriteBatch.end();
     }
@@ -334,54 +312,56 @@ public class GameplayScreen extends AbstractScreen {
     }
 
 
-    private void update() {
-        stage.act();
-
-    }
-
     public void tossTurnToken() {
-
-        for (int i = 0; i < enemyCharacterList.size(); i++) {
-            enemyCharacterList.get(i).setUnselected();
-            playerCharacterList.get(i).setUnselected();
-
-            if (!getTurnToken())
-                playerCharacterList.get(0).setSelected();
-            else
-                enemyCharacterList.get(0).setSelected();
-        }
-        turnToken = !turnToken;
-
         swapList();
         updateLocation();
+
+        for (int i = 0; i < playerCharacterList.size(); i++) {
+            playerCharacterList.get(i).setUnselected();
+        }
 
         System.out.println("END OF TURN");
         System.out.println("======================================");
 
+        turnToken = !turnToken;
+
+
+        enemyCharacterList.get(0).setSelected();
+        if (!getTurnToken()) {
+            setPlayersUnselected();
+            ai.makeAction(getEnemyCharacterList().get(0));
+            tossTurnToken();
+        }
+        for (int i = 0; i < enemyCharacterList.size(); i++) {
+            enemyCharacterList.get(i).setUnselected();
+        }
+        if (playerCharacterList.size() > 0)
+            playerCharacterList.get(0).setSelected();
+        else {
+            //TODO GAME OVER
+        }
     }
 
     private void updateLocation() { //TODO: corpses doesn't move
-        if (turnToken == false) {
+        if (turnToken == true) {
             for (int i = 0; i < playerCharacterList.size(); i++)
-                playerCharacterList.get(i).move(characterPositionArray[i]);
+                playerCharacterList.get(i).move(allyPositionArray[i]);
         } else {
             for (int i = 0; i < enemyCharacterList.size(); i++)
-                enemyCharacterList.get(i).move(enemyPositionArray[i]);
+                enemyCharacterList.get(i).moveEnemy(enemyPositionArray[i]);
         }
     }
 
     private void swapList() {
-        if (turnToken == false)
-            swapCharacterList(playerCharacterList);
-        else
-            swapCharacterList(enemyCharacterList);
-
-    }
-
-    private void swapCharacterList(ArrayList<Entity> characterList) {
-        Collections.swap(characterList, 0, 2);
-        Collections.swap(characterList, 0, 1);
-
+        if (turnToken == true) {
+            Collections.swap(playerCharacterList, 0, playerCharacterList.size() - 1);
+            if (playerCharacterList.size() > 1)
+                Collections.swap(playerCharacterList, 0, 1);
+        } else {
+            Collections.swap(enemyCharacterList, 0, enemyCharacterList.size() - 1);
+            if (enemyCharacterList.size() > 1)
+                Collections.swap(enemyCharacterList, 0, 1);
+        }
     }
 
 
@@ -414,5 +394,21 @@ public class GameplayScreen extends AbstractScreen {
 
     public ArrayList<Entity> getPlayerCharacterList() {
         return playerCharacterList;
+    }
+
+    public static int[] getAllyPositionArray() {
+        return allyPositionArray;
+    }
+
+    public static int[] getEnemyPositionArray() {
+        return enemyPositionArray;
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        refreshStage();
+
+
     }
 }

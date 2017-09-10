@@ -18,6 +18,8 @@ public class Paladin extends Entity {
     private Texture selectedTexture = new Texture("paladin_selected.png");
     private Texture toBuffTexture = new Texture("paladin_toBuff.png");
     private Texture toBuffSelectedTexture = new Texture("paladin_toBuff_selected.png");
+    private Texture isDeadTexture = new Texture("corpse.png");
+
 
     private static int HEALTHPOOL = 150;
     private static int MANA_POOL = 80;
@@ -45,6 +47,7 @@ public class Paladin extends Entity {
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
+        this.setDead(false);
 
     }
 
@@ -67,6 +70,14 @@ public class Paladin extends Entity {
     public void setToBuffSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
         this.isSelected = 3;
+    }
+
+    @Override
+    protected void die() {
+        gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
+        this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
+        this.move(gpScreen.getAllyPositionArray()[2]);
+        this.setDead(true);
     }
 
     //Todo: skill's null pointer

@@ -26,7 +26,7 @@ public class AiZombie {
             }
         }
         Random rand = new Random();
-        int randomTarget = rand.nextInt(3);
+        int randomTarget = rand.nextInt(gpScreen.getPlayerCharacterList().size());
 
         // Checking if entity has mana for any skill
         if(entity.getCurrentMana()<entity.getSecondSkillManaCost() && entity.getCurrentMana()<entity.getThirdSkillManaCost() && entity.getCurrentMana()<entity.getFourthSkillManaCost()) {
@@ -37,11 +37,11 @@ public class AiZombie {
             entity.useThirdSkill();
             return;
         }
-        else if(entity.getCurrentMana()>=entity.getSecondSkillManaCost() && entity.getCurrentHealth()<=0.5*entity.getHealthPool()){  // Use Toxic Chop
-            entity.useSecondSkill(gpScreen.getPlayerCharacterList().get(randomTarget));
-        }
-        else if(entity.getCurrentMana()>=entity.getFourthSkillManaCost()) {  //Use Vicious Strike
+        else if(entity.getCurrentMana()>=entity.getFourthSkillManaCost() && entity.getCurrentHealth()<=0.2*entity.getHealthPool()){  // Use Explode
             entity.useFourthSkill(gpScreen.getPlayerCharacterList().get(randomTarget));
+        }
+        else if(entity.getCurrentMana()>=entity.getSecondSkillManaCost()) {  //Use Toxic Chop
+            entity.useSecondSkill(gpScreen.getPlayerCharacterList().get(randomTarget));
         }
         else                                                                 // Use Auto attack
             entity.useFirstSkill(gpScreen.getPlayerCharacterList().get(randomTarget));

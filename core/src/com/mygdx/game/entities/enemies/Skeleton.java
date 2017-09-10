@@ -17,6 +17,8 @@ public class Skeleton extends Entity {
 
     Texture unselectedTexture = new Texture("skeleton.png");
     Texture selectedTexture = new Texture("skeleton_selected.png");
+    private Texture isDeadTexture = new Texture("corpse.png");
+
 
     private static int HEALTHPOOL = 100;
     private static int MANA_POOL = 30;
@@ -51,6 +53,9 @@ public class Skeleton extends Entity {
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
         this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
+
+        this.setDead(false);
+
     }
 
 
@@ -70,6 +75,14 @@ public class Skeleton extends Entity {
     @Override
     public void setToBuffSelected() {
 
+    }
+
+    @Override
+    protected void die() {
+        gpScreen.getEnemyCharacterList().remove(gpScreen.getEnemyCharacterList().indexOf(this));
+        this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
+        this.move(gpScreen.getEnemyPositionArray()[2]);
+        this.setDead(true);
     }
 
     @Override
@@ -105,7 +118,7 @@ public class Skeleton extends Entity {
 
         for (int i = 0; i < gpScreen.getPlayerCharacterList().size(); i++) {
             System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
-            System.out.println(this.getClassName(this.getClass()) + "swings " + gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + " for " + skillDamage);
+            System.out.println(this.getClassName(this.getClass()) + " swings " + gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + " for " + skillDamage);
             gpScreen.getPlayerCharacterList().get(i).receiveDamage(skillDamage);
             System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
         }

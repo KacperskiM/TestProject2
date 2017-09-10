@@ -20,7 +20,7 @@ public abstract class AbstractScreen implements Screen {
 
     public AbstractScreen(MyGame game) {
         this.game = game;
-        turnToken = false;
+        turnToken = true;
         createCamera();
         stage = new Stage(new StretchViewport(MyGame.WIDTH, MyGame.HEIGHT,camera));
         spriteBatch = new SpriteBatch();

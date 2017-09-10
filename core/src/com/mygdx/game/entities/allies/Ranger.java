@@ -18,6 +18,8 @@ public class Ranger extends Entity {
     private Texture selectedTexture = new Texture("ranger_selected.png");
     private Texture toBuffTexture = new Texture("ranger_toBuff.png");
     private Texture toBuffSelectedTexture = new Texture("ranger_toBuff_selected.png");
+    private Texture isDeadTexture = new Texture("corpse.png");
+
 
     private static int HEALTHPOOL = 85;
     private static int MANA_POOL = 70;
@@ -45,6 +47,8 @@ public class Ranger extends Entity {
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
+        this.setDead(false);
+
     }
 
     public void setSelected() {
@@ -65,6 +69,14 @@ public class Ranger extends Entity {
     public void setToBuffSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
         this.isSelected = 3;
+    }
+
+    @Override
+    protected void die() {
+        gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
+        this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
+        this.move(gpScreen.getAllyPositionArray()[2]);
+        this.setDead(true);
     }
 
     //Todo ranger's null pointer
@@ -91,7 +103,7 @@ public class Ranger extends Entity {
 
     @Override
     public void useThirdSkill(Entity target) {  //headshot
-        int skillDamage = 2*this.getAttackDamage();
+        int skillDamage = 2 * this.getAttackDamage();
 
         Random rand = new Random();
         int i = rand.nextInt(99) + 1;
@@ -101,12 +113,10 @@ public class Ranger extends Entity {
             System.out.println(this.getClassName(this.getClass()) + " headshots " + target.getClassName(target.getClass()) + " for " + skillDamage);
             target.receiveDamage(skillDamage);
             System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        }
-        else if(i>90){
+        } else if (i > 90) {
             System.out.println(this.getClassName(this.getClass()) + " headshots and lethals " + target.getClassName(target.getClass()));
             target.receiveDamage(target.getCurrentHealth());
-        }
-        else{
+        } else {
             System.out.println(this.getClassName(this.getClass()) + " misses " + target.getClassName(target.getClass()));
         }
     }
@@ -122,7 +132,7 @@ public class Ranger extends Entity {
         System.out.println(this.getClassName(this.getClass()) + " cripples " + target.getClassName(target.getClass()));
         target.receiveDamage(skillDamage);
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        if(i>50){
+        if (i > 50) {
             System.out.println(target.getClassName(target.getClass()) + " skips it's turn! (TODO) ");
             //Todo: enemy skips turn
         }

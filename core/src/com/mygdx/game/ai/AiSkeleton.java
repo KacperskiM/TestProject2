@@ -26,7 +26,7 @@ public class AiSkeleton {
             }
         }
         Random rand = new Random();
-        int randomTarget = rand.nextInt(3);
+        int randomTarget = rand.nextInt(gpScreen.getPlayerCharacterList().size());
 
         // Checking if entity has mana for any skill
         if(entity.getCurrentMana()<entity.getSecondSkillManaCost() && entity.getCurrentMana()<entity.getThirdSkillManaCost() && entity.getCurrentMana()<entity.getFourthSkillManaCost()) {
