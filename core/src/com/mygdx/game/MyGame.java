@@ -47,11 +47,6 @@ public class MyGame extends Game {
         points = prefs.getInteger(GAME_SCORE);
     }
 
-
-    public boolean isPaused() {
-		return paused;
-	}
-
 	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}

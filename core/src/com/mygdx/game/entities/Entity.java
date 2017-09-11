@@ -7,8 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.screens.GameplayScreen;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by Ja on 2017-08-23.
  */
@@ -27,9 +25,6 @@ public abstract class Entity extends Image {
     private int dodgeChance;
     private int magicPower;
 
-    private Boolean bleeding;
-    private Boolean poisoned;
-
     private Boolean divineShield;
 
     private int SecondSkillManaCost;
@@ -37,6 +32,8 @@ public abstract class Entity extends Image {
     private int FourthSkillManaCost;
     private int FifthSkillManaCost;
 
+    private int bleeding;
+    private int poisoned;
 
     private Boolean isDead;
 
@@ -50,22 +47,24 @@ public abstract class Entity extends Image {
     protected int isSelected;
 
     public abstract void setSelected();
+
     public abstract void setUnselected();
 
     public abstract void setToBuff();
+
     public abstract void setToBuffSelected();
 
     public void setGpScreen(GameplayScreen gpScreen) {
         this.gpScreen = gpScreen;
     }
 
-    public int getIsSelected(){
+    public int getIsSelected() {
         return isSelected;
     }
 
     protected void setHealthPool(int healthPool) {
         this.healthPool = healthPool;
-        this.currentHealth=healthPool;
+        this.currentHealth = healthPool;
     }
 
     public int getHealthPool() {
@@ -73,33 +72,35 @@ public abstract class Entity extends Image {
     }
 
 
-    public int getCurrentHealth(){
+    public int getCurrentHealth() {
         return this.currentHealth;
     }
 
 
     protected void setManaPool(int manaPool) {
         this.manaPool = manaPool;
-        this.currentMana=manaPool;
+        this.currentMana = manaPool;
 
     }
 
-    public int getManaPool() {
-        return this.manaPool;
-    }
 
-    public void useMana(int manaCost){
+    public void useMana(int manaCost) {
         this.currentMana -= manaCost;
     }
 
 
     public void receiveDamage(int damageTaken) {
-        this.currentHealth -= damageTaken;
-        this.isAlive();
+        if (this.getDivineShield() != true) {
+            this.currentHealth -= damageTaken;
+            this.isAlive();
+        } else {
+            System.out.println("Target consumed divine shield!");
+            this.setDivineShield(false);
+        }
     }
 
     private void isAlive() {
-        if(this.getCurrentHealth()<=0)
+        if (this.getCurrentHealth() <= 0)
             this.die();
     }
 
@@ -121,7 +122,7 @@ public abstract class Entity extends Image {
     }
 
     protected void setDodgeChance(int dodgeChance) {
-        this.dodgeChance=dodgeChance;
+        this.dodgeChance = dodgeChance;
     }
 
     public int getDodgeChance() {
@@ -137,28 +138,35 @@ public abstract class Entity extends Image {
     }
 
 
-    public Boolean getBleeding() {
+    public int getBleeding() {
         return bleeding;
     }
 
-    public void setBleeding(Boolean bleeding) {
-        this.bleeding = bleeding;
+    public void setBleeding() {
+        this.bleeding += 2;
     }
 
-    public Boolean getPoisoned() {
+    public int getPoisoned() {
         return poisoned;
     }
 
-    public void setPoisoned(Boolean poisoned) {
-        this.poisoned = poisoned;
+    public void setPoisoned() {
+        this.poisoned += 2;
     }
 
-    public void dealBleedingDamage(){
+    public void dealBleedingDamage() {
+        this.bleeding -= 1;
         this.receiveDamage(10);
     }
 
-    public void dealPoisonDamage(){
+    public void dealPoisonDamage() {
+        this.poisoned -= 1;
         this.receiveDamage(10);
+    }
+
+    public void curePoisonAndBleed() {
+        this.poisoned = 0;
+        this.bleeding = 0;
     }
 
     public Boolean getDivineShield() {
@@ -179,11 +187,16 @@ public abstract class Entity extends Image {
     }
 
     public abstract void useFirstSkill(Entity target);
+
     public abstract void useSecondSkill(Entity target);
+
     public abstract void useThirdSkill(Entity target);
+
     public abstract void useFourthSkill(Entity target);
+
     public abstract void useFifthSkill(Entity target);
-    public void useSixthSkill(){
+
+    public void useSixthSkill() {
 
         //Todo: pass turn effect
 
@@ -194,9 +207,9 @@ public abstract class Entity extends Image {
     public String getClassName(Class c) {
         String FQClassName = c.getName();
         int firstChar;
-        firstChar = FQClassName.lastIndexOf ('.') + 1;
-        if ( firstChar > 0 ) {
-            FQClassName = FQClassName.substring ( firstChar );
+        firstChar = FQClassName.lastIndexOf('.') + 1;
+        if (firstChar > 0) {
+            FQClassName = FQClassName.substring(firstChar);
         }
         return FQClassName;
     }
@@ -206,12 +219,12 @@ public abstract class Entity extends Image {
         this.addAction(a);
     }
 
-    public void moveEnemy(int location_X){
+    public void moveEnemy(int location_X) {
 
-        Action a = Actions.moveTo(location_X,300,0.75f);
+        Action a = Actions.moveTo(location_X, 300, 0.75f);
         DelayAction delayAction = new DelayAction();
         delayAction.setDuration(0.75f);
-        SequenceAction sequenceAction = new SequenceAction(delayAction,a);
+        SequenceAction sequenceAction = new SequenceAction(delayAction, a);
         this.addAction(sequenceAction);
     }
 
@@ -255,4 +268,5 @@ public abstract class Entity extends Image {
     public void setDead(Boolean dead) {
         isDead = dead;
     }
+
 }

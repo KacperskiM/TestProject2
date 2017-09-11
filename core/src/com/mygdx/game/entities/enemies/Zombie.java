@@ -64,8 +64,7 @@ public class Zombie extends Entity {
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
 
         this.setDead(false);
-
-
+        this.setDivineShield(false);
     }
 
 
@@ -120,9 +119,8 @@ public class Zombie extends Entity {
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
 
         if ( i >= 20) {
-            target.setPoisoned(true);
+            target.setPoisoned();
             System.out.println(target.getClassName(target.getClass()) + " is being poisoned!");
-            //TODO: set poison time
         }
     }
 

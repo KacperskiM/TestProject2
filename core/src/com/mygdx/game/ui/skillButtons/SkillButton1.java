@@ -55,6 +55,6 @@ public class SkillButton1 extends Button {
 
     private void reactOnClick(){
         gpScreen.getSelectedSource().useFirstSkill(gpScreen.getSelectedTarget());
-        gpScreen.tossTurnToken();
+        gpScreen.playTurn();
     }
 }

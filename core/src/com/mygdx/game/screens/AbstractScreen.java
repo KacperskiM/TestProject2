@@ -78,7 +78,9 @@ public abstract class AbstractScreen implements Screen {
 
     }
 
-    public abstract void tossTurnToken();
+    public  void tossTurnToken(){
+        turnToken=!turnToken;
+    }
 
     public Boolean getTurnToken(){
         return turnToken;

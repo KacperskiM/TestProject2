@@ -55,7 +55,7 @@ public class Skeleton extends Entity {
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
 
         this.setDead(false);
-
+        this.setDivineShield(false);
     }
 
 
@@ -108,9 +108,8 @@ public class Skeleton extends Entity {
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
 
         if ( i >= 50) {
-            target.setBleeding(true);
+            target.setBleeding();
             System.out.println(target.getClassName(target.getClass()) + " starts bleeding!");
-            //TODO: set bleeding time
         }
     }
 

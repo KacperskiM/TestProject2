@@ -51,7 +51,7 @@ public class Vampire extends Entity {
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
 
         this.setDead(false);
-
+        this.setDivineShield(false);
     }
 
     public void setSelected() {

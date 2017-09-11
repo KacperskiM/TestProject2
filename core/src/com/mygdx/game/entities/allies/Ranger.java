@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
 
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -58,7 +59,7 @@ public class Ranger extends Entity {
         this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Swiftness
 
         this.setDead(false);
-
+        this.setDivineShield(false);
     }
 
     public void setSelected() {
@@ -89,7 +90,6 @@ public class Ranger extends Entity {
         this.setDead(true);
     }
 
-    //Todo ranger's null pointer
 
     @Override
     public void useFirstSkill(Entity target) {  //Auto attack
@@ -134,7 +134,7 @@ public class Ranger extends Entity {
     }
 
     @Override
-    public void useFourthSkill(Entity target) {  //Cripple (enemy may pass his turn)
+    public void useFourthSkill(Entity target) {  //Cripple
         int skillDamage = this.getAttackDamage();
 
         Random rand = new Random();
@@ -146,8 +146,11 @@ public class Ranger extends Entity {
         target.receiveDamage(skillDamage);
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         if (i > 50) {
-            System.out.println(target.getClassName(target.getClass()) + " skips it's turn! (TODO) ");
-            //Todo: enemy skips turn
+            System.out.println(target.getClassName(target.getClass()) + " is moved to the end of queue");
+            gpScreen.getEnemyCharacterList().remove(target);
+            gpScreen.getEnemyCharacterList().add(target);
+            for (int j = 0; j < gpScreen.getEnemyCharacterList().size(); j++)
+                gpScreen.getEnemyCharacterList().get(j).move(gpScreen.getEnemyPositionArray()[j]);
         }
     }
 

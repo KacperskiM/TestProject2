@@ -67,6 +67,8 @@ public class GameplayScreen extends AbstractScreen {
     }
 
 
+
+
     @Override
     protected void init() {
         playerCharacterList = new ArrayList<>();
@@ -191,7 +193,7 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     public void initZombie() {
-        zombie = new Zombie(this,false);
+        zombie = new Zombie(this, false);
         stage.addActor(zombie);
         enemyCharacterList.add(zombie);
         zombie.addListener(new ClickListener() {
@@ -209,7 +211,7 @@ public class GameplayScreen extends AbstractScreen {
         });
     }
 
-    public void initResurrectedZombie(){
+    public void initResurrectedZombie() {
         resurrectedZombie = new Zombie(this, true);
         stage.addActor(resurrectedZombie);
         enemyCharacterList.add(resurrectedZombie);
@@ -337,7 +339,12 @@ public class GameplayScreen extends AbstractScreen {
     }
 
 
-    public void tossTurnToken() {
+    public void playTurn() {
+        if (playerCharacterList.get(0).getBleeding() > 0)
+            playerCharacterList.get(0).dealBleedingDamage();
+        if (playerCharacterList.get(0).getPoisoned() > 0)
+            playerCharacterList.get(0).dealPoisonDamage();
+
         swapList();
         updateLocation();
 
@@ -345,29 +352,32 @@ public class GameplayScreen extends AbstractScreen {
             playerCharacterList.get(i).setUnselected();
         }
 
-        System.out.println("END OF TURN");
+
+        System.out.println("END OF PLAYER'S TURN");
         System.out.println("======================================");
 
-        turnToken = !turnToken;
+        tossTurnToken();
 
 
-        enemyCharacterList.get(0).setSelected();
-        if (!getTurnToken()) {
-            setPlayersUnselected();
-            ai.makeAction(getEnemyCharacterList().get(0));
-            tossTurnToken();
-        }
+        setPlayersUnselected();
+        ai.makeAction(getEnemyCharacterList().get(0));
+        System.out.println("END OF ENEMY'S TURN");
+        System.out.println("======================================");
+
         for (int i = 0; i < enemyCharacterList.size(); i++) {
             enemyCharacterList.get(i).setUnselected();
         }
-        if (playerCharacterList.size() > 0)
+        if (playerCharacterList.size() > 0) {
             playerCharacterList.get(0).setSelected();
-        else {
+            swapList();
+            updateLocation();
+            tossTurnToken();
+        } else {
             System.exit(0);
         }
     }
 
-    private void updateLocation() {
+    public void updateLocation() {
         if (turnToken == true) {
             for (int i = 0; i < playerCharacterList.size(); i++)
                 playerCharacterList.get(i).move(allyPositionArray[i]);
@@ -379,14 +389,12 @@ public class GameplayScreen extends AbstractScreen {
 
     private void swapList() {
         if (turnToken == true) {
-
-            Collections.swap(playerCharacterList, 0, playerCharacterList.size() - 1);
-            if (playerCharacterList.size() == 3)
-                Collections.swap(playerCharacterList, 1, 2);
-        } else {
-            Collections.swap(enemyCharacterList, 0, enemyCharacterList.size() - 1);
-            if (enemyCharacterList.size() == 3 )
-                Collections.swap(enemyCharacterList, 1, 2);
+            playerCharacterList.add(playerCharacterList.get(0));
+            playerCharacterList.remove(0);
+        }
+        else {
+            enemyCharacterList.add(enemyCharacterList.get(0));
+            enemyCharacterList.remove(0);
         }
     }
 
@@ -421,6 +429,7 @@ public class GameplayScreen extends AbstractScreen {
     public ArrayList<Entity> getPlayerCharacterList() {
         return playerCharacterList;
     }
+
 
     public static int[] getAllyPositionArray() {
         return allyPositionArray;

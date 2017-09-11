@@ -58,7 +58,7 @@ public class Paladin extends Entity {
         this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Smite
 
         this.setDead(false);
-
+        this.setDivineShield(false);
     }
 
 
@@ -90,7 +90,6 @@ public class Paladin extends Entity {
         this.setDead(true);
     }
 
-    //Todo: skill's null pointer
 
     @Override
     public void useFirstSkill(Entity target) {  //Auto attack
@@ -106,7 +105,6 @@ public class Paladin extends Entity {
         this.useMana(getSecondSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + " uses divine shield on " + target.getClassName(target.getClass()));
         target.setDivineShield(true);
-        //TODO: DIVINE SHIELD CHECK
     }
 
     @Override
@@ -114,10 +112,11 @@ public class Paladin extends Entity {
 
         this.useMana(getThirdSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + " pulls " + target.getClassName(target.getClass()));
-        for(int i =0;i<gpScreen.getEnemyCharacterList().size();i++) {
-            if(target==gpScreen.getEnemyCharacterList().get(i))
-            Collections.swap(gpScreen.getEnemyCharacterList(), i, 1);
-        }
+            gpScreen.getEnemyCharacterList().remove(target);
+            gpScreen.getEnemyCharacterList().add(0,target);
+
+        for (int i = 0; i < gpScreen.getEnemyCharacterList().size(); i++)
+            gpScreen.getEnemyCharacterList().get(i).move(gpScreen.getEnemyPositionArray()[i]);
     }
 
     @Override

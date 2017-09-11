@@ -60,7 +60,7 @@ public class Cleric extends Entity {
         this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Flash
 
         this.setDead(false);
-
+this.setDivineShield(false);
 
     }
 
@@ -95,7 +95,6 @@ public class Cleric extends Entity {
 
     }
 
-    //Todo cleric's null pointer
 
     @Override
     public void useFirstSkill(Entity target) {  //Auto attack
@@ -120,8 +119,7 @@ public class Cleric extends Entity {
         System.out.println(target.getClassName(target.getClass()) + "'s bleed status: " + target.getBleeding());
         System.out.println(target.getClassName(target.getClass()) + "'s poison status: " + target.getPoisoned());
         System.out.println(this.getClassName(this.getClass()) + " cures bleed & poison of " + target.getClassName(target.getClass()));
-        target.setBleeding(false);
-        target.setPoisoned(false);
+        target.curePoisonAndBleed();
         System.out.println(target.getClassName(target.getClass()) + "'s bleed status: " + target.getBleeding());
         System.out.println(target.getClassName(target.getClass()) + "'s poison status: " + target.getPoisoned());
     }
