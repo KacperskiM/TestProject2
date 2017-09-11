@@ -21,7 +21,7 @@ public class Skeleton extends Entity {
 
 
     private static int HEALTHPOOL = 100;
-    private static int MANA_POOL = 30;
+    private static int MANA_POOL = 40;
     private static int ATTACK_DAMAGE = 10;
     private static int DODGE_CHANCE = 25;
     private static int MAGIC_POWER = 0;
@@ -101,6 +101,7 @@ public class Skeleton extends Entity {
         Random rand = new Random();
         int i = rand.nextInt(99) + 1;
 
+        this.useMana(getSecondSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " stabs " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         target.receiveDamage(skillDamage);
@@ -117,6 +118,7 @@ public class Skeleton extends Entity {
     public void useThirdSkill(Entity target) {  //Swing
         int skillDamage = this.getAttackDamage();
 
+        this.useMana(getThirdSkillManaCost());
         for (int i = 0; i < gpScreen.getPlayerCharacterList().size(); i++) {
             System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
             System.out.println(this.getClassName(this.getClass()) + " swings " + gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + " for " + skillDamage);
@@ -127,6 +129,8 @@ public class Skeleton extends Entity {
 
     @Override
     public void useFourthSkill(Entity target) { //Fear
+
+        this.useMana(getFourthSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + " fears " + target.getClassName(target.getClass()));
         for(int i =0;i<gpScreen.getPlayerCharacterList().size();i++) {
             if(target==gpScreen.getPlayerCharacterList().get(i))

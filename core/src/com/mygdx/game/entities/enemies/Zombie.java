@@ -79,14 +79,6 @@ public class Zombie extends Entity {
         this.isSelected = 0;
     }
 
-    public Boolean getResurrectBuff() {
-        return resurrectBuff;
-    }
-
-    public void setResurrectBuff(Boolean resurrectBuff) {
-        this.resurrectBuff = resurrectBuff;
-    }
-
     @Override
     public void setToBuff() {
 
@@ -121,6 +113,7 @@ public class Zombie extends Entity {
         Random rand = new Random();
         int i = rand.nextInt(99) + 1;
 
+        this.useMana(getSecondSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses Toxic Chop on: " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         target.receiveDamage(skillDamage);
@@ -134,6 +127,7 @@ public class Zombie extends Entity {
     }
 
     public void useThirdSkill() {   //Resurrect Zombie
+        this.useMana(getThirdSkillManaCost());
         gpScreen.getDeadEnemiesList().get(gpScreen.getDeadEnemiesList().size()-1).remove();
         gpScreen.initResurrectedZombie();
     }
@@ -145,6 +139,7 @@ public class Zombie extends Entity {
     public void useFourthSkill(Entity target) {  //Explode
         int skillDamage = 2*this.getAttackDamage();
 
+        this.useMana(getFourthSkillManaCost());
         for (int i = 0; i < gpScreen.getPlayerCharacterList().size(); i++) {
             System.out.println(gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getPlayerCharacterList().get(i).getCurrentHealth());
             System.out.println(this.getClassName(this.getClass()) + " explodes " + gpScreen.getPlayerCharacterList().get(i).getClassName(gpScreen.getPlayerCharacterList().get(i).getClass()) + " for " + skillDamage);

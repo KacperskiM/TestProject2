@@ -34,10 +34,10 @@ public class Cleric extends Entity {
     private final static int STARTING_X = 100;
     private final static int STARTING_Y = 300;
 
-    private final static int SECOND_SKILL_MANA_COST = 10;
+    private final static int SECOND_SKILL_MANA_COST = 25;
     private final static int THIRD_SKILL_MANA_COST = 10;
-    private final static int FOURTH_SKILL_MANA_COST = 10;
-    private final static int FIFTH_SKILL_MANA_COST = 10;
+    private final static int FOURTH_SKILL_MANA_COST = 15;
+    private final static int FIFTH_SKILL_MANA_COST = 15;
 
 
     public Cleric(GameplayScreen gpScreen) {
@@ -54,10 +54,10 @@ public class Cleric extends Entity {
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
-        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
-        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
-        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
-        this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);
+        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);    //Heal
+        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);      //Cure bleeding/poison
+        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);    //Banish Undead
+        this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Flash
 
         this.setDead(false);
 
@@ -107,6 +107,7 @@ public class Cleric extends Entity {
 
     @Override
     public void useSecondSkill(Entity target) { //Heal
+        this.useMana(getSecondSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " heals " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         target.getHealed(40);
@@ -115,6 +116,7 @@ public class Cleric extends Entity {
 
     @Override
     public void useThirdSkill(Entity target) {  //Cure bleeding/poison
+        this.useMana(getThirdSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s bleed status: " + target.getBleeding());
         System.out.println(target.getClassName(target.getClass()) + "'s poison status: " + target.getPoisoned());
         System.out.println(this.getClassName(this.getClass()) + " cures bleed & poison of " + target.getClassName(target.getClass()));
@@ -125,7 +127,8 @@ public class Cleric extends Entity {
     }
 
     @Override
-    public void useFourthSkill(Entity target) { // Banish Undead
+    public void useFourthSkill(Entity target) {  //Banish Undead
+        this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses Banish Undead on " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         if (target instanceof Skeleton || target instanceof Zombie)
@@ -136,7 +139,8 @@ public class Cleric extends Entity {
     }
 
     @Override
-    public void useFifthSkill(Entity target) {  // Flash
+    public void useFifthSkill(Entity target) {  //Flash
+        this.useMana(getFifthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         if (target instanceof Vampire) {
             target.receiveDamage((int) (1.5 * this.getMagicPower()));

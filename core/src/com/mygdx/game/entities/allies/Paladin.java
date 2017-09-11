@@ -33,10 +33,10 @@ public class Paladin extends Entity {
     private final static int STARTING_X = 300;
     private final static int STARTING_Y = 300;
 
-    private final static int SECOND_SKILL_MANA_COST = 10;
-    private final static int THIRD_SKILL_MANA_COST = 10;
-    private final static int FOURTH_SKILL_MANA_COST = 10;
-    private final static int FIFTH_SKILL_MANA_COST = 10;
+    private final static int SECOND_SKILL_MANA_COST = 25;
+    private final static int THIRD_SKILL_MANA_COST = 15;
+    private final static int FOURTH_SKILL_MANA_COST = 25;
+    private final static int FIFTH_SKILL_MANA_COST = 15;
 
     public Paladin(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
@@ -52,10 +52,10 @@ public class Paladin extends Entity {
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
-        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
-        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
-        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
-        this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);
+        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);    //Divine shield
+        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);      //Pull
+        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);    //Enlightenment
+        this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Smite
 
         this.setDead(false);
 
@@ -103,6 +103,7 @@ public class Paladin extends Entity {
     @Override
     public void useSecondSkill(Entity target) {  //Divine shield
 
+        this.useMana(getSecondSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + " uses divine shield on " + target.getClassName(target.getClass()));
         target.setDivineShield(true);
         //TODO: DIVINE SHIELD CHECK
@@ -111,6 +112,7 @@ public class Paladin extends Entity {
     @Override
     public void useThirdSkill(Entity target) {  //Pull
 
+        this.useMana(getThirdSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + " pulls " + target.getClassName(target.getClass()));
         for(int i =0;i<gpScreen.getEnemyCharacterList().size();i++) {
             if(target==gpScreen.getEnemyCharacterList().get(i))
@@ -119,7 +121,8 @@ public class Paladin extends Entity {
     }
 
     @Override
-    public void useFourthSkill(Entity target) { //Enlightenment
+    public void useFourthSkill(Entity target) {  //Enlightenment
+        this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current attack damage is: " + target.getAttackDamage());
         System.out.println(target.getClassName(target.getClass()) + "'s current magic power is: " + target.getMagicPower());
         System.out.println(this.getClassName(this.getClass()) + " enlightenments " + target.getClassName(target.getClass()));
@@ -131,6 +134,7 @@ public class Paladin extends Entity {
 
     @Override
     public void useFifthSkill(Entity target) {  //Smite
+        this.useMana(getFifthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " smites " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         target.receiveDamage(2 *this.getMagicPower());

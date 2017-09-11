@@ -32,7 +32,6 @@ public class Vampire extends Entity {
     private final static int STARTING_Y = 300;
 
     private final static int SECOND_SKILL_MANA_COST = 15;
-    private final static int THIRD_SKILL_MANA_COST = 25;
     private final static int FOURTH_SKILL_MANA_COST = 10;
 
     public Vampire(GameplayScreen gpScreen) {
@@ -49,7 +48,6 @@ public class Vampire extends Entity {
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
-        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
 
         this.setDead(false);
@@ -97,6 +95,8 @@ public class Vampire extends Entity {
     @Override
     public void useSecondSkill(Entity target) {  //Life drain
         int skillDamage = this.getMagicPower();
+
+        this.useMana(getSecondSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " drains " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
@@ -110,7 +110,6 @@ public class Vampire extends Entity {
     @Override
     public void useThirdSkill(Entity target) {
     }
-
     public void useThirdSkill() {  //Regeneration
         this.getHealed(this.getHealthPool());
         this.setCurrentMana(0);
@@ -119,6 +118,7 @@ public class Vampire extends Entity {
 
     @Override
     public void useFourthSkill(Entity target) {  //Vicious Strike
+        this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses Vicious Strike on: " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
         target.receiveDamage(this.getAttackDamage() + this.getMagicPower());

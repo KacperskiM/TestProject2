@@ -33,10 +33,10 @@ public class Ranger extends Entity {
     private final static int STARTING_X = 200;
     private final static int STARTING_Y = 300;
 
-    private final static int SECOND_SKILL_MANA_COST = 10;
-    private final static int THIRD_SKILL_MANA_COST = 10;
+    private final static int SECOND_SKILL_MANA_COST = 20;
+    private final static int THIRD_SKILL_MANA_COST = 20;
     private final static int FOURTH_SKILL_MANA_COST = 10;
-    private final static int FIFTH_SKILL_MANA_COST = 10;
+    private final static int FIFTH_SKILL_MANA_COST = 30;
 
     public Ranger(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
@@ -52,10 +52,10 @@ public class Ranger extends Entity {
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
-        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
-        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
-        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);
-        this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);
+        this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);    //Multishot
+        this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);      //Headshot
+        this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);    //Cripple (enemy may pass his turn)
+        this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Swiftness
 
         this.setDead(false);
 
@@ -100,9 +100,10 @@ public class Ranger extends Entity {
     }
 
     @Override
-    public void useSecondSkill(Entity target) {  //multishot
+    public void useSecondSkill(Entity target) {  //Multishot
         int skillDamage = this.getAttackDamage();
 
+        this.useMana(getSecondSkillManaCost());
         for (int i = 0; i < gpScreen.getEnemyCharacterList().size(); i++) {
             System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
             System.out.println(this.getClassName(this.getClass()) + " multishots " + gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + " for " + skillDamage);
@@ -112,9 +113,10 @@ public class Ranger extends Entity {
     }
 
     @Override
-    public void useThirdSkill(Entity target) {  //headshot
+    public void useThirdSkill(Entity target) {  //Headshot
         int skillDamage = 2 * this.getAttackDamage();
 
+        this.useMana(getThirdSkillManaCost());
         Random rand = new Random();
         int i = rand.nextInt(99) + 1;
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
@@ -132,12 +134,13 @@ public class Ranger extends Entity {
     }
 
     @Override
-    public void useFourthSkill(Entity target) {  //cripple (enemy may pass his turn)
+    public void useFourthSkill(Entity target) {  //Cripple (enemy may pass his turn)
         int skillDamage = this.getAttackDamage();
 
         Random rand = new Random();
         int i = rand.nextInt(99) + 1;
 
+        this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " cripples " + target.getClassName(target.getClass()));
         target.receiveDamage(skillDamage);
@@ -149,7 +152,9 @@ public class Ranger extends Entity {
     }
 
     @Override
-    public void useFifthSkill(Entity target) {  //swiftness
+    public void useFifthSkill(Entity target) {  //Swiftness
+
+        this.useMana(getFifthSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + "'s dodge chance is: " + this.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses swiftness on himself.");
         this.setDodgeChance(75);
