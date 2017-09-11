@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.entities.allies.Cleric;
+import com.mygdx.game.entities.allies.Paladin;
+import com.mygdx.game.entities.allies.Ranger;
 import com.mygdx.game.screens.GameplayScreen;
 import com.mygdx.game.ui.IClickCallback;
 
@@ -54,7 +57,23 @@ public class SkillButton5 extends Button {
     }
 
     private void reactOnClick(){
-        gpScreen.getSelectedSource().useFifthSkill(gpScreen.getSelectedTarget());
-        gpScreen.playTurn();
+        if(gpScreen.getSelectedTarget()== null)
+            return;
+        else if(gpScreen.getSelectedSource() instanceof Cleric || gpScreen.getSelectedSource() instanceof Paladin){
+            for(int i =0 ; i<gpScreen.getEnemyCharacterList().size();i++){
+                if(gpScreen.getSelectedTarget() == gpScreen.getEnemyCharacterList().get(i)){
+                    gpScreen.getSelectedSource().useFifthSkill(gpScreen.getSelectedTarget());
+                    gpScreen.playTurn();
+                    return;
+                }
+            }
+        }
+        else if(gpScreen.getSelectedSource() instanceof Ranger){
+            ((Ranger) gpScreen.getSelectedSource()).useFifthSkill();
+            gpScreen.playTurn();
+            return;
+        }
+        else
+            System.out.println("BUTTON 5 DOESNT WORK!");
     }
 }

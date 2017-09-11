@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.entities.allies.Cleric;
+import com.mygdx.game.entities.allies.Paladin;
+import com.mygdx.game.entities.allies.Ranger;
 import com.mygdx.game.screens.GameplayScreen;
 import com.mygdx.game.ui.IClickCallback;
 
@@ -54,7 +57,27 @@ public class SkillButton3 extends Button {
     }
 
     private void reactOnClick(){
-        gpScreen.getSelectedSource().useThirdSkill(gpScreen.getSelectedTarget());
-        gpScreen.playTurn();
+        if(gpScreen.getSelectedTarget()== null)
+            return;
+        else if(gpScreen.getSelectedSource() instanceof Cleric){
+            for(int i =0;i<gpScreen.getPlayerCharacterList().size();i++){
+                if(gpScreen.getSelectedTarget() == gpScreen.getPlayerCharacterList().get(i)){
+                    gpScreen.getSelectedSource().useThirdSkill(gpScreen.getSelectedTarget());
+                    gpScreen.playTurn();
+                    return;
+                }
+            }
+        }
+        else if(gpScreen.getSelectedSource() instanceof Paladin || gpScreen.getSelectedSource() instanceof Ranger){
+            for(int i =0 ; i<gpScreen.getEnemyCharacterList().size();i++){
+                if(gpScreen.getSelectedTarget() == gpScreen.getEnemyCharacterList().get(i)){
+                    gpScreen.getSelectedSource().useThirdSkill(gpScreen.getSelectedTarget());
+                    gpScreen.playTurn();
+                    return;
+                }
+            }
+        }
+        else
+            System.out.println("BUTTON 3 DOESNT WORK!");
     }
 }

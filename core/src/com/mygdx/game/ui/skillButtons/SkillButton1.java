@@ -54,7 +54,16 @@ public class SkillButton1 extends Button {
     }
 
     private void reactOnClick(){
-        gpScreen.getSelectedSource().useFirstSkill(gpScreen.getSelectedTarget());
-        gpScreen.playTurn();
+        if(gpScreen.getSelectedTarget()== null)
+            return;
+
+        for(int i=0; i<gpScreen.getEnemyCharacterList().size();i++){
+            if(gpScreen.getSelectedTarget() == gpScreen.getEnemyCharacterList().get(i)){
+                gpScreen.getSelectedSource().useFirstSkill(gpScreen.getSelectedTarget());
+                gpScreen.playTurn();
+                return;
+            }
+        }
+
     }
 }

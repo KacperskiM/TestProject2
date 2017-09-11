@@ -54,6 +54,8 @@ public class SkillButton6 extends Button {
     }
 
     private void reactOnClick(){
+        if(gpScreen.getSelectedTarget()== null)
+            return;
         gpScreen.getSelectedSource().useSixthSkill();
         gpScreen.playTurn();
     }

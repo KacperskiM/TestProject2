@@ -100,7 +100,10 @@ public class Ranger extends Entity {
     }
 
     @Override
-    public void useSecondSkill(Entity target) {  //Multishot
+    public void useSecondSkill(Entity target) {}
+
+
+    public void useSecondSkill() {  //Multishot
         int skillDamage = this.getAttackDamage();
 
         this.useMana(getSecondSkillManaCost());
@@ -155,7 +158,10 @@ public class Ranger extends Entity {
     }
 
     @Override
-    public void useFifthSkill(Entity target) {  //Swiftness
+    public void useFifthSkill(Entity target) {}
+
+
+    public void useFifthSkill() {  //Swiftness
 
         this.useMana(getFifthSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + "'s dodge chance is: " + this.getCurrentHealth());
