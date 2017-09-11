@@ -1,5 +1,8 @@
 package com.mygdx.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -82,8 +85,16 @@ public class GameplayScreen extends AbstractScreen {
         initAi();
         //initFlyObjects();
         initSkillButtons();
+        initMusic();
+
         startGame();
 
+    }
+
+    private void initMusic() {
+        Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("background.wav"));
+        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.play();
     }
 
     private void startGame() {
@@ -186,13 +197,13 @@ public class GameplayScreen extends AbstractScreen {
                     playerCharacterList.get(i).setUnselected();
 
                 playerCharacterList.get(0).setSelected();
-                if (vampire.getDead() == false)
+                if (!vampire.getDead())
                     vampire.setSelected();
             }
         });
     }
 
-    public void initZombie() {
+    private void initZombie() {
         zombie = new Zombie(this, false);
         stage.addActor(zombie);
         enemyCharacterList.add(zombie);
@@ -205,7 +216,7 @@ public class GameplayScreen extends AbstractScreen {
                     playerCharacterList.get(i).setUnselected();
 
                 playerCharacterList.get(0).setSelected();
-                if (zombie.getDead() == false)
+                if (!zombie.getDead())
                     zombie.setSelected();
             }
         });
@@ -224,7 +235,7 @@ public class GameplayScreen extends AbstractScreen {
                     playerCharacterList.get(i).setUnselected();
 
                 playerCharacterList.get(0).setSelected();
-                if (resurrectedZombie.getDead() == false)
+                if (!resurrectedZombie.getDead())
                     resurrectedZombie.setSelected();
             }
         });
@@ -243,7 +254,7 @@ public class GameplayScreen extends AbstractScreen {
                     playerCharacterList.get(i).setUnselected();
 
                 playerCharacterList.get(0).setSelected();
-                if (skeleton.getDead() == false)
+                if (!skeleton.getDead())
                     skeleton.setSelected();
             }
         });
@@ -377,8 +388,8 @@ public class GameplayScreen extends AbstractScreen {
         }
     }
 
-    public void updateLocation() {
-        if (turnToken == true) {
+    private void updateLocation() {
+        if (turnToken) {
             for (int i = 0; i < playerCharacterList.size(); i++)
                 playerCharacterList.get(i).move(allyPositionArray[i]);
         } else {
@@ -388,7 +399,7 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     private void swapList() {
-        if (turnToken == true) {
+        if (turnToken) {
             playerCharacterList.add(playerCharacterList.get(0));
             playerCharacterList.remove(0);
         }
