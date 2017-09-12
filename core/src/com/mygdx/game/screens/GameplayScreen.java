@@ -25,11 +25,11 @@ import com.mygdx.game.ui.skillButtons.SkillButton5;
 import com.mygdx.game.ui.skillButtons.SkillButton6;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 public class GameplayScreen extends AbstractScreen {
 
-    //protected MyGame game;
 
     private ArrayList<Entity> playerCharacterList;
     private ArrayList<Entity> enemyCharacterList;
@@ -83,24 +83,22 @@ public class GameplayScreen extends AbstractScreen {
         initAi();
         //initFlyObjects();
         initSkillButtons();
-        initHealthBars();
         initMusic();
 
         startGame();
 
     }
 
-    private void initHealthBars() {
-
-    }
 
     private void initMusic() {
         Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("background.wav"));
         backgroundMusic.setVolume(0.5f);
+        backgroundMusic.setLooping(true);
         backgroundMusic.play();
     }
 
     private void startGame() {
+
         for (int i = 0; i < enemyCharacterList.size(); i++) {
             enemyCharacterList.get(i).setUnselected();
             playerCharacterList.get(i).setUnselected();
@@ -191,6 +189,7 @@ public class GameplayScreen extends AbstractScreen {
         vampire = new Vampire(this);
         stage.addActor(vampire);
         vampire.createHealthBar();
+        vampire.createManaBar();
         enemyCharacterList.add(vampire);
         vampire.addListener(new ClickListener() {
             @Override
@@ -211,6 +210,7 @@ public class GameplayScreen extends AbstractScreen {
         zombie = new Zombie(this, false);
         stage.addActor(zombie);
         zombie.createHealthBar();
+        zombie.createManaBar();
         enemyCharacterList.add(zombie);
         zombie.addListener(new ClickListener() {
             @Override
@@ -230,7 +230,8 @@ public class GameplayScreen extends AbstractScreen {
     public void initResurrectedZombie() {
         resurrectedZombie = new Zombie(this, true);
         stage.addActor(resurrectedZombie);
-        resurrectedZombie.createHealthBar();
+        resurrectedZombie.createHealthBar2();
+        resurrectedZombie.createManaBar2();
         enemyCharacterList.add(resurrectedZombie);
         resurrectedZombie.addListener(new ClickListener() {
             @Override
@@ -251,6 +252,7 @@ public class GameplayScreen extends AbstractScreen {
         skeleton = new Skeleton(this);
         stage.addActor(skeleton);
         skeleton.createHealthBar();
+        skeleton.createManaBar();
         enemyCharacterList.add(skeleton);
         skeleton.addListener(new ClickListener() {
             @Override
@@ -272,6 +274,7 @@ public class GameplayScreen extends AbstractScreen {
         paladin = new Paladin(this);
         stage.addActor(paladin);
         paladin.createHealthBar();
+        paladin.createManaBar();
         playerCharacterList.add(paladin);
         paladin.addListener(new ClickListener() {
             @Override
@@ -279,7 +282,7 @@ public class GameplayScreen extends AbstractScreen {
                 if (!getTurnToken())
                     return;
 
-                for (int i = 0; i < playerCharacterList.size(); i++) {
+                for (int i = 0; i < enemyCharacterList.size(); i++) {
                     enemyCharacterList.get(i).setUnselected();
 
                     if (i != 0)
@@ -294,9 +297,36 @@ public class GameplayScreen extends AbstractScreen {
             }
         });
 
+        ranger = new Ranger(this);
+        stage.addActor(ranger);
+        ranger.createHealthBar();
+        ranger.createManaBar();
+        playerCharacterList.add(ranger);
+        ranger.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!getTurnToken())
+                    return;
+
+                for (int i = 0; i < playerCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                if (playerCharacterList.get(0) instanceof Ranger)
+                    ranger.setToBuffSelected();
+                else
+                    ranger.setToBuff();
+            }
+        });
+
         cleric = new Cleric(this);
         stage.addActor(cleric);
         cleric.createHealthBar();
+        cleric.createManaBar();
         playerCharacterList.add(cleric);
         cleric.addListener(new ClickListener() {
             @Override
@@ -319,30 +349,7 @@ public class GameplayScreen extends AbstractScreen {
         });
 
 
-        ranger = new Ranger(this);
-        stage.addActor(ranger);
-        ranger.createHealthBar();
-        playerCharacterList.add(ranger);
-        ranger.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (!getTurnToken())
-                    return;
 
-                for (int i = 0; i < playerCharacterList.size(); i++) {
-                    enemyCharacterList.get(i).setUnselected();
-
-                    if (i != 0)
-                        playerCharacterList.get(i).setUnselected();
-                    else
-                        playerCharacterList.get(i).setSelected();
-                }
-                if (playerCharacterList.get(0) instanceof Ranger)
-                    ranger.setToBuffSelected();
-                else
-                    ranger.setToBuff();
-            }
-        });
 
 
     }
@@ -399,13 +406,11 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     private void updateLocation() {
-        if (turnToken) {
             for (int i = 0; i < playerCharacterList.size(); i++)
                 playerCharacterList.get(i).move(allyPositionArray[i]);
-        } else {
             for (int i = 0; i < enemyCharacterList.size(); i++)
                 enemyCharacterList.get(i).moveEnemy(enemyPositionArray[i]);
-        }
+
     }
 
     private void swapList() {
@@ -422,7 +427,7 @@ public class GameplayScreen extends AbstractScreen {
 
     public Entity getSelectedSource() {
         for (int i = 0; i < playerCharacterList.size(); i++)
-            if (playerCharacterList.get(i).getIsSelected() == 1)
+            if (playerCharacterList.get(i).getIsSelected() == 1 || playerCharacterList.get(i).getIsSelected() == 3)
                 return playerCharacterList.get(i);
 
 
@@ -435,7 +440,7 @@ public class GameplayScreen extends AbstractScreen {
 
     public Entity getSelectedTarget() {
         for (int i = 0; i < playerCharacterList.size(); i++)
-            if (playerCharacterList.get(i).getIsSelected() == 3)
+            if (playerCharacterList.get(i).getIsSelected() == 3 || playerCharacterList.get(i).getIsSelected() == 2)
                 return playerCharacterList.get(i);
 
         for (int i = 0; i < enemyCharacterList.size(); i++)

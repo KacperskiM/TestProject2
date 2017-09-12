@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
-import com.mygdx.game.ui.healthbar.HealthBar;
+import com.mygdx.game.ui.statusBars.HealthBar;
+import com.mygdx.game.ui.statusBars.ManaBar;
 
 import java.util.Random;
 
@@ -15,8 +16,8 @@ import java.util.Random;
 
 public class Zombie extends Entity {
 
-    Texture unselectedTexture = new Texture("zombie.png");
-    Texture selectedTexture = new Texture("zombie_selected.png");
+    private Texture unselectedTexture = new Texture("zombie.png");
+    private Texture selectedTexture = new Texture("zombie_selected.png");
     private Texture isDeadTexture = new Texture("corpse.png");
 
 
@@ -34,7 +35,7 @@ public class Zombie extends Entity {
     private final static int STARTING_Y = 300;
 
     private final static int SECOND_SKILL_MANA_COST = 10;
-    private final static int THIRD_SKILL_MANA_COST = 20;
+    private final static int THIRD_SKILL_MANA_COST = 30;
     private final static int FOURTH_SKILL_MANA_COST = 25;
 
 
@@ -42,20 +43,22 @@ public class Zombie extends Entity {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
         this.setOrigin(WIDTH / 2, HEIGHT / 2);
         this.setSize(WIDTH, HEIGHT);
-        this.setPosition(STARTING_X, STARTING_Y);
 
         this.gpScreen = gpScreen;
 
+        this.setManaPool(MANA_POOL);
+        this.setHealthPool(HEALTHPOOL);
 
+        if (resurrected) {
+            this.setCurrentHealth((int) Math.ceil(0.5 * HEALTHPOOL));
+            this.setCurrentMana((int) Math.ceil(0.5 * MANA_POOL));
+            this.setPosition(GameplayScreen.getEnemyPositionArray()[2], STARTING_Y);
+        }
+        else{
 
-        if(resurrected == false) {
-            this.setManaPool(MANA_POOL);
-            this.setHealthPool(HEALTHPOOL);
+            this.setPosition(STARTING_X, STARTING_Y);
         }
-        else {
-            this.setHealthPool((int)0.5*HEALTHPOOL);
-            this.setManaPool((int)0.2*MANA_POOL);
-        }
+
         this.setAttackDamage(ATTACK_DAMAGE);
         this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
@@ -65,11 +68,6 @@ public class Zombie extends Entity {
 
         this.setDead(false);
         this.setDivineShield(false);
-    }
-    public void createHealthBar() {
-        this.healthBar = new HealthBar(this.getHealthPool());
-        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
-        getStage().addActor(healthBar);
     }
 
     public void setSelected() {
@@ -92,11 +90,24 @@ public class Zombie extends Entity {
 
     }
 
+    public void createHealthBar2() {
+        System.out.println(this.getCurrentHealth() + "   " + this.getHealthPool());
+        this.healthBar = new HealthBar(this.getHealthPool(), 0.5f * this.getHealthPool());
+        healthBar.setPosition(this.getX() + 0.5f * (this.getWidth() - healthBar.getWidth()), this.getY() + this.getHeight() + 20);
+        getStage().addActor(healthBar);
+    }
+
+    public void createManaBar2() {
+        this.manaBar = new ManaBar(this.getManaPool(), 0.5f * this.getManaPool());
+        manaBar.setPosition(this.getX() + 0.5f * (this.getWidth() - manaBar.getWidth()), this.getY() + this.getHeight() + 10);
+        getStage().addActor(manaBar);
+    }
+
     @Override
     protected void die() {
         gpScreen.getEnemyCharacterList().remove(gpScreen.getEnemyCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
-        this.move(gpScreen.getEnemyPositionArray()[2]);
+        this.move(GameplayScreen.getEnemyPositionArray()[gpScreen.getEnemyCharacterList().size()]);
         this.setDead(true);
         gpScreen.getDeadEnemiesList().add(this);
     }
@@ -122,7 +133,7 @@ public class Zombie extends Entity {
         target.receiveDamage(skillDamage);
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
 
-        if ( i >= 20) {
+        if (i >= 20) {
             target.setPoisoned();
             System.out.println(target.getClassName(target.getClass()) + " is being poisoned!");
         }
@@ -130,16 +141,22 @@ public class Zombie extends Entity {
 
     public void useThirdSkill() {   //Resurrect Zombie
         this.useMana(getThirdSkillManaCost());
-        gpScreen.getDeadEnemiesList().get(gpScreen.getDeadEnemiesList().size()-1).remove();
+        gpScreen.getDeadEnemiesList().get(gpScreen.getDeadEnemiesList().size() - 1).getHealthBar().remove();
+        gpScreen.getDeadEnemiesList().get(gpScreen.getDeadEnemiesList().size() - 1).getManaBar().remove();
+        gpScreen.getDeadEnemiesList().get(gpScreen.getDeadEnemiesList().size() - 1).remove();
+
+
         gpScreen.initResurrectedZombie();
+        System.out.println(this.getClassName(this.getClass()) + " resurrects a zombie from corpse");
     }
 
     @Override
-    public void useThirdSkill(Entity target) {}
+    public void useThirdSkill(Entity target) {
+    }
 
     @Override
     public void useFourthSkill(Entity target) {  //Explode
-        int skillDamage = 2*this.getAttackDamage();
+        int skillDamage = 2 * this.getAttackDamage();
 
         this.useMana(getFourthSkillManaCost());
         for (int i = 0; i < gpScreen.getPlayerCharacterList().size(); i++) {
@@ -154,9 +171,11 @@ public class Zombie extends Entity {
 
     @Override
     public void useFifthSkill(Entity target) {
-        return;
     }
 
+    public HealthBar getHealthBar() {
+        return this.healthBar;
+    }
 
 }
 

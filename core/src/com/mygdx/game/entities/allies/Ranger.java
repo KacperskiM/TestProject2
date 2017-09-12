@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
-import com.mygdx.game.ui.healthbar.HealthBar;
+import com.mygdx.game.ui.statusBars.HealthBar;
 
 import java.util.Random;
 
@@ -63,11 +63,6 @@ public class Ranger extends Entity {
         this.setDead(false);
         this.setDivineShield(false);
     }
-    public void createHealthBar() {
-        this.healthBar = new HealthBar(this.getHealthPool());
-        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
-        getStage().addActor(healthBar);
-    }
 
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
@@ -93,7 +88,7 @@ public class Ranger extends Entity {
     protected void die() {
         gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
-        this.move(gpScreen.getAllyPositionArray()[2]);
+        this.move(GameplayScreen.getAllyPositionArray()[gpScreen.getPlayerCharacterList().size()]);
         this.setDead(true);
     }
 
@@ -152,7 +147,7 @@ public class Ranger extends Entity {
 
         this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        System.out.println(this.getClassName(this.getClass()) + " cripples " + target.getClassName(target.getClass()));
+        System.out.println(this.getClassName(this.getClass()) + " uses cripple on " + target.getClassName(target.getClass()) +" for " + skillDamage);
         target.receiveDamage(skillDamage);
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         if (i > 50) {
@@ -160,7 +155,7 @@ public class Ranger extends Entity {
             gpScreen.getEnemyCharacterList().remove(target);
             gpScreen.getEnemyCharacterList().add(target);
             for (int j = 0; j < gpScreen.getEnemyCharacterList().size(); j++)
-                gpScreen.getEnemyCharacterList().get(j).move(gpScreen.getEnemyPositionArray()[j]);
+                gpScreen.getEnemyCharacterList().get(j).move(GameplayScreen.getEnemyPositionArray()[j]);
         }
     }
 

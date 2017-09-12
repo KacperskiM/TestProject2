@@ -8,7 +8,6 @@ import com.mygdx.game.entities.enemies.Skeleton;
 import com.mygdx.game.entities.enemies.Vampire;
 import com.mygdx.game.entities.enemies.Zombie;
 import com.mygdx.game.screens.GameplayScreen;
-import com.mygdx.game.ui.healthbar.HealthBar;
 
 
 /**
@@ -66,12 +65,6 @@ public class Cleric extends Entity {
 
     }
 
-    public void createHealthBar() {
-        this.healthBar = new HealthBar(this.getHealthPool());
-        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
-        getStage().addActor(healthBar);
-    }
-
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
         this.isSelected = 1;
@@ -97,7 +90,7 @@ public class Cleric extends Entity {
     protected void die() {
         gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
-        this.move(gpScreen.getAllyPositionArray()[2]);
+        this.move(GameplayScreen.getAllyPositionArray()[gpScreen.getPlayerCharacterList().size()]);
         this.setDead(true);
 
     }
@@ -113,10 +106,11 @@ public class Cleric extends Entity {
 
     @Override
     public void useSecondSkill(Entity target) { //Heal
+        int skillDamage = 40;
         this.useMana(getSecondSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        System.out.println(this.getClassName(this.getClass()) + " heals " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
-        target.getHealed(40);
+        System.out.println(this.getClassName(this.getClass()) + " heals " + target.getClassName(target.getClass()) + " for " + skillDamage);
+        target.getHealed(skillDamage);
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 
@@ -133,13 +127,18 @@ public class Cleric extends Entity {
 
     @Override
     public void useFourthSkill(Entity target) {  //Banish Undead
+        int skillDamageUndead = (int)Math.ceil(1.5*this.getMagicPower());
+        int skillDamage = this.getMagicPower();
         this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        System.out.println(this.getClassName(this.getClass()) + " uses Banish Undead on " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
-        if (target instanceof Skeleton || target instanceof Zombie)
+        if (target instanceof Skeleton || target instanceof Zombie) {
+            System.out.println(this.getClassName(this.getClass()) + " uses Banish Undead on " + target.getClassName(target.getClass()) + " for " + skillDamageUndead);
             target.receiveDamage((int) (1.5 * this.getMagicPower()));
-        else if (target instanceof Vampire)
+        }
+        else if (target instanceof Vampire) {
+            System.out.println(this.getClassName(this.getClass()) + " uses Banish Undead on " + target.getClassName(target.getClass()) + " for " + skillDamage);
             target.receiveDamage(this.getMagicPower());
+        }
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 

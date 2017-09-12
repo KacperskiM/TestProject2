@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
-import com.mygdx.game.ui.healthbar.HealthBar;
 
 
 /**
@@ -56,12 +55,6 @@ public class Vampire extends Entity {
         this.setDivineShield(false);
     }
 
-    public void createHealthBar() {
-        this.healthBar = new HealthBar(this.getHealthPool());
-        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
-        getStage().addActor(healthBar);
-    }
-
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
         this.isSelected = 1;
@@ -86,7 +79,7 @@ public class Vampire extends Entity {
     protected void die() {
         gpScreen.getEnemyCharacterList().remove(gpScreen.getEnemyCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
-        this.move(gpScreen.getEnemyPositionArray()[2]);
+        this.move(GameplayScreen.getEnemyPositionArray()[gpScreen.getEnemyCharacterList().size()]);
         this.setDead(true);
         gpScreen.getDeadEnemiesList().add(this);
     }
@@ -102,14 +95,14 @@ public class Vampire extends Entity {
 
     @Override
     public void useSecondSkill(Entity target) {  //Life drain
-        int skillDamage = 2*this.getMagicPower();
+        int skillDamage = 2 * this.getMagicPower();
 
         this.useMana(getSecondSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " drains " + target.getClassName(target.getClass()) + " for " + skillDamage);
         target.receiveDamage(skillDamage);
-        this.getHealed((int)Math.ceil(0.3 * skillDamage));
+        this.getHealed((int) Math.ceil(0.3 * skillDamage));
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
 
@@ -118,12 +111,13 @@ public class Vampire extends Entity {
     @Override
     public void useThirdSkill(Entity target) {
     }
+
     public void useThirdSkill() {  //Regeneration
         System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " regenerates himself");
         this.getHealed(this.getHealthPool());
         System.out.println(this.getClassName(this.getClass()) + "'s current health is: " + this.getCurrentHealth());
-        this.setCurrentMana(0);
+        this.useMana(this.getCurrentMana());
     }
 
 
@@ -131,14 +125,13 @@ public class Vampire extends Entity {
     public void useFourthSkill(Entity target) {  //Vicious Strike
         this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        System.out.println(this.getClassName(this.getClass()) + " uses Vicious Strike on: " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
+        System.out.println(this.getClassName(this.getClass()) + " uses Vicious Strike on: " + target.getClassName(target.getClass()) + " for " + (this.getAttackDamage() + this.getMagicPower()));
         target.receiveDamage(this.getAttackDamage() + this.getMagicPower());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 
     @Override
     public void useFifthSkill(Entity target) {
-        return;
     }
 
 

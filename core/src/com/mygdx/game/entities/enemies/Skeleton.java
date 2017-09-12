@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
-import com.mygdx.game.ui.healthbar.HealthBar;
+import com.mygdx.game.ui.statusBars.HealthBar;
 
 import java.util.Collections;
 import java.util.Random;
@@ -16,8 +16,8 @@ import java.util.Random;
 
 public class Skeleton extends Entity {
 
-    Texture unselectedTexture = new Texture("skeleton.png");
-    Texture selectedTexture = new Texture("skeleton_selected.png");
+    private Texture unselectedTexture = new Texture("skeleton.png");
+    private Texture selectedTexture = new Texture("skeleton_selected.png");
     private Texture isDeadTexture = new Texture("corpse.png");
 
 
@@ -58,11 +58,6 @@ public class Skeleton extends Entity {
         this.setDead(false);
         this.setDivineShield(false);
     }
-    public void createHealthBar() {
-        this.healthBar = new HealthBar(this.getHealthPool());
-        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
-        getStage().addActor(healthBar);
-    }
 
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
@@ -86,7 +81,7 @@ public class Skeleton extends Entity {
     protected void die() {
         gpScreen.getEnemyCharacterList().remove(gpScreen.getEnemyCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
-        this.move(gpScreen.getEnemyPositionArray()[2]);
+        this.move(GameplayScreen.getEnemyPositionArray()[gpScreen.getEnemyCharacterList().size()]);
         this.setDead(true);
         gpScreen.getDeadEnemiesList().add(this);
     }
@@ -145,7 +140,6 @@ public class Skeleton extends Entity {
 
     @Override
     public void useFifthSkill(Entity target) {
-        return;
     }
 
 

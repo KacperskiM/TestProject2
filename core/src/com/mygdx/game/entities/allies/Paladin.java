@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
-import com.mygdx.game.ui.healthbar.HealthBar;
 
 /**
  * Created by Ja on 2017-05-20.
@@ -60,12 +59,6 @@ public class Paladin extends Entity {
         this.setDivineShield(false);
     }
 
-    public void createHealthBar() {
-        this.healthBar = new HealthBar(this.getHealthPool());
-        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
-        getStage().addActor(healthBar);
-    }
-
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
         this.isSelected = 1;
@@ -90,7 +83,7 @@ public class Paladin extends Entity {
     protected void die() {
         gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
-        this.move(gpScreen.getAllyPositionArray()[2]);
+        this.move(GameplayScreen.getAllyPositionArray()[gpScreen.getPlayerCharacterList().size()]);
         this.setDead(true);
     }
 
@@ -116,11 +109,11 @@ public class Paladin extends Entity {
 
         this.useMana(getThirdSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + " pulls " + target.getClassName(target.getClass()));
-            gpScreen.getEnemyCharacterList().remove(target);
-            gpScreen.getEnemyCharacterList().add(0,target);
+        gpScreen.getEnemyCharacterList().remove(target);
+        gpScreen.getEnemyCharacterList().add(0, target);
 
         for (int i = 0; i < gpScreen.getEnemyCharacterList().size(); i++)
-            gpScreen.getEnemyCharacterList().get(i).move(gpScreen.getEnemyPositionArray()[i]);
+            gpScreen.getEnemyCharacterList().get(i).move(GameplayScreen.getEnemyPositionArray()[i]);
     }
 
     @Override
@@ -129,8 +122,8 @@ public class Paladin extends Entity {
         System.out.println(target.getClassName(target.getClass()) + "'s current attack damage is: " + target.getAttackDamage());
         System.out.println(target.getClassName(target.getClass()) + "'s current magic power is: " + target.getMagicPower());
         System.out.println(this.getClassName(this.getClass()) + " enlightenments " + target.getClassName(target.getClass()));
-        target.setMagicPower((int)1.5*target.getMagicPower());
-        target.setAttackDamage((int)1.5*target.getAttackDamage());
+        target.setMagicPower((int) Math.ceil(1.5 * target.getMagicPower()));
+        target.setAttackDamage((int) Math.ceil(1.5 * target.getAttackDamage()));
         System.out.println(target.getClassName(target.getClass()) + "'s current attack damage is: " + target.getAttackDamage());
         System.out.println(target.getClassName(target.getClass()) + "'s current magic power is: " + target.getMagicPower());
     }
@@ -138,9 +131,10 @@ public class Paladin extends Entity {
     @Override
     public void useFifthSkill(Entity target) {  //Smite
         this.useMana(getFifthSkillManaCost());
+        int skillDamage = 2*this.getMagicPower();
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        System.out.println(this.getClassName(this.getClass()) + " smites " + target.getClassName(target.getClass()) + " for " + this.getAttackDamage());
-        target.receiveDamage(2 *this.getMagicPower());
+        System.out.println(this.getClassName(this.getClass()) + " smites " + target.getClassName(target.getClass()) + " for " + skillDamage);
+        target.receiveDamage(skillDamage);
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 

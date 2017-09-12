@@ -6,7 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.screens.GameplayScreen;
-import com.mygdx.game.ui.healthbar.HealthBar;
+import com.mygdx.game.ui.statusBars.HealthBar;
+import com.mygdx.game.ui.statusBars.ManaBar;
 
 /**
  * Created by Ja on 2017-08-23.
@@ -39,6 +40,7 @@ public abstract class Entity extends Image {
     private Boolean isDead;
 
     protected HealthBar healthBar;
+    protected ManaBar manaBar;
 
     /*
     0 - not selected
@@ -69,6 +71,10 @@ public abstract class Entity extends Image {
         this.currentHealth = healthPool;
     }
 
+    protected int getManaPool() {
+        return manaPool;
+    }
+
     public int getHealthPool() {
         return this.healthPool;
     }
@@ -88,11 +94,12 @@ public abstract class Entity extends Image {
 
     public void useMana(int manaCost) {
         this.currentMana -= manaCost;
+        this.manaBar.setValue(this.getCurrentMana());
     }
 
 
     public void receiveDamage(int damageTaken) {
-        if (this.getDivineShield() != true) {
+        if (!this.getDivineShield()) {
             this.currentHealth -= damageTaken;
             this.healthBar.setValue(this.currentHealth);
             this.isAlive();
@@ -111,10 +118,9 @@ public abstract class Entity extends Image {
 
     public void getHealed(int healthRestored) {
         this.currentHealth += healthRestored;
-        this.healthBar.setValue(this.currentHealth);
         if (currentHealth > healthPool)
             currentHealth = healthPool;
-
+        this.getHealthBar().setValue(this.getHealthBar().getValue() + healthRestored);
     }
 
     public void setAttackDamage(int attackDamage) {
@@ -221,21 +227,29 @@ public abstract class Entity extends Image {
     public void move(int location_X) {
         Action a = Actions.moveTo(location_X, 300, 0.75f);
         this.addAction(a);
-        Action b = Actions.moveTo(location_X+0.5f*(this.getWidth()-healthBar.getWidth()), 300 + this.getHeight() + 20,0.75f);
+
+        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), 300 + this.getHeight() + 20, 0.75f);
         this.healthBar.addAction(b);
+
+        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), 300 + this.getHeight() + 10, 0.75f);
+        this.manaBar.addAction(c);
     }
 
     public void moveEnemy(int location_X) {
 
         Action a = Actions.moveTo(location_X, 300, 0.75f);
         DelayAction delayAction = new DelayAction();
-        delayAction.setDuration(0.75f);
+        delayAction.setDuration(2f);
         SequenceAction sequenceAction = new SequenceAction(delayAction, a);
         this.addAction(sequenceAction);
 
-        Action b = Actions.moveTo(location_X+0.5f*(this.getWidth()-healthBar.getWidth()), 300 + this.getHeight() + 20,0.75f);
-        sequenceAction = new SequenceAction(delayAction,b);
+        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), 300 + this.getHeight() + 20, 0.75f);
+        sequenceAction = new SequenceAction(delayAction, b);
         this.healthBar.addAction(sequenceAction);
+
+        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), 300 + this.getHeight() + 10, 0.75f);
+        sequenceAction = new SequenceAction(delayAction, c);
+        this.manaBar.addAction(sequenceAction);
     }
 
 
@@ -279,4 +293,29 @@ public abstract class Entity extends Image {
         isDead = dead;
     }
 
+    public void createHealthBar() {
+        this.healthBar = new HealthBar(this.getHealthPool());
+        healthBar.setPosition(this.getX() + 0.5f * (this.getWidth() - healthBar.getWidth()), this.getY() + this.getHeight() + 20);
+        getStage().addActor(healthBar);
+    }
+
+
+    public void createManaBar() {
+        this.manaBar = new ManaBar(this.getManaPool());
+        manaBar.setPosition(this.getX() + 0.5f * (this.getWidth() - manaBar.getWidth()), this.getY() + this.getHeight() + 10);
+        getStage().addActor(manaBar);
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
+
+    public HealthBar getHealthBar() {
+        return healthBar;
+    }
+
+    public ManaBar getManaBar() {
+        return manaBar;
+    }
 }
