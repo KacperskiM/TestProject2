@@ -2,7 +2,6 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -26,7 +25,6 @@ import com.mygdx.game.ui.skillButtons.SkillButton5;
 import com.mygdx.game.ui.skillButtons.SkillButton6;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class GameplayScreen extends AbstractScreen {
@@ -85,9 +83,14 @@ public class GameplayScreen extends AbstractScreen {
         initAi();
         //initFlyObjects();
         initSkillButtons();
+        initHealthBars();
         initMusic();
 
         startGame();
+
+    }
+
+    private void initHealthBars() {
 
     }
 
@@ -187,6 +190,7 @@ public class GameplayScreen extends AbstractScreen {
     private void initVampire() {
         vampire = new Vampire(this);
         stage.addActor(vampire);
+        vampire.createHealthBar();
         enemyCharacterList.add(vampire);
         vampire.addListener(new ClickListener() {
             @Override
@@ -206,6 +210,7 @@ public class GameplayScreen extends AbstractScreen {
     private void initZombie() {
         zombie = new Zombie(this, false);
         stage.addActor(zombie);
+        zombie.createHealthBar();
         enemyCharacterList.add(zombie);
         zombie.addListener(new ClickListener() {
             @Override
@@ -225,6 +230,7 @@ public class GameplayScreen extends AbstractScreen {
     public void initResurrectedZombie() {
         resurrectedZombie = new Zombie(this, true);
         stage.addActor(resurrectedZombie);
+        resurrectedZombie.createHealthBar();
         enemyCharacterList.add(resurrectedZombie);
         resurrectedZombie.addListener(new ClickListener() {
             @Override
@@ -244,6 +250,7 @@ public class GameplayScreen extends AbstractScreen {
     private void initSkeleton() {
         skeleton = new Skeleton(this);
         stage.addActor(skeleton);
+        skeleton.createHealthBar();
         enemyCharacterList.add(skeleton);
         skeleton.addListener(new ClickListener() {
             @Override
@@ -264,6 +271,7 @@ public class GameplayScreen extends AbstractScreen {
 
         paladin = new Paladin(this);
         stage.addActor(paladin);
+        paladin.createHealthBar();
         playerCharacterList.add(paladin);
         paladin.addListener(new ClickListener() {
             @Override
@@ -288,6 +296,7 @@ public class GameplayScreen extends AbstractScreen {
 
         cleric = new Cleric(this);
         stage.addActor(cleric);
+        cleric.createHealthBar();
         playerCharacterList.add(cleric);
         cleric.addListener(new ClickListener() {
             @Override
@@ -312,6 +321,7 @@ public class GameplayScreen extends AbstractScreen {
 
         ranger = new Ranger(this);
         stage.addActor(ranger);
+        ranger.createHealthBar();
         playerCharacterList.add(ranger);
         ranger.addListener(new ClickListener() {
             @Override

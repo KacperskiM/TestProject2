@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
+import com.mygdx.game.ui.healthbar.HealthBar;
 
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -39,6 +39,8 @@ public class Ranger extends Entity {
     private final static int FOURTH_SKILL_MANA_COST = 10;
     private final static int FIFTH_SKILL_MANA_COST = 30;
 
+
+
     public Ranger(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
         this.setOrigin(WIDTH / 2, HEIGHT / 2);
@@ -60,6 +62,11 @@ public class Ranger extends Entity {
 
         this.setDead(false);
         this.setDivineShield(false);
+    }
+    public void createHealthBar() {
+        this.healthBar = new HealthBar(this.getHealthPool());
+        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
+        getStage().addActor(healthBar);
     }
 
     public void setSelected() {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
+import com.mygdx.game.ui.healthbar.HealthBar;
 
 import java.util.Random;
 
@@ -36,7 +37,6 @@ public class Zombie extends Entity {
     private final static int THIRD_SKILL_MANA_COST = 20;
     private final static int FOURTH_SKILL_MANA_COST = 25;
 
-    private Boolean resurrectBuff;
 
     public Zombie(GameplayScreen gpScreen, Boolean resurrected) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
@@ -66,7 +66,11 @@ public class Zombie extends Entity {
         this.setDead(false);
         this.setDivineShield(false);
     }
-
+    public void createHealthBar() {
+        this.healthBar = new HealthBar(this.getHealthPool());
+        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
+        getStage().addActor(healthBar);
+    }
 
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));

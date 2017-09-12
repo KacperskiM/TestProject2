@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.screens.GameplayScreen;
+import com.mygdx.game.ui.healthbar.HealthBar;
 
 /**
  * Created by Ja on 2017-08-23.
@@ -37,6 +38,7 @@ public abstract class Entity extends Image {
 
     private Boolean isDead;
 
+    protected HealthBar healthBar;
 
     /*
     0 - not selected
@@ -92,6 +94,7 @@ public abstract class Entity extends Image {
     public void receiveDamage(int damageTaken) {
         if (this.getDivineShield() != true) {
             this.currentHealth -= damageTaken;
+            this.healthBar.setValue(this.currentHealth);
             this.isAlive();
         } else {
             System.out.println("Target consumed divine shield!");
@@ -108,6 +111,7 @@ public abstract class Entity extends Image {
 
     public void getHealed(int healthRestored) {
         this.currentHealth += healthRestored;
+        this.healthBar.setValue(this.currentHealth);
         if (currentHealth > healthPool)
             currentHealth = healthPool;
 
@@ -217,6 +221,8 @@ public abstract class Entity extends Image {
     public void move(int location_X) {
         Action a = Actions.moveTo(location_X, 300, 0.75f);
         this.addAction(a);
+        Action b = Actions.moveTo(location_X+0.5f*(this.getWidth()-healthBar.getWidth()), 300 + this.getHeight() + 20,0.75f);
+        this.healthBar.addAction(b);
     }
 
     public void moveEnemy(int location_X) {
@@ -226,6 +232,10 @@ public abstract class Entity extends Image {
         delayAction.setDuration(0.75f);
         SequenceAction sequenceAction = new SequenceAction(delayAction, a);
         this.addAction(sequenceAction);
+
+        Action b = Actions.moveTo(location_X+0.5f*(this.getWidth()-healthBar.getWidth()), 300 + this.getHeight() + 20,0.75f);
+        sequenceAction = new SequenceAction(delayAction,b);
+        this.healthBar.addAction(sequenceAction);
     }
 
 

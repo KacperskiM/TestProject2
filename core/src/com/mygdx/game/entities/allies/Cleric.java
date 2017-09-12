@@ -8,6 +8,7 @@ import com.mygdx.game.entities.enemies.Skeleton;
 import com.mygdx.game.entities.enemies.Vampire;
 import com.mygdx.game.entities.enemies.Zombie;
 import com.mygdx.game.screens.GameplayScreen;
+import com.mygdx.game.ui.healthbar.HealthBar;
 
 
 /**
@@ -60,10 +61,16 @@ public class Cleric extends Entity {
         this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Flash
 
         this.setDead(false);
-this.setDivineShield(false);
+        this.setDivineShield(false);
+
 
     }
 
+    public void createHealthBar() {
+        this.healthBar = new HealthBar(this.getHealthPool());
+        healthBar.setPosition(this.getX()+0.5f*(this.getWidth()-healthBar.getWidth()), this.getY() + this.getHeight() + 20);
+        getStage().addActor(healthBar);
+    }
 
     public void setSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(selectedTexture)));
