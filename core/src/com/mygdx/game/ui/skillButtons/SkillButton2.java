@@ -2,9 +2,11 @@ package com.mygdx.game.ui.skillButtons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.entities.allies.Cleric;
 import com.mygdx.game.entities.allies.Paladin;
@@ -20,9 +22,9 @@ public class SkillButton2 extends Button {
 
     protected GameplayScreen gpScreen;
 
-    public SkillButton2(GameplayScreen gameplayScreen, final IClickCallback callback) {
+    public SkillButton2(GameplayScreen gameplayScreen  ) {
         super(prepareSkillButton1Style());
-        init(callback);
+        init();
         this.gpScreen = gameplayScreen;
 
     }
@@ -37,24 +39,31 @@ public class SkillButton2 extends Button {
         return buttonStyle;
     }
 
-    private void init(final IClickCallback callback) {
+    private void init(  ) {
 
         this.setWidth((100));
         this.setHeight(100);
         this.setX(365);
         this.setY(10);
 
-
-        this.addListener(new ClickListener() {
+        this.addListener(new ActorGestureListener(){
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                callback.onClick();
-
+            public void tap(InputEvent event,float x,float y, int count, int button) {
+                super.tap(event,x,y,count,button);
                 reactOnClick();
+            }
 
-                return super.touchDown(event, x, y, pointer, button);
+            @Override
+            public boolean longPress(Actor actor, float x, float y){
+                super.longPress(actor,x,y);
+                reactOnPress();
+                return true;
             }
         });
+    }
+
+    private void reactOnPress() {
+        //TODO: button tooltip
     }
 
     private void reactOnClick(){

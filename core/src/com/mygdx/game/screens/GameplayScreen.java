@@ -3,8 +3,10 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.ai.Ai;
@@ -25,7 +27,6 @@ import com.mygdx.game.ui.skillButtons.SkillButton5;
 import com.mygdx.game.ui.skillButtons.SkillButton6;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 
 public class GameplayScreen extends AbstractScreen {
@@ -112,47 +113,21 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     private void initSkillButtons() {
-        skillButton1 = new SkillButton1(this, new IClickCallback() {
-            @Override
-            public void onClick() {
 
-            }
-        });
+        skillButton1 = new SkillButton1(this);
+        skillButton2 = new SkillButton2(this);
+        skillButton3 = new SkillButton3(this);
+        skillButton4 = new SkillButton4(this);
+        skillButton5 = new SkillButton5(this);
+        skillButton6 = new SkillButton6(this);
 
-        skillButton2 = new SkillButton2(this, new IClickCallback() {
-            @Override
-            public void onClick() {
+        skillButton1.addListener(new ActorGestureListener());
+        skillButton2.addListener(new ActorGestureListener());
+        skillButton3.addListener(new ActorGestureListener());
+        skillButton4.addListener(new ActorGestureListener());
+        skillButton5.addListener(new ActorGestureListener());
+        skillButton6.addListener(new ActorGestureListener());
 
-            }
-        });
-
-        skillButton3 = new SkillButton3(this, new IClickCallback() {
-            @Override
-            public void onClick() {
-
-            }
-        });
-
-        skillButton4 = new SkillButton4(this, new IClickCallback() {
-            @Override
-            public void onClick() {
-
-            }
-        });
-
-        skillButton5 = new SkillButton5(this, new IClickCallback() {
-            @Override
-            public void onClick() {
-
-            }
-        });
-
-        skillButton6 = new SkillButton6(this, new IClickCallback() {
-            @Override
-            public void onClick() {
-
-            }
-        });
         stage.addActor(skillButton1);
         stage.addActor(skillButton2);
         stage.addActor(skillButton3);
@@ -259,6 +234,7 @@ public class GameplayScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 for (int i = 0; i < enemyCharacterList.size(); i++)
                     enemyCharacterList.get(i).setUnselected();
+
                 for (int i = 0; i < playerCharacterList.size(); i++)
                     playerCharacterList.get(i).setUnselected();
 
@@ -286,7 +262,7 @@ public class GameplayScreen extends AbstractScreen {
                 for(int i=0;i<enemyCharacterList.size();i++)
                     enemyCharacterList.get(i).setUnselected();
 
-                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                for (int i = 0; i < playerCharacterList.size(); i++) {
                     if (i != 0)
                         playerCharacterList.get(i).setUnselected();
                     else
@@ -389,6 +365,7 @@ public class GameplayScreen extends AbstractScreen {
         System.out.println("END OF PLAYER'S TURN");
         System.out.println("======================================");
 
+        //TODO: check if game ended
         tossTurnToken();
 
 
@@ -406,6 +383,7 @@ public class GameplayScreen extends AbstractScreen {
             updateLocation();
             tossTurnToken();
         } else {
+            //TODO: check if game ended
             System.exit(0);
         }
     }

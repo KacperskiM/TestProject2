@@ -125,7 +125,7 @@ public abstract class Entity extends Image {
         this.currentHealth += healthRestored;
         if (currentHealth > healthPool)
             currentHealth = healthPool;
-        this.getHealthBar().setValue(this.getHealthBar().getValue() + healthRestored);
+        this.getHealthBar().setValue(currentHealth);
     }
 
     public void setAttackDamage(int attackDamage) {

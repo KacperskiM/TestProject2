@@ -2,9 +2,14 @@ package com.mygdx.game.ui.skillButtons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.screens.GameplayScreen;
 import com.mygdx.game.ui.IClickCallback;
@@ -13,14 +18,13 @@ import com.mygdx.game.ui.IClickCallback;
  * Created by Ja on 2017-05-20.
  */
 
-public class SkillButton1 extends Button {
+public class SkillButton1 extends Button  {
     private GameplayScreen gpScreen;
 
-    public SkillButton1(GameplayScreen gameplayScreen, final IClickCallback callback) {
+    public SkillButton1(GameplayScreen gameplayScreen) {
         super(prepareSkillButton1Style());
-        init(callback);
+        init();
         this.gpScreen = gameplayScreen;
-
     }
 
     private static ButtonStyle prepareSkillButton1Style() {
@@ -33,27 +37,36 @@ public class SkillButton1 extends Button {
         return buttonStyle;
     }
 
-    private void init(final IClickCallback callback) {
+    private void init() {
 
         this.setWidth((100));
         this.setHeight(100);
         this.setX(215);
         this.setY(10);
 
-
-        this.addListener(new ClickListener() {
+        this.addListener(new ActorGestureListener(){
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                callback.onClick();
-
+            public void tap(InputEvent event,float x,float y, int count, int button) {
+                super.tap(event,x,y,count,button);
                 reactOnClick();
+            }
 
-                return super.touchDown(event, x, y, pointer, button);
+            @Override
+            public boolean longPress(Actor actor, float x, float y){
+                super.longPress(actor,x,y);
+                reactOnPress();
+                return true;
             }
         });
+
+
     }
 
-    private void reactOnClick(){
+    private void reactOnPress() {
+        //TODO: button tooltip
+    }
+
+    public void reactOnClick(){
         if(gpScreen.getSelectedTarget()== null)
             return;
 
