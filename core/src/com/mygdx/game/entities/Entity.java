@@ -6,8 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.screens.GameplayScreen;
+import com.mygdx.game.ui.statusBars.BleedIcon;
 import com.mygdx.game.ui.statusBars.HealthBar;
 import com.mygdx.game.ui.statusBars.ManaBar;
+import com.mygdx.game.ui.statusBars.PoisonIcon;
 
 /**
  * Created by Ja on 2017-08-23.
@@ -41,6 +43,9 @@ public abstract class Entity extends Image {
 
     protected HealthBar healthBar;
     protected ManaBar manaBar;
+
+    protected BleedIcon bleedIcon1, bleedIcon2;
+    protected PoisonIcon poisonIcon1, poisonIcon2;
 
     /*
     0 - not selected
@@ -153,7 +158,9 @@ public abstract class Entity extends Image {
     }
 
     public void setBleeding() {
-        this.bleeding += 2;
+        this.bleeding = 2;
+        this.bleedIcon1.setVisible(true);
+        this.bleedIcon2.setVisible(true);
     }
 
     public int getPoisoned() {
@@ -161,22 +168,37 @@ public abstract class Entity extends Image {
     }
 
     public void setPoisoned() {
-        this.poisoned += 2;
+        this.poisoned = 2;
+        this.poisonIcon1.setVisible(true);
+        this.poisonIcon2.setVisible(true);
     }
 
     public void dealBleedingDamage() {
         this.bleeding -= 1;
         this.receiveDamage(10);
+        if (this.bleeding == 1)
+            this.bleedIcon2.setVisible(false);
+        if (this.bleeding == 0)
+            this.bleedIcon1.setVisible(false);
     }
 
     public void dealPoisonDamage() {
         this.poisoned -= 1;
         this.receiveDamage(10);
+        if (this.poisoned == 1)
+            this.poisonIcon2.setVisible(false);
+        if (this.poisoned == 0)
+            this.poisonIcon1.setVisible(false);
     }
 
     public void curePoisonAndBleed() {
         this.poisoned = 0;
+        this.poisonIcon1.setVisible(false);
+        this.poisonIcon2.setVisible(false);
+
         this.bleeding = 0;
+        this.bleedIcon1.setVisible(false);
+        this.bleedIcon2.setVisible(false);
     }
 
     public Boolean getDivineShield() {
@@ -228,11 +250,28 @@ public abstract class Entity extends Image {
         Action a = Actions.moveTo(location_X, 300, 0.75f);
         this.addAction(a);
 
-        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), 300 + this.getHeight() + 20, 0.75f);
-        this.healthBar.addAction(b);
+        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), 300 + this.getHeight() + 20, 0.75f);
+        this.healthBar.addAction(a);
 
-        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), 300 + this.getHeight() + 10, 0.75f);
-        this.manaBar.addAction(c);
+        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), 300 + this.getHeight() + 10, 0.75f);
+        this.manaBar.addAction(a);
+
+        if (poisonIcon1 != null) {
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()) + this.healthBar.getWidth() +1, (int) (this.healthBar.getY()), 0.75f);
+            this.poisonIcon1.addAction(a);
+        }
+        if (poisonIcon2 != null) {
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()) + this.healthBar.getWidth() + this.poisonIcon1.getWidth()+ 2, (int) (this.healthBar.getY()), 0.75f);
+            this.poisonIcon2.addAction(a);
+        }
+        if(this.bleedIcon1!=null){
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()) + this.manaBar.getWidth() +1, (int) (this.manaBar.getY()), 0.75f);
+            this.bleedIcon1.addAction(a);
+        }
+        if(this.bleedIcon2!=null){
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()) + this.manaBar.getWidth() + this.bleedIcon1.getWidth() +2, (int) (this.manaBar.getY()), 0.75f);
+            this.bleedIcon2.addAction(a);
+        }
     }
 
     public void moveEnemy(int location_X) {
@@ -304,6 +343,22 @@ public abstract class Entity extends Image {
         this.manaBar = new ManaBar(this.getManaPool());
         manaBar.setPosition(this.getX() + 0.5f * (this.getWidth() - manaBar.getWidth()), this.getY() + this.getHeight() + 10);
         getStage().addActor(manaBar);
+    }
+
+    public void createStatusIcons() {
+        this.poisonIcon1 = new PoisonIcon((int) (this.healthBar.getX() + this.healthBar.getWidth() + 2), (int) (this.healthBar.getY()));
+        this.poisonIcon2 = new PoisonIcon((int) (this.poisonIcon1.getX() + this.poisonIcon1.getWidth() + 1), (int) (this.poisonIcon1.getY()));
+
+        this.bleedIcon1 = new BleedIcon((int) (this.manaBar.getX() + this.manaBar.getWidth() + 2), (int) (this.manaBar.getY()));
+        this.bleedIcon2 = new BleedIcon((int) (this.bleedIcon1.getX() + this.bleedIcon1.getWidth() + 1), (int) (this.bleedIcon1.getY()));
+        poisonIcon1.setVisible(false);
+        poisonIcon2.setVisible(false);
+        bleedIcon1.setVisible(false);
+        bleedIcon2.setVisible(false);
+        getStage().addActor(poisonIcon1);
+        getStage().addActor(poisonIcon2);
+        getStage().addActor(bleedIcon1);
+        getStage().addActor(bleedIcon2);
     }
 
     public void setCurrentHealth(int currentHealth) {

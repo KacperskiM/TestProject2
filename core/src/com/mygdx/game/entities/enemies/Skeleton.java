@@ -22,7 +22,7 @@ public class Skeleton extends Entity {
 
 
     private static int HEALTHPOOL = 100;
-    private static int MANA_POOL = 40;
+    private static int MANA_POOL = 44;
     private static int ATTACK_DAMAGE = 10;
     private static int DODGE_CHANCE = 25;
     private static int MAGIC_POWER = 0;
@@ -34,9 +34,9 @@ public class Skeleton extends Entity {
     private final static int STARTING_X = 650;
     private final static int STARTING_Y = 300;
 
-    private final static int SECOND_SKILL_MANA_COST = 10;
-    private final static int THIRD_SKILL_MANA_COST = 10;
-    private final static int FOURTH_SKILL_MANA_COST = 10;
+    private final static int SECOND_SKILL_MANA_COST = 18;
+    private final static int THIRD_SKILL_MANA_COST = 15;
+    private final static int FOURTH_SKILL_MANA_COST = 5;
 
     public Skeleton(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));

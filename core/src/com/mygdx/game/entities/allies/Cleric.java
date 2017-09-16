@@ -61,8 +61,6 @@ public class Cleric extends Entity {
 
         this.setDead(false);
         this.setDivineShield(false);
-
-
     }
 
     public void setSelected() {
@@ -88,10 +86,15 @@ public class Cleric extends Entity {
 
     @Override
     protected void die() {
+        this.bleedIcon1.remove();
+        this.bleedIcon2.remove();
+        this.poisonIcon1.remove();
+        this.poisonIcon2.remove();
         gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
         this.move(GameplayScreen.getAllyPositionArray()[gpScreen.getPlayerCharacterList().size()]);
         this.setDead(true);
+
 
     }
 
@@ -127,15 +130,14 @@ public class Cleric extends Entity {
 
     @Override
     public void useFourthSkill(Entity target) {  //Banish Undead
-        int skillDamageUndead = (int)Math.ceil(1.5*this.getMagicPower());
+        int skillDamageUndead = (int) Math.ceil(1.5 * this.getMagicPower());
         int skillDamage = this.getMagicPower();
         this.useMana(getFourthSkillManaCost());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         if (target instanceof Skeleton || target instanceof Zombie) {
             System.out.println(this.getClassName(this.getClass()) + " uses Banish Undead on " + target.getClassName(target.getClass()) + " for " + skillDamageUndead);
             target.receiveDamage((int) (1.5 * this.getMagicPower()));
-        }
-        else if (target instanceof Vampire) {
+        } else if (target instanceof Vampire) {
             System.out.println(this.getClassName(this.getClass()) + " uses Banish Undead on " + target.getClassName(target.getClass()) + " for " + skillDamage);
             target.receiveDamage(this.getMagicPower());
         }

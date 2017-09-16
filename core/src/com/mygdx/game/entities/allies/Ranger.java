@@ -86,6 +86,10 @@ public class Ranger extends Entity {
 
     @Override
     protected void die() {
+        this.bleedIcon1.remove();
+        this.bleedIcon2.remove();
+        this.poisonIcon1.remove();
+        this.poisonIcon2.remove();
         gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
         this.move(GameplayScreen.getAllyPositionArray()[gpScreen.getPlayerCharacterList().size()]);
@@ -110,11 +114,12 @@ public class Ranger extends Entity {
 
         this.useMana(getSecondSkillManaCost());
         for (int i = 0; i < gpScreen.getEnemyCharacterList().size(); i++) {
-            System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
+            //System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
             System.out.println(this.getClassName(this.getClass()) + " multishots " + gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + " for " + skillDamage);
             gpScreen.getEnemyCharacterList().get(i).receiveDamage(skillDamage);
-            System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
+            //System.out.println(gpScreen.getEnemyCharacterList().get(i).getClassName(gpScreen.getEnemyCharacterList().get(i).getClass()) + "'s current health is: " + gpScreen.getEnemyCharacterList().get(i).getCurrentHealth());
         }
+
     }
 
     @Override
@@ -126,7 +131,7 @@ public class Ranger extends Entity {
         int i = rand.nextInt(99) + 1;
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses headshot on " + target.getClassName(target.getClass()));
-        if (i >= 50 && i <= 90) {
+        if (i >= 30 && i <= 90) {
             System.out.println(this.getClassName(this.getClass()) + " headshots " + target.getClassName(target.getClass()) + " for " + skillDamage);
             target.receiveDamage(skillDamage);
             System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());

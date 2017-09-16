@@ -53,8 +53,7 @@ public class Zombie extends Entity {
             this.setCurrentHealth((int) Math.ceil(0.5 * HEALTHPOOL));
             this.setCurrentMana((int) Math.ceil(0.5 * MANA_POOL));
             this.setPosition(GameplayScreen.getEnemyPositionArray()[2], STARTING_Y);
-        }
-        else{
+        } else {
 
             this.setPosition(STARTING_X, STARTING_Y);
         }

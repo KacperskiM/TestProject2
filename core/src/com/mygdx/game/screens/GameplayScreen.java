@@ -92,7 +92,7 @@ public class GameplayScreen extends AbstractScreen {
 
     private void initMusic() {
         Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("background.wav"));
-        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.setVolume(0.2f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
     }
@@ -275,6 +275,7 @@ public class GameplayScreen extends AbstractScreen {
         stage.addActor(paladin);
         paladin.createHealthBar();
         paladin.createManaBar();
+        paladin.createStatusIcons();
         playerCharacterList.add(paladin);
         paladin.addListener(new ClickListener() {
             @Override
@@ -282,9 +283,10 @@ public class GameplayScreen extends AbstractScreen {
                 if (!getTurnToken())
                     return;
 
-                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                for(int i=0;i<enemyCharacterList.size();i++)
                     enemyCharacterList.get(i).setUnselected();
 
+                for (int i = 0; i < enemyCharacterList.size(); i++) {
                     if (i != 0)
                         playerCharacterList.get(i).setUnselected();
                     else
@@ -301,16 +303,17 @@ public class GameplayScreen extends AbstractScreen {
         stage.addActor(ranger);
         ranger.createHealthBar();
         ranger.createManaBar();
+        ranger.createStatusIcons();
         playerCharacterList.add(ranger);
         ranger.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!getTurnToken())
                     return;
-
-                for (int i = 0; i < playerCharacterList.size(); i++) {
+                for(int i=0;i<enemyCharacterList.size();i++)
                     enemyCharacterList.get(i).setUnselected();
 
+                for (int i = 0; i < playerCharacterList.size(); i++) {
                     if (i != 0)
                         playerCharacterList.get(i).setUnselected();
                     else
@@ -327,15 +330,17 @@ public class GameplayScreen extends AbstractScreen {
         stage.addActor(cleric);
         cleric.createHealthBar();
         cleric.createManaBar();
+        cleric.createStatusIcons();
         playerCharacterList.add(cleric);
         cleric.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!getTurnToken())
                     return;
+                for(int i=0;i<enemyCharacterList.size();i++)
+                    enemyCharacterList.get(i).setUnselected();
 
                 for (int i = 0; i < playerCharacterList.size(); i++) {
-                    enemyCharacterList.get(i).setUnselected();
                     if (i != 0)
                         playerCharacterList.get(i).setUnselected();
                     else

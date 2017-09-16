@@ -81,6 +81,10 @@ public class Paladin extends Entity {
 
     @Override
     protected void die() {
+        this.bleedIcon1.remove();
+        this.bleedIcon2.remove();
+        this.poisonIcon1.remove();
+        this.poisonIcon2.remove();
         gpScreen.getPlayerCharacterList().remove(gpScreen.getPlayerCharacterList().indexOf(this));
         this.setDrawable(new SpriteDrawable(new Sprite(isDeadTexture)));
         this.move(GameplayScreen.getAllyPositionArray()[gpScreen.getPlayerCharacterList().size()]);

@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 
 public class ManaBar extends ProgressBar {
-    private int height = 6;
-    private int width = 80;
+    private int height = 8;
+    private int width = 70;
     private Pixmap pixmap;
 
     public ManaBar(float max){
