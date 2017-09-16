@@ -2,8 +2,8 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -18,7 +18,6 @@ import com.mygdx.game.entities.allies.Ranger;
 import com.mygdx.game.entities.enemies.Skeleton;
 import com.mygdx.game.entities.enemies.Vampire;
 import com.mygdx.game.entities.enemies.Zombie;
-import com.mygdx.game.ui.IClickCallback;
 import com.mygdx.game.ui.skillButtons.SkillButton1;
 import com.mygdx.game.ui.skillButtons.SkillButton2;
 import com.mygdx.game.ui.skillButtons.SkillButton3;
@@ -34,7 +33,6 @@ public class GameplayScreen extends AbstractScreen {
 
     private ArrayList<Entity> playerCharacterList;
     private ArrayList<Entity> enemyCharacterList;
-
     private ArrayList<Entity> deadEnemiesList;
 
 
@@ -59,16 +57,21 @@ public class GameplayScreen extends AbstractScreen {
 
     private FlyingObject flyingObject1;
 
+    public final static int slot1 = (int) Math.ceil(Gdx.graphics.getWidth() / 10);
+    public final static int slot2 = (int) Math.ceil(Gdx.graphics.getWidth() / 80 + 2 * Gdx.graphics.getWidth() / 10);
+    public final static int slot3 = (int) Math.ceil(2 * (Gdx.graphics.getWidth() / 80) + 3 * Gdx.graphics.getWidth() / 10);
+    public final static int slot4 = (int) Math.ceil(14 * (Gdx.graphics.getWidth() / 80) + 4 * Gdx.graphics.getWidth() / 10);
+    public final static int slot5 = (int) Math.ceil(15 * (Gdx.graphics.getWidth() / 80) + 5 * Gdx.graphics.getWidth() / 10);
+    public final static int slot6 = (int) Math.ceil(16 * (Gdx.graphics.getWidth() / 80) + 6 * Gdx.graphics.getWidth() / 10);
 
-    private static int[] allyPositionArray = {300, 200, 100};
-    private static int[] enemyPositionArray = {650, 750, 850};
+
+    private static int[] allyPositionArray = {slot3, slot2, slot1};
+    private static int[] enemyPositionArray = {slot4, slot5, slot6};
 
 
     GameplayScreen(MyGame game) {
         super(game);
     }
-
-
 
 
     @Override
@@ -149,7 +152,14 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     private void initBackground() {
-        backgroundImage = new Image(new Texture("background1.png"));
+
+        Pixmap backgroundPixmap = new Pixmap(Gdx.files.internal("background1.png"));
+        Pixmap backgroundResized = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), backgroundPixmap.getFormat());
+        backgroundResized.drawPixmap(backgroundPixmap, 0, 0, backgroundPixmap.getWidth(), backgroundPixmap.getHeight(), 0, 0, backgroundResized.getWidth(), backgroundResized.getHeight());
+        backgroundImage = new Image(new Texture(backgroundResized));
+        backgroundPixmap.dispose();
+        backgroundResized.dispose();
+
         stage.addActor(backgroundImage);
     }
 
@@ -259,7 +269,7 @@ public class GameplayScreen extends AbstractScreen {
                 if (!getTurnToken())
                     return;
 
-                for(int i=0;i<enemyCharacterList.size();i++)
+                for (int i = 0; i < enemyCharacterList.size(); i++)
                     enemyCharacterList.get(i).setUnselected();
 
                 for (int i = 0; i < playerCharacterList.size(); i++) {
@@ -275,33 +285,6 @@ public class GameplayScreen extends AbstractScreen {
             }
         });
 
-        ranger = new Ranger(this);
-        stage.addActor(ranger);
-        ranger.createHealthBar();
-        ranger.createManaBar();
-        ranger.createStatusIcons();
-        playerCharacterList.add(ranger);
-        ranger.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (!getTurnToken())
-                    return;
-                for(int i=0;i<enemyCharacterList.size();i++)
-                    enemyCharacterList.get(i).setUnselected();
-
-                for (int i = 0; i < playerCharacterList.size(); i++) {
-                    if (i != 0)
-                        playerCharacterList.get(i).setUnselected();
-                    else
-                        playerCharacterList.get(i).setSelected();
-                }
-                if (playerCharacterList.get(0) instanceof Ranger)
-                    ranger.setToBuffSelected();
-                else
-                    ranger.setToBuff();
-            }
-        });
-
         cleric = new Cleric(this);
         stage.addActor(cleric);
         cleric.createHealthBar();
@@ -313,7 +296,7 @@ public class GameplayScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if (!getTurnToken())
                     return;
-                for(int i=0;i<enemyCharacterList.size();i++)
+                for (int i = 0; i < enemyCharacterList.size(); i++)
                     enemyCharacterList.get(i).setUnselected();
 
                 for (int i = 0; i < playerCharacterList.size(); i++) {
@@ -329,6 +312,32 @@ public class GameplayScreen extends AbstractScreen {
             }
         });
 
+        ranger = new Ranger(this);
+        stage.addActor(ranger);
+        ranger.createHealthBar();
+        ranger.createManaBar();
+        ranger.createStatusIcons();
+        playerCharacterList.add(ranger);
+        ranger.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!getTurnToken())
+                    return;
+                for (int i = 0; i < enemyCharacterList.size(); i++)
+                    enemyCharacterList.get(i).setUnselected();
+
+                for (int i = 0; i < playerCharacterList.size(); i++) {
+                    if (i != 0)
+                        playerCharacterList.get(i).setUnselected();
+                    else
+                        playerCharacterList.get(i).setSelected();
+                }
+                if (playerCharacterList.get(0) instanceof Ranger)
+                    ranger.setToBuffSelected();
+                else
+                    ranger.setToBuff();
+            }
+        });
 
 
 
@@ -365,7 +374,8 @@ public class GameplayScreen extends AbstractScreen {
         System.out.println("END OF PLAYER'S TURN");
         System.out.println("======================================");
 
-        //TODO: check if game ended
+        if (enemyCharacterList.size() < 0)
+            System.exit(0);
         tossTurnToken();
 
 
@@ -389,10 +399,10 @@ public class GameplayScreen extends AbstractScreen {
     }
 
     private void updateLocation() {
-            for (int i = 0; i < playerCharacterList.size(); i++)
-                playerCharacterList.get(i).move(allyPositionArray[i]);
-            for (int i = 0; i < enemyCharacterList.size(); i++)
-                enemyCharacterList.get(i).moveEnemy(enemyPositionArray[i]);
+        for (int i = 0; i < playerCharacterList.size(); i++)
+            playerCharacterList.get(i).move(allyPositionArray[i]);
+        for (int i = 0; i < enemyCharacterList.size(); i++)
+            enemyCharacterList.get(i).moveEnemy(enemyPositionArray[i]);
 
     }
 
@@ -400,8 +410,7 @@ public class GameplayScreen extends AbstractScreen {
         if (turnToken) {
             playerCharacterList.add(playerCharacterList.get(0));
             playerCharacterList.remove(0);
-        }
-        else {
+        } else {
             enemyCharacterList.add(enemyCharacterList.get(0));
             enemyCharacterList.remove(0);
         }

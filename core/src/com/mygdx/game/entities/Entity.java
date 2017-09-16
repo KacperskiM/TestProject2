@@ -1,5 +1,6 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
@@ -250,10 +251,10 @@ public abstract class Entity extends Image {
         Action a = Actions.moveTo(location_X, 300, 0.75f);
         this.addAction(a);
 
-        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), 300 + this.getHeight() + 20, 0.75f);
+        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 20, 0.75f);
         this.healthBar.addAction(a);
 
-        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), 300 + this.getHeight() + 10, 0.75f);
+        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 10, 0.75f);
         this.manaBar.addAction(a);
 
         if (poisonIcon1 != null) {
@@ -276,17 +277,17 @@ public abstract class Entity extends Image {
 
     public void moveEnemy(int location_X) {
 
-        Action a = Actions.moveTo(location_X, 300, 0.75f);
+        Action a = Actions.moveTo(location_X, (int)(Gdx.graphics.getHeight()/2.4), 0.75f);
         DelayAction delayAction = new DelayAction();
         delayAction.setDuration(2f);
         SequenceAction sequenceAction = new SequenceAction(delayAction, a);
         this.addAction(sequenceAction);
 
-        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), 300 + this.getHeight() + 20, 0.75f);
+        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 20, 0.75f);
         sequenceAction = new SequenceAction(delayAction, b);
         this.healthBar.addAction(sequenceAction);
 
-        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), 300 + this.getHeight() + 10, 0.75f);
+        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 10, 0.75f);
         sequenceAction = new SequenceAction(delayAction, c);
         this.manaBar.addAction(sequenceAction);
     }

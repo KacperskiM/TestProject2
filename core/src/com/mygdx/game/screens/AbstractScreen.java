@@ -22,7 +22,7 @@ public abstract class AbstractScreen implements Screen {
         this.game = game;
         turnToken = true;
         createCamera();
-        stage = new Stage(new StretchViewport(MyGame.WIDTH, MyGame.HEIGHT,camera));
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         spriteBatch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
         init();
@@ -32,7 +32,7 @@ public abstract class AbstractScreen implements Screen {
 
     private void createCamera() {
         camera=new OrthographicCamera();
-        camera.setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
     }
 

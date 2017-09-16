@@ -1,5 +1,6 @@
 package com.mygdx.game.entities.enemies;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -28,11 +29,11 @@ public class Skeleton extends Entity {
     private static int MAGIC_POWER = 0;
 
 
-    private final static int WIDTH = 122;
-    private final static int HEIGHT = 180;
+    private final static int WIDTH = Gdx.graphics.getWidth()/10;
+    private final static int HEIGHT = Gdx.graphics.getHeight()/4;
 
-    private final static int STARTING_X = 650;
-    private final static int STARTING_Y = 300;
+    private final static int STARTING_X = GameplayScreen.slot4;
+    private final static int STARTING_Y = (int)(Gdx.graphics.getHeight()/2.4);
 
     private final static int SECOND_SKILL_MANA_COST = 18;
     private final static int THIRD_SKILL_MANA_COST = 15;

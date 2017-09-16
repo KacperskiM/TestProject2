@@ -1,6 +1,9 @@
 package com.mygdx.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.MyGame;
 
@@ -27,7 +30,12 @@ public class SplashScreen extends AbstractScreen {
 
     @Override
     protected void init() {
-        splashImg = new Texture("splash.png");
+        Pixmap splashPixmap = new Pixmap(Gdx.files.internal("splash.png"));
+        Pixmap splashResized = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), splashPixmap.getFormat());
+        splashResized.drawPixmap(splashPixmap, 0, 0, splashPixmap.getWidth(), splashPixmap.getHeight(), 0, 0, splashResized.getWidth(), splashResized.getHeight());
+        splashImg = new Texture(splashResized);
+        splashPixmap.dispose();
+        splashResized.dispose();
     }
 
 
