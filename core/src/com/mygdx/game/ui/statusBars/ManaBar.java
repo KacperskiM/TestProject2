@@ -1,5 +1,6 @@
 package com.mygdx.game.ui.statusBars;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 
 public class ManaBar extends ProgressBar {
-    private int height = 8;
-    private int width = 70;
+    private int height = Gdx.graphics.getWidth() / 160;
+    private int width = Gdx.graphics.getHeight() / 10;
     private Pixmap pixmap;
 
     public ManaBar(float max){

@@ -25,7 +25,7 @@ public class Cleric extends Entity {
 
     private static int HEALTH_POOL = 70;
     private static int MANA_POOL = 150;
-    private static int ATTACK_DAMAGE = 10;
+    private static int ATTACK_DAMAGE = 11;
     private static int DODGE_CHANCE = 10;
     private static int MAGIC_POWER = 30;
 

@@ -1,5 +1,6 @@
 package com.mygdx.game.ui.statusBars;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 
 public class HealthBar extends ProgressBar {
-    private int height = 8;
-    private int width = 70;
+    private int height = Gdx.graphics.getWidth() / 160;
+    private int width = Gdx.graphics.getHeight() / 10;
     private Pixmap pixmap;
 
-    public HealthBar(float max){
+    public HealthBar(float max) {
         super(0f, max, 1, false, new ProgressBarStyle());
 
         pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
@@ -24,12 +25,12 @@ public class HealthBar extends ProgressBar {
         pixmap.fill();
         getStyle().background = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
 
-        pixmap = new Pixmap(0,height, Pixmap.Format.RGB888);
+        pixmap = new Pixmap(0, height, Pixmap.Format.RGB888);
         pixmap.setColor(Color.GREEN);
         pixmap.fill();
         getStyle().knob = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
 
-        pixmap = new Pixmap(width,height, Pixmap.Format.RGB888);
+        pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
         pixmap.setColor(Color.GREEN);
         pixmap.fill();
         getStyle().knobBefore = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
@@ -40,10 +41,10 @@ public class HealthBar extends ProgressBar {
         setHeight(height);
         setAnimateDuration(0.0f);
         setValue(max);
-        setAnimateDuration(0.25f);
+        setAnimateDuration(0.5f);
     }
 
-    public HealthBar(float max, float current){
+    public HealthBar(float max, float current) {
         super(0f, max, 1, false, new ProgressBarStyle());
 
         pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
@@ -51,12 +52,12 @@ public class HealthBar extends ProgressBar {
         pixmap.fill();
         getStyle().background = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
 
-        pixmap = new Pixmap(0,height, Pixmap.Format.RGB888);
+        pixmap = new Pixmap(0, height, Pixmap.Format.RGB888);
         pixmap.setColor(Color.GREEN);
         pixmap.fill();
         getStyle().knob = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
 
-        pixmap = new Pixmap(width,height, Pixmap.Format.RGB888);
+        pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
         pixmap.setColor(Color.GREEN);
         pixmap.fill();
         getStyle().knobBefore = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
@@ -67,7 +68,7 @@ public class HealthBar extends ProgressBar {
         setHeight(height);
         setAnimateDuration(0.0f);
         setValue(current);
-        setAnimateDuration(0.25f);
+        setAnimateDuration(0.5f);
     }
 
 

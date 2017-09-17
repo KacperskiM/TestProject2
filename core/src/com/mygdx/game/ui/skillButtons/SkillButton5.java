@@ -63,7 +63,7 @@ public class SkillButton5 extends Button {
     }
 
     private void reactOnClick(){
-        if(gpScreen.getSelectedTarget()== null)
+        if(gpScreen.getSelectedTarget()== null || gpScreen.getSelectedSource().getCurrentMana()< gpScreen.getSelectedSource().getFifthSkillManaCost())
             return;
         else if(gpScreen.getSelectedSource() instanceof Cleric || gpScreen.getSelectedSource() instanceof Paladin){
             for(int i =0 ; i<gpScreen.getEnemyCharacterList().size();i++){

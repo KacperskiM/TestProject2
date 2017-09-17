@@ -1,5 +1,6 @@
 package com.mygdx.game.ui.statusBars;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -15,7 +16,7 @@ public class PoisonIcon extends Image{
     public PoisonIcon(int posX, int posY){
         this.setDrawable(new SpriteDrawable(new Sprite(poisonTexture)));
         this.setOrigin(posX/2, posY/2);
-        this.setSize(8, 8);
+        this.setSize(Gdx.graphics.getWidth()/160, Gdx.graphics.getHeight()/160);
         this.setPosition(posX, posY);
     }
 

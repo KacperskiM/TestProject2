@@ -65,7 +65,7 @@ public class SkillButton2 extends Button {
     }
 
     private void reactOnClick(){
-        if(gpScreen.getSelectedTarget()== null && !(gpScreen.getSelectedSource() instanceof Ranger))
+        if((gpScreen.getSelectedTarget()== null && !(gpScreen.getSelectedSource() instanceof Ranger)) || gpScreen.getSelectedSource().getCurrentMana()< gpScreen.getSelectedSource().getSecondSkillManaCost())
             return;
 
         else if(gpScreen.getSelectedSource() instanceof Cleric || gpScreen.getSelectedSource() instanceof Paladin){

@@ -105,7 +105,7 @@ public abstract class Entity extends Image {
 
 
     public void receiveDamage(int damageTaken) {
-        if (!this.getDivineShield()) {
+        if (!this.getDivineShield() && damageTaken > 10) {
             this.currentHealth -= damageTaken;
             this.healthBar.setValue(this.currentHealth);
             this.isAlive();
@@ -229,12 +229,6 @@ public abstract class Entity extends Image {
 
     public abstract void useFifthSkill(Entity target);
 
-    public void useSixthSkill() {
-
-        //Todo: pass turn effect
-
-        gpScreen.tossTurnToken();
-    }
 
     // returns the class (without the package if any)
     public String getClassName(Class c) {
@@ -248,46 +242,61 @@ public abstract class Entity extends Image {
     }
 
     public void move(int location_X) {
-        Action a = Actions.moveTo(location_X, 300, 0.75f);
-        this.addAction(a);
+        Action a = Actions.moveTo(location_X, (int)(Gdx.graphics.getHeight()/2.4), 1f);
 
-        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 20, 0.75f);
-        this.healthBar.addAction(a);
+        DelayAction delayAction = new DelayAction();
+        delayAction.setDuration(1f);
+        SequenceAction sequenceAction = new SequenceAction(delayAction, a);
+        this.addAction(sequenceAction);
 
-        a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 10, 0.75f);
-        this.manaBar.addAction(a);
+        delayAction.setDuration(1f);
+        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 20, 1f);
+        sequenceAction = new SequenceAction(delayAction, b);
+        this.healthBar.addAction(sequenceAction);
+
+        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 10, 1f);
+        sequenceAction = new SequenceAction(delayAction, c);
+
+        this.manaBar.addAction(sequenceAction);
+
 
         if (poisonIcon1 != null) {
-            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()) + this.healthBar.getWidth() +1, (int) (this.healthBar.getY()), 0.75f);
-            this.poisonIcon1.addAction(a);
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()) + this.healthBar.getWidth() +1, (int) (this.healthBar.getY()), 1f);
+            sequenceAction = new SequenceAction(delayAction, a);
+            this.poisonIcon1.addAction(sequenceAction);
         }
         if (poisonIcon2 != null) {
-            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()) + this.healthBar.getWidth() + this.poisonIcon1.getWidth()+ 2, (int) (this.healthBar.getY()), 0.75f);
-            this.poisonIcon2.addAction(a);
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()) + this.healthBar.getWidth() + this.poisonIcon1.getWidth()+ 2, (int) (this.healthBar.getY()), 1f);
+            sequenceAction = new SequenceAction(delayAction, a);
+
+            this.poisonIcon2.addAction(sequenceAction);
         }
         if(this.bleedIcon1!=null){
-            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()) + this.manaBar.getWidth() +1, (int) (this.manaBar.getY()), 0.75f);
-            this.bleedIcon1.addAction(a);
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()) + this.manaBar.getWidth() +1, (int) (this.manaBar.getY()), 1f);
+            sequenceAction = new SequenceAction(delayAction, a);
+
+            this.bleedIcon1.addAction(sequenceAction);
         }
         if(this.bleedIcon2!=null){
-            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()) + this.manaBar.getWidth() + this.bleedIcon1.getWidth() +2, (int) (this.manaBar.getY()), 0.75f);
-            this.bleedIcon2.addAction(a);
+            a = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()) + this.manaBar.getWidth() + this.bleedIcon1.getWidth() +2, (int) (this.manaBar.getY()), 1f);
+            sequenceAction = new SequenceAction(delayAction, a);
+            this.bleedIcon2.addAction(sequenceAction);
         }
     }
 
     public void moveEnemy(int location_X) {
 
-        Action a = Actions.moveTo(location_X, (int)(Gdx.graphics.getHeight()/2.4), 0.75f);
+        Action a = Actions.moveTo(location_X, (int)(Gdx.graphics.getHeight()/2.4), 1f);
         DelayAction delayAction = new DelayAction();
         delayAction.setDuration(2f);
         SequenceAction sequenceAction = new SequenceAction(delayAction, a);
         this.addAction(sequenceAction);
 
-        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 20, 0.75f);
+        Action b = Actions.moveTo(location_X + 0.5f * (this.getWidth() - healthBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 20, 1f);
         sequenceAction = new SequenceAction(delayAction, b);
         this.healthBar.addAction(sequenceAction);
 
-        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 10, 0.75f);
+        Action c = Actions.moveTo(location_X + 0.5f * (this.getWidth() - manaBar.getWidth()), (int)(Gdx.graphics.getHeight()/2.4) + this.getHeight() + 10, 1f);
         sequenceAction = new SequenceAction(delayAction, c);
         this.manaBar.addAction(sequenceAction);
     }

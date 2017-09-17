@@ -63,7 +63,7 @@ public class SkillButton4 extends Button {
         //TODO: button tooltip
     }
     private void reactOnClick(){
-        if(gpScreen.getSelectedTarget()== null)
+        if(gpScreen.getSelectedTarget()== null || gpScreen.getSelectedSource().getCurrentMana()< gpScreen.getSelectedSource().getFourthSkillManaCost())
             return;
         else if(gpScreen.getSelectedSource() instanceof Cleric || gpScreen.getSelectedSource() instanceof Ranger){
             for(int i =0 ; i<gpScreen.getEnemyCharacterList().size();i++){

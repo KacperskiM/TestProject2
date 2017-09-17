@@ -5,6 +5,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -26,6 +28,8 @@ import com.mygdx.game.ui.skillButtons.SkillButton5;
 import com.mygdx.game.ui.skillButtons.SkillButton6;
 
 import java.util.ArrayList;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 
 public class GameplayScreen extends AbstractScreen {
@@ -340,8 +344,6 @@ public class GameplayScreen extends AbstractScreen {
         });
 
 
-
-
     }
 
     private void refreshStage() {
@@ -358,44 +360,59 @@ public class GameplayScreen extends AbstractScreen {
 
 
     public void playTurn() {
-        if (playerCharacterList.get(0).getBleeding() > 0)
-            playerCharacterList.get(0).dealBleedingDamage();
-        if (playerCharacterList.get(0).getPoisoned() > 0)
-            playerCharacterList.get(0).dealPoisonDamage();
+        RunnableAction run1 = new RunnableAction();
+        run1.setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                if (playerCharacterList.get(0).getBleeding() > 0)
+                    playerCharacterList.get(0).dealBleedingDamage();
+                if (playerCharacterList.get(0).getPoisoned() > 0)
+                    playerCharacterList.get(0).dealPoisonDamage();
 
-        swapList();
-        updateLocation();
+                swapList();
+                updateLocation();
 
-        for (int i = 0; i < playerCharacterList.size(); i++) {
-            playerCharacterList.get(i).setUnselected();
-        }
-
-
-        System.out.println("END OF PLAYER'S TURN");
-        System.out.println("======================================");
-
-        if (enemyCharacterList.size() < 0)
-            System.exit(0);
-        tossTurnToken();
+                for (int i = 0; i < playerCharacterList.size(); i++) {
+                    playerCharacterList.get(i).setUnselected();
+                }
 
 
-        setPlayersUnselected();
-        ai.makeAction(getEnemyCharacterList().get(0));
-        System.out.println("END OF ENEMY'S TURN");
-        System.out.println("======================================");
+                System.out.println("END OF PLAYER'S TURN");
+                System.out.println("======================================");
 
-        for (int i = 0; i < enemyCharacterList.size(); i++) {
-            enemyCharacterList.get(i).setUnselected();
-        }
-        if (playerCharacterList.size() > 0) {
-            playerCharacterList.get(0).setSelected();
-            swapList();
-            updateLocation();
-            tossTurnToken();
-        } else {
-            //TODO: check if game ended
-            System.exit(0);
-        }
+
+                if (enemyCharacterList.size() == 0)
+                    System.exit(0);
+                tossTurnToken();
+            }
+        });
+        RunnableAction run2 = new RunnableAction();
+        run2.setRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                setPlayersUnselected();
+                ai.makeAction(getEnemyCharacterList().get(0));
+                System.out.println("END OF ENEMY'S TURN");
+                System.out.println("======================================");
+
+                for (int i = 0; i < enemyCharacterList.size(); i++) {
+                    enemyCharacterList.get(i).setUnselected();
+                }
+                if (playerCharacterList.size() > 0) {
+                    playerCharacterList.get(0).setSelected();
+                    swapList();
+                    updateLocation();
+                    tossTurnToken();
+                } else {
+                    //TODO: check if game ended
+                    System.exit(0);
+                }
+            }
+        });
+        DelayAction delayAction = new DelayAction();
+        delayAction.setDuration(2f);
+        stage.addAction(sequence(run1,delayAction, run2));
     }
 
     private void updateLocation() {

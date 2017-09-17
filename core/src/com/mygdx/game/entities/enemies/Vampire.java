@@ -29,7 +29,7 @@ public class Vampire extends Entity {
     private final static int WIDTH = Gdx.graphics.getWidth()/10;
     private final static int HEIGHT = Gdx.graphics.getHeight()/4;
 
-    private final static int STARTING_X = GameplayScreen.slot5;
+    private final static int STARTING_X = GameplayScreen.slot6;
     private final static int STARTING_Y = (int)(Gdx.graphics.getHeight()/2.4);
 
     private final static int SECOND_SKILL_MANA_COST = 15;

@@ -40,16 +40,16 @@ public class SkillButton6 extends Button {
         this.setX(965);
         this.setY(10);
 
-        this.addListener(new ActorGestureListener(){
+        this.addListener(new ActorGestureListener() {
             @Override
-            public void tap(InputEvent event,float x,float y, int count, int button) {
-                super.tap(event,x,y,count,button);
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
                 reactOnClick();
             }
 
             @Override
-            public boolean longPress(Actor actor, float x, float y){
-                super.longPress(actor,x,y);
+            public boolean longPress(Actor actor, float x, float y) {
+                super.longPress(actor, x, y);
                 reactOnPress();
                 return true;
             }
@@ -59,10 +59,8 @@ public class SkillButton6 extends Button {
     private void reactOnPress() {
         //TODO: button tooltip
     }
-    private void reactOnClick(){
-        if(gpScreen.getSelectedTarget()== null)
-            return;
-        gpScreen.getSelectedSource().useSixthSkill();
+
+    private void reactOnClick() {
         gpScreen.playTurn();
     }
 }

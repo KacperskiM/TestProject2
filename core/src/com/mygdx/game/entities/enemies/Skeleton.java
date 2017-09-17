@@ -24,7 +24,7 @@ public class Skeleton extends Entity {
 
     private static int HEALTHPOOL = 100;
     private static int MANA_POOL = 44;
-    private static int ATTACK_DAMAGE = 10;
+    private static int ATTACK_DAMAGE = 11;
     private static int DODGE_CHANCE = 25;
     private static int MAGIC_POWER = 0;
 
