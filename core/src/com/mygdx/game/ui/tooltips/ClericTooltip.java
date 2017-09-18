@@ -48,7 +48,7 @@ public class ClericTooltip extends Actor {
             font.draw(batch, "Banishes enemy skeleton or zombie for " + (int)( 1.5 * gpScreen.getCleric().getMagicPower()) + " damage", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.5f);
             font.draw(batch, "or enemy vampire for " + gpScreen.getCleric().getMagicPower() + " damage", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 2.5f);
         } else if (this.tooltipNumber == 5) {
-            font.draw(batch, "Flashes enemy vampire for " + (int) 1.5 * gpScreen.getCleric().getMagicPower() + " damage", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.5f);
+            font.draw(batch, "Flashes enemy vampire for " + (int) (1.5 * gpScreen.getCleric().getMagicPower()) + " damage", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.5f);
             font.draw(batch, "Flashes enemy skeleton or zombie for " + gpScreen.getCleric().getMagicPower() + " damage", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 2.5f);
         } else if (this.tooltipNumber == 6)
             font.draw(batch, "Passes a turn", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 3, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.8f);

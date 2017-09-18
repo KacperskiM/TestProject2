@@ -50,7 +50,7 @@ public class PaladinTooltip extends Actor {
             font.draw(batch, "Enlightens allied target, increasing his", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.5f);
             font.draw(batch, "attack damage and spell damage by 50%", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 2.5f);
         } else if (this.tooltipNumber == 5)
-            font.draw(batch, "Smites enemy target for " + gpScreen.getPaladin().getAttackDamage() + " damage", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.8f);
+            font.draw(batch, "Smites enemy target for " +2* gpScreen.getPaladin().getMagicPower() + " damage", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 8, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.8f);
 
         else if (this.tooltipNumber == 6)
             font.draw(batch, "Passes a turn", Gdx.graphics.getWidth() / 4 + borderResized.getWidth() / 3, Gdx.graphics.getHeight() / 6 + borderResized.getHeight() / 1.8f);

@@ -26,7 +26,7 @@ public class Ranger extends Entity {
 
     private static int HEALTHPOOL = 85;
     private static int MANA_POOL = 70;
-    private static int ATTACK_DAMAGE = 30;
+    private static int ATTACK_DAMAGE = 25;
     private static int MAGIC_POWER = 0;
 
     private final static int WIDTH = Gdx.graphics.getWidth()/10;

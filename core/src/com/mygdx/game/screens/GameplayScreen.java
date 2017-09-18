@@ -14,7 +14,6 @@ import com.mygdx.game.MyGame;
 import com.mygdx.game.ai.Ai;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.allies.Cleric;
-import com.mygdx.game.entities.allies.FlyingObject;
 import com.mygdx.game.entities.allies.Paladin;
 import com.mygdx.game.entities.allies.Ranger;
 import com.mygdx.game.entities.enemies.Skeleton;
@@ -26,7 +25,6 @@ import com.mygdx.game.ui.skillButtons.SkillButton3;
 import com.mygdx.game.ui.skillButtons.SkillButton4;
 import com.mygdx.game.ui.skillButtons.SkillButton5;
 import com.mygdx.game.ui.skillButtons.SkillButton6;
-import com.mygdx.game.ui.tooltips.PaladinTooltip;
 
 import java.util.ArrayList;
 
@@ -59,8 +57,6 @@ public class GameplayScreen extends AbstractScreen {
     private SkillButton4 skillButton4;
     private SkillButton5 skillButton5;
     private SkillButton6 skillButton6;
-
-    private FlyingObject flyingObject1;
 
     public final static int slot1 = (int) Math.ceil(Gdx.graphics.getWidth() / 10);
     public final static int slot2 = (int) Math.ceil(Gdx.graphics.getWidth() / 80 + 2 * Gdx.graphics.getWidth() / 10);
@@ -149,14 +145,6 @@ public class GameplayScreen extends AbstractScreen {
     public ArrayList<Entity> getEnemyCharacterList() {
         return enemyCharacterList;
     }
-
-    private void initFlyObjects() {
-        flyingObject1 = new com.mygdx.game.entities.allies.FlyingObject(com.mygdx.game.entities.allies.FlyingObject.BAT);
-        stage.addActor(flyingObject1);
-        flyingObject1.fly();
-    }
-
-
 
     private void initBackground() {
 
@@ -385,8 +373,11 @@ public class GameplayScreen extends AbstractScreen {
                 System.out.println("======================================");
 
 
-                if (enemyCharacterList.size() == 0)
-                    System.exit(0);
+                if (enemyCharacterList.size() == 0) {
+                    game.setResult(true);
+                    game.setScreen(new GameOverScreen(game));
+                }
+
                 tossTurnToken();
             }
         });
@@ -409,14 +400,14 @@ public class GameplayScreen extends AbstractScreen {
                     updateLocation();
                     tossTurnToken();
                 } else {
-                    //TODO: check if game ended
-                    System.exit(0);
+                    game.setResult(false);
+                    game.setScreen(new GameOverScreen(game));
                 }
             }
         });
         DelayAction delayAction = new DelayAction();
         delayAction.setDuration(2f);
-        stage.addAction(sequence(run1,delayAction, run2));
+        stage.addAction(sequence(run1, delayAction, run2));
     }
 
     private void updateLocation() {
@@ -481,7 +472,6 @@ public class GameplayScreen extends AbstractScreen {
     public ArrayList<Entity> getDeadEnemiesList() {
         return deadEnemiesList;
     }
-
 
 
     public Cleric getCleric() {
