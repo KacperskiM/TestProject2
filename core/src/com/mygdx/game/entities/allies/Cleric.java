@@ -9,6 +9,7 @@ import com.mygdx.game.entities.enemies.Skeleton;
 import com.mygdx.game.entities.enemies.Vampire;
 import com.mygdx.game.entities.enemies.Zombie;
 import com.mygdx.game.screens.GameplayScreen;
+import com.mygdx.game.ui.tooltips.ClericTooltip;
 
 
 /**
@@ -26,7 +27,6 @@ public class Cleric extends Entity {
     private static int HEALTH_POOL = 70;
     private static int MANA_POOL = 150;
     private static int ATTACK_DAMAGE = 11;
-    private static int DODGE_CHANCE = 10;
     private static int MAGIC_POWER = 30;
 
     private final static int WIDTH = Gdx.graphics.getWidth()/10;
@@ -40,19 +40,21 @@ public class Cleric extends Entity {
     private final static int FOURTH_SKILL_MANA_COST = 15;
     private final static int FIFTH_SKILL_MANA_COST = 15;
 
+    private ClericTooltip clericTooltip;
 
     public Cleric(GameplayScreen gpScreen) {
+        super();
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
         this.setOrigin(WIDTH / 2, HEIGHT / 2);
         this.setSize(WIDTH, HEIGHT);
         this.setPosition(STARTING_X, STARTING_Y);
 
         this.gpScreen = gpScreen;
+        this.clericTooltip = new ClericTooltip(gpScreen);
 
         this.setHealthPool(HEALTH_POOL);
         this.setManaPool(MANA_POOL);
         this.setAttackDamage(ATTACK_DAMAGE);
-        this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);    //Heal
@@ -60,8 +62,7 @@ public class Cleric extends Entity {
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);    //Banish Undead
         this.setFifthSkillManaCost(FIFTH_SKILL_MANA_COST);      //Flash
 
-        this.setDead(false);
-        this.setDivineShield(false);
+
     }
 
     public void setSelected() {
@@ -84,6 +85,9 @@ public class Cleric extends Entity {
         this.isSelected = 3;
     }
 
+    public ClericTooltip getClericTooltip() {
+        return clericTooltip;
+    }
 
     @Override
     protected void die() {

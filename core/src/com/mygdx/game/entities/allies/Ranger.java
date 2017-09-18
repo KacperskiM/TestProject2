@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
 import com.mygdx.game.ui.statusBars.HealthBar;
+import com.mygdx.game.ui.tooltips.RangerTooltip;
 
 import java.util.Random;
 
@@ -26,7 +27,6 @@ public class Ranger extends Entity {
     private static int HEALTHPOOL = 85;
     private static int MANA_POOL = 70;
     private static int ATTACK_DAMAGE = 30;
-    private static int DODGE_CHANCE = 30;
     private static int MAGIC_POWER = 0;
 
     private final static int WIDTH = Gdx.graphics.getWidth()/10;
@@ -40,6 +40,8 @@ public class Ranger extends Entity {
     private final static int FOURTH_SKILL_MANA_COST = 10;
     private final static int FIFTH_SKILL_MANA_COST = 30;
 
+    private RangerTooltip rangerTooltip;
+
 
 
     public Ranger(GameplayScreen gpScreen) {
@@ -49,11 +51,11 @@ public class Ranger extends Entity {
         this.setPosition(STARTING_X, STARTING_Y);
 
         this.gpScreen = gpScreen;
+        this.rangerTooltip = new RangerTooltip(gpScreen);
 
         this.setHealthPool(HEALTHPOOL);
         this.setManaPool(MANA_POOL);
         this.setAttackDamage(ATTACK_DAMAGE);
-        this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);    //Multishot
@@ -83,6 +85,10 @@ public class Ranger extends Entity {
     public void setToBuffSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
         this.isSelected = 3;
+    }
+
+    public RangerTooltip getRangerTooltip() {
+        return rangerTooltip;
     }
 
     @Override
@@ -132,7 +138,7 @@ public class Ranger extends Entity {
         int i = rand.nextInt(99) + 1;
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses headshot on " + target.getClassName(target.getClass()));
-        if (i >= 30 && i <= 90) {
+        if (i > 30 && i <= 90) {
             System.out.println(this.getClassName(this.getClass()) + " headshots " + target.getClassName(target.getClass()) + " for " + skillDamage);
             target.receiveDamage(skillDamage);
             System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
@@ -174,7 +180,7 @@ public class Ranger extends Entity {
         this.useMana(getFifthSkillManaCost());
         System.out.println(this.getClassName(this.getClass()) + "'s dodge chance is: " + this.getCurrentHealth());
         System.out.println(this.getClassName(this.getClass()) + " uses swiftness on himself.");
-        this.setDodgeChance(75);
+        this.setGuaranteedDodge(true);
         System.out.println(this.getClassName(this.getClass()) + "'s dodge chance is: " + this.getCurrentHealth());
     }
 

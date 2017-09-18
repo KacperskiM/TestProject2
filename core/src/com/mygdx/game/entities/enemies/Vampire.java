@@ -47,7 +47,6 @@ public class Vampire extends Entity {
         this.setHealthPool(HEALTHPOOL);
         this.setManaPool(MANA_POOL);
         this.setAttackDamage(ATTACK_DAMAGE);
-        this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
         this.setFourthSkillManaCost(FOURTH_SKILL_MANA_COST);

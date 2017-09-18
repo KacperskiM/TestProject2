@@ -11,12 +11,19 @@ import com.mygdx.game.ui.statusBars.BleedIcon;
 import com.mygdx.game.ui.statusBars.HealthBar;
 import com.mygdx.game.ui.statusBars.ManaBar;
 import com.mygdx.game.ui.statusBars.PoisonIcon;
+import com.mygdx.game.ui.tooltips.PaladinTooltip;
 
 /**
  * Created by Ja on 2017-08-23.
  */
 
 public abstract class Entity extends Image {
+
+    protected Entity(){
+        this.setDead(false);
+        this.setDivineShield(false);
+        this.setGuaranteedDodge(false);
+    }
 
     protected GameplayScreen gpScreen;
 
@@ -27,10 +34,10 @@ public abstract class Entity extends Image {
     private int currentMana;
 
     private int attackDamage;
-    private int dodgeChance;
     private int magicPower;
 
     private Boolean divineShield;
+    private Boolean guaranteedDodge;
 
     private int SecondSkillManaCost;
     private int ThirdSkillManaCost;
@@ -105,6 +112,11 @@ public abstract class Entity extends Image {
 
 
     public void receiveDamage(int damageTaken) {
+        if(this.getGuaranteedDodge() == true) {
+            this.setGuaranteedDodge(false);
+            System.out.println("Target dodged!");
+            return;
+        }
         if (!this.getDivineShield() && damageTaken > 10) {
             this.currentHealth -= damageTaken;
             this.healthBar.setValue(this.currentHealth);
@@ -137,13 +149,6 @@ public abstract class Entity extends Image {
         return this.attackDamage;
     }
 
-    protected void setDodgeChance(int dodgeChance) {
-        this.dodgeChance = dodgeChance;
-    }
-
-    public int getDodgeChance() {
-        return this.dodgeChance;
-    }
 
     public int getMagicPower() {
         return magicPower;
@@ -206,8 +211,16 @@ public abstract class Entity extends Image {
         return divineShield;
     }
 
+    public Boolean getGuaranteedDodge(){
+        return guaranteedDodge;
+    }
+
     public void setDivineShield(Boolean divineShield) {
         this.divineShield = divineShield;
+    }
+
+    public void setGuaranteedDodge(Boolean guaranteedDodge){
+        this.guaranteedDodge = guaranteedDodge;
     }
 
 
@@ -383,4 +396,6 @@ public abstract class Entity extends Image {
     public ManaBar getManaBar() {
         return manaBar;
     }
+
+
 }

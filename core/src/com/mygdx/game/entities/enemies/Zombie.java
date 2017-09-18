@@ -59,7 +59,6 @@ public class Zombie extends Entity {
         }
 
         this.setAttackDamage(ATTACK_DAMAGE);
-        this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
         this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);

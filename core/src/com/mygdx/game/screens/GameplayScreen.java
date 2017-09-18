@@ -26,6 +26,7 @@ import com.mygdx.game.ui.skillButtons.SkillButton3;
 import com.mygdx.game.ui.skillButtons.SkillButton4;
 import com.mygdx.game.ui.skillButtons.SkillButton5;
 import com.mygdx.game.ui.skillButtons.SkillButton6;
+import com.mygdx.game.ui.tooltips.PaladinTooltip;
 
 import java.util.ArrayList;
 
@@ -155,6 +156,8 @@ public class GameplayScreen extends AbstractScreen {
         flyingObject1.fly();
     }
 
+
+
     private void initBackground() {
 
         Pixmap backgroundPixmap = new Pixmap(Gdx.files.internal("background1.png"));
@@ -267,6 +270,7 @@ public class GameplayScreen extends AbstractScreen {
         paladin.createManaBar();
         paladin.createStatusIcons();
         playerCharacterList.add(paladin);
+
         paladin.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -476,6 +480,20 @@ public class GameplayScreen extends AbstractScreen {
 
     public ArrayList<Entity> getDeadEnemiesList() {
         return deadEnemiesList;
+    }
+
+
+
+    public Cleric getCleric() {
+        return cleric;
+    }
+
+    public Ranger getRanger() {
+        return ranger;
+    }
+
+    public Paladin getPaladin() {
+        return paladin;
     }
 
     @Override

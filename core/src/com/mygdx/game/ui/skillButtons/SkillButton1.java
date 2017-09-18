@@ -7,13 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.mygdx.game.entities.allies.Cleric;
+import com.mygdx.game.entities.allies.Paladin;
+import com.mygdx.game.entities.allies.Ranger;
 import com.mygdx.game.screens.GameplayScreen;
 
 /**
  * Created by Ja on 2017-05-20.
  */
 
-public class SkillButton1 extends Button  {
+public class SkillButton1 extends Button {
     private GameplayScreen gpScreen;
 
     public SkillButton1(GameplayScreen gameplayScreen) {
@@ -39,18 +42,31 @@ public class SkillButton1 extends Button  {
         this.setX(215);
         this.setY(10);
 
-        this.addListener(new ActorGestureListener(){
+        this.addListener(new ActorGestureListener() {
             @Override
-            public void tap(InputEvent event,float x,float y, int count, int button) {
-                super.tap(event,x,y,count,button);
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
                 reactOnClick();
+                return;
             }
 
             @Override
-            public boolean longPress(Actor actor, float x, float y){
-                super.longPress(actor,x,y);
+            public boolean longPress(Actor actor, float x, float y) {
+                super.longPress(actor, x, y);
                 reactOnPress();
                 return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int count, int button) {
+                if (gpScreen.getPaladin().getPaladinTooltip() != null)
+                    gpScreen.getPaladin().getPaladinTooltip().remove();
+
+                if (gpScreen.getCleric().getClericTooltip() != null)
+                    gpScreen.getCleric().getClericTooltip().remove();
+
+                if (gpScreen.getRanger().getRangerTooltip() != null)
+                    gpScreen.getRanger().getRangerTooltip().remove();
             }
         });
 
@@ -58,15 +74,29 @@ public class SkillButton1 extends Button  {
     }
 
     private void reactOnPress() {
-        //TODO: button tooltip
+
+        if (gpScreen.getSelectedSource() instanceof Paladin) {
+            this.getStage().addActor(gpScreen.getPaladin().getPaladinTooltip());
+            this.getStage().getBatch().begin();
+            gpScreen.getPaladin().getPaladinTooltip().drawTooltip(this.getStage().getBatch(), 1f, 1);
+        } else if (gpScreen.getSelectedSource() instanceof Ranger) {
+            this.getStage().addActor(gpScreen.getRanger().getRangerTooltip());
+            this.getStage().getBatch().begin();
+            gpScreen.getRanger().getRangerTooltip().drawTooltip(this.getStage().getBatch(), 1f, 1);
+        } else if (gpScreen.getSelectedSource() instanceof Cleric) {
+            this.getStage().addActor(gpScreen.getCleric().getClericTooltip());
+            this.getStage().getBatch().begin();
+            gpScreen.getCleric().getClericTooltip().drawTooltip(this.getStage().getBatch(), 1f, 1);
+        }
+        this.getStage().getBatch().end();
     }
 
-    public void reactOnClick(){
-        if(gpScreen.getSelectedTarget()== null)
+    public void reactOnClick() {
+        if (gpScreen.getSelectedTarget() == null)
             return;
 
-        for(int i=0; i<gpScreen.getEnemyCharacterList().size();i++){
-            if(gpScreen.getSelectedTarget() == gpScreen.getEnemyCharacterList().get(i)){
+        for (int i = 0; i < gpScreen.getEnemyCharacterList().size(); i++) {
+            if (gpScreen.getSelectedTarget() == gpScreen.getEnemyCharacterList().get(i)) {
                 gpScreen.getSelectedSource().useFirstSkill(gpScreen.getSelectedTarget());
                 gpScreen.playTurn();
                 return;

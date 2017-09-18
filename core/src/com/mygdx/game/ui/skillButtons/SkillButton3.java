@@ -55,11 +55,36 @@ public class SkillButton3 extends Button {
                 reactOnPress();
                 return true;
             }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int count, int button) {
+                if (gpScreen.getPaladin().getPaladinTooltip() != null)
+                    gpScreen.getPaladin().getPaladinTooltip().remove();
+
+                if (gpScreen.getCleric().getClericTooltip() != null)
+                    gpScreen.getCleric().getClericTooltip().remove();
+
+                if (gpScreen.getRanger().getRangerTooltip() != null)
+                    gpScreen.getRanger().getRangerTooltip().remove();
+            }
         });
     }
 
     private void reactOnPress() {
-        //TODO: button tooltip
+
+        if (gpScreen.getSelectedSource() instanceof Paladin) {
+            this.getStage().addActor(gpScreen.getPaladin().getPaladinTooltip());
+            this.getStage().getBatch().begin();
+            gpScreen.getPaladin().getPaladinTooltip().drawTooltip(this.getStage().getBatch(), 1f, 3);
+        } else if (gpScreen.getSelectedSource() instanceof Ranger) {
+            this.getStage().addActor(gpScreen.getRanger().getRangerTooltip());
+            this.getStage().getBatch().begin();
+            gpScreen.getRanger().getRangerTooltip().drawTooltip(this.getStage().getBatch(), 1f, 3);
+        } else if (gpScreen.getSelectedSource() instanceof Cleric) {
+            this.getStage().addActor(gpScreen.getCleric().getClericTooltip());
+            this.getStage().getBatch().begin();
+            gpScreen.getCleric().getClericTooltip().drawTooltip(this.getStage().getBatch(), 1f, 3);
+        }
+        this.getStage().getBatch().end();
     }
     private void reactOnClick(){
         if(gpScreen.getSelectedTarget()== null || gpScreen.getSelectedSource().getCurrentMana()< gpScreen.getSelectedSource().getThirdSkillManaCost())

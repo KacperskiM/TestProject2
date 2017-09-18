@@ -3,9 +3,11 @@ package com.mygdx.game.entities.allies;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.screens.GameplayScreen;
+import com.mygdx.game.ui.tooltips.PaladinTooltip;
 
 /**
  * Created by Ja on 2017-05-20.
@@ -23,7 +25,6 @@ public class Paladin extends Entity {
     private static int HEALTHPOOL = 150;
     private static int MANA_POOL = 80;
     private static int ATTACK_DAMAGE = 20;
-    private static int DODGE_CHANCE = 5;
     private static int MAGIC_POWER = 20;
 
     private final static int WIDTH = Gdx.graphics.getWidth()/10;
@@ -37,6 +38,10 @@ public class Paladin extends Entity {
     private final static int FOURTH_SKILL_MANA_COST = 25;
     private final static int FIFTH_SKILL_MANA_COST = 15;
 
+    private PaladinTooltip paladinTooltip;
+
+
+
     public Paladin(GameplayScreen gpScreen) {
         this.setDrawable(new SpriteDrawable(new Sprite(unselectedTexture)));
         this.setOrigin(WIDTH / 2, HEIGHT / 2);
@@ -44,11 +49,11 @@ public class Paladin extends Entity {
         this.setPosition(STARTING_X, STARTING_Y);
 
         this.gpScreen = gpScreen;
+        this.paladinTooltip = new PaladinTooltip(gpScreen);
 
         this.setHealthPool(HEALTHPOOL);
         this.setManaPool(MANA_POOL);
         this.setAttackDamage(ATTACK_DAMAGE);
-        this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
 
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);    //Divine shield
@@ -78,6 +83,10 @@ public class Paladin extends Entity {
     public void setToBuffSelected() {
         this.setDrawable(new SpriteDrawable(new Sprite(toBuffSelectedTexture)));
         this.isSelected = 3;
+    }
+
+    public PaladinTooltip getPaladinTooltip() {
+        return paladinTooltip;
     }
 
     @Override
@@ -136,10 +145,9 @@ public class Paladin extends Entity {
     @Override
     public void useFifthSkill(Entity target) {  //Smite
         this.useMana(getFifthSkillManaCost());
-        int skillDamage = 2*this.getMagicPower();
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
-        System.out.println(this.getClassName(this.getClass()) + " smites " + target.getClassName(target.getClass()) + " for " + skillDamage);
-        target.receiveDamage(skillDamage);
+        System.out.println(this.getClassName(this.getClass()) + " smites " + target.getClassName(target.getClass()) + " for " + 2*this.getMagicPower());
+        target.receiveDamage(2*this.getMagicPower());
         System.out.println(target.getClassName(target.getClass()) + "'s current health is: " + target.getCurrentHealth());
     }
 

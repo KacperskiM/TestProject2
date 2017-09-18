@@ -50,7 +50,6 @@ public class Skeleton extends Entity {
         this.setHealthPool(HEALTHPOOL);
         this.setManaPool(MANA_POOL);
         this.setAttackDamage(ATTACK_DAMAGE);
-        this.setDodgeChance(DODGE_CHANCE);
         this.setMagicPower(MAGIC_POWER);
         this.setSecondSkillManaCost(SECOND_SKILL_MANA_COST);
         this.setThirdSkillManaCost(THIRD_SKILL_MANA_COST);
